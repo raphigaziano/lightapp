@@ -3,11 +3,11 @@
 from PyQt4 import QtGui, QtCore
 import sys
 
-from lightapp.ui import mainWindow
+from lightapp.ui import MainWindow
  
-class LightApp(QtGui.QMainWindow, win.Ui_MainWindow):
+class LightApp(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
     def __init__(self, parent=None):
-        super(ImageViewer, self).__init__(parent)
+        super(LightApp, self).__init__(parent)
         self.setupUi(self)
  
     def main(self):
