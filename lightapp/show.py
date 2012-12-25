@@ -17,14 +17,34 @@ class Show:
     It holds a serializer component able to generate either an xml or 
     csv representation of the entire show.
     '''
-    def __init__(self, path=None):
+    def __init__(self):
         
         # Init xml/csv comps
+        self.slots = []
         
-        self.path = path
-        self.title = path
-        
-    def load(self, path):
-        ### DUMMY STUB ###
-        pass
+    def load_base(self, node):
+        '''Initialize the base show's data from the passed xml node'''
+        self.title      = node.find('title').text
+        self.num_slots  = node.find('nbSlots').text
+        self.author     = node.find('auth').text
+        self.date       = node.find('date').text
 
+
+##########
+# Factory
+
+import xml.etree.ElementTree as ET
+
+    
+def load_shows(xml_path):
+    '''
+    Generator function, instanciating show objects with their base info
+    and yielding them to the caller.
+    '''
+    tree = ET.parse(xml_path)
+    root = tree.getroot()
+    for s_node in root.iter('show'):
+        s = Show()
+        s.load_base(s_node)
+        yield s
+        

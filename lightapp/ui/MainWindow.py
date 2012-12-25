@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'lightapp\ui\QDesigner\MainWindow.ui'
 #
-# Created: Tue Dec 25 15:29:51 2012
+# Created: Tue Dec 25 16:54:32 2012
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -18,7 +18,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.setEnabled(True)
-        MainWindow.resize(400, 305)
+        MainWindow.resize(400, 286)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -29,7 +29,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.formLayoutWidget = QtGui.QWidget(self.centralwidget)
-        self.formLayoutWidget.setGeometry(QtCore.QRect(10, 20, 381, 231))
+        self.formLayoutWidget.setGeometry(QtCore.QRect(10, 10, 381, 231))
         self.formLayoutWidget.setObjectName(_fromUtf8("formLayoutWidget"))
         self.formLayout = QtGui.QFormLayout(self.formLayoutWidget)
         self.formLayout.setFieldGrowthPolicy(QtGui.QFormLayout.AllNonFixedFieldsGrow)
@@ -39,10 +39,6 @@ class Ui_MainWindow(object):
         self.label.setText(QtGui.QApplication.translate("MainWindow", "Spectacles", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setObjectName(_fromUtf8("label"))
         self.formLayout.setWidget(0, QtGui.QFormLayout.LabelRole, self.label)
-        self.btn_new = QtGui.QPushButton(self.formLayoutWidget)
-        self.btn_new.setText(QtGui.QApplication.translate("MainWindow", "Nouveau", None, QtGui.QApplication.UnicodeUTF8))
-        self.btn_new.setObjectName(_fromUtf8("btn_new"))
-        self.formLayout.setWidget(2, QtGui.QFormLayout.LabelRole, self.btn_new)
         self.table_shows = QtGui.QTableWidget(self.formLayoutWidget)
         self.table_shows.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.table_shows.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
@@ -54,6 +50,23 @@ class Ui_MainWindow(object):
         self.table_shows.horizontalHeader().setVisible(False)
         self.table_shows.verticalHeader().setVisible(False)
         self.formLayout.setWidget(1, QtGui.QFormLayout.SpanningRole, self.table_shows)
+        self.horizontalLayout_2 = QtGui.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
+        self.btn_new = QtGui.QPushButton(self.formLayoutWidget)
+        self.btn_new.setText(QtGui.QApplication.translate("MainWindow", "Nouveau", None, QtGui.QApplication.UnicodeUTF8))
+        self.btn_new.setObjectName(_fromUtf8("btn_new"))
+        self.horizontalLayout_2.addWidget(self.btn_new)
+        self.btn_gen_csv = QtGui.QPushButton(self.formLayoutWidget)
+        self.btn_gen_csv.setEnabled(False)
+        self.btn_gen_csv.setText(QtGui.QApplication.translate("MainWindow", "Export CSV", None, QtGui.QApplication.UnicodeUTF8))
+        self.btn_gen_csv.setObjectName(_fromUtf8("btn_gen_csv"))
+        self.horizontalLayout_2.addWidget(self.btn_gen_csv)
+        self.btn_gen_pdf = QtGui.QPushButton(self.formLayoutWidget)
+        self.btn_gen_pdf.setEnabled(False)
+        self.btn_gen_pdf.setText(QtGui.QApplication.translate("MainWindow", "Export PDF", None, QtGui.QApplication.UnicodeUTF8))
+        self.btn_gen_pdf.setObjectName(_fromUtf8("btn_gen_pdf"))
+        self.horizontalLayout_2.addWidget(self.btn_gen_pdf)
+        self.formLayout.setLayout(3, QtGui.QFormLayout.SpanningRole, self.horizontalLayout_2)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 400, 21))

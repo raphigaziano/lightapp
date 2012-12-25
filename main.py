@@ -4,6 +4,8 @@
 from PyQt4 import QtGui, QtCore
 import sys
 
+import config
+
 from lightapp import show
 from lightapp.ui import MainWindow
 from lightapp.ui import customwidgets
@@ -15,17 +17,18 @@ class LightApp(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         
         self.load_docs()
         
-    def load_docs(self):
+        self.connect_events()
         
-        ### TESTING ###
+    def load_docs(self):
+        '''
+        '''
         self.items = []
-        for i in range(15):
+        for s in show.load_shows(config.MASTER_SAVE_PATH):
+            self.items.append(s)
+            i = len(self.items) -1
             self.table_shows.insertRow(i)
             
-            ### DUMMY DOC ###
-            title = chr(i+64) * 12
-            doc = show.Show(title)
-            newitem = customwidgets.ShowTableItem(doc)
+            newitem = customwidgets.ShowTableItem(s)
             self.table_shows.setItem(i, 0, newitem)
             
             btn_infos = QtGui.QPushButton(self.table_shows)
@@ -39,6 +42,8 @@ class LightApp(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         self.table_shows.setColumnWidth(0, 260)
         self.table_shows.setColumnWidth(1, 50)
         self.table_shows.setColumnWidth(2, 50)
+ 
+    def connect_events(self): pass
  
     def main(self):
         self.show()
