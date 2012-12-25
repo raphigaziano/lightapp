@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'lightapp\ui\QDesigner\MainWindow.ui'
 #
-# Created: Tue Dec 25 02:53:01 2012
+# Created: Tue Dec 25 15:29:51 2012
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -18,7 +18,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.setEnabled(True)
-        MainWindow.resize(400, 316)
+        MainWindow.resize(400, 305)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -29,7 +29,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.formLayoutWidget = QtGui.QWidget(self.centralwidget)
-        self.formLayoutWidget.setGeometry(QtCore.QRect(10, 20, 381, 251))
+        self.formLayoutWidget.setGeometry(QtCore.QRect(10, 20, 381, 231))
         self.formLayoutWidget.setObjectName(_fromUtf8("formLayoutWidget"))
         self.formLayout = QtGui.QFormLayout(self.formLayoutWidget)
         self.formLayout.setFieldGrowthPolicy(QtGui.QFormLayout.AllNonFixedFieldsGrow)

@@ -1,19 +1,32 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
  
 from PyQt4 import QtGui, QtCore
 import sys
 
 from lightapp.ui import MainWindow
+from lightapp.show import Show
  
 class LightApp(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
     def __init__(self, parent=None):
         super(LightApp, self).__init__(parent)
         self.setupUi(self)
         
+        self.load_docs()
+        
+    def load_docs(self):
+        
         ### TESTING ###
         self.items = []
         for i in range(15):
             self.table_shows.insertRow(i)
+            
+            ### DUMMY DOC ###
+            title = chr(i+64) * 12
+            doc = Show(title)
+            newitem = QtGui.QTableWidgetItem(title)
+            self.table_shows.setItem(i, 0, newitem)
+            
             btn_infos = QtGui.QPushButton(self.table_shows)
             btn_infos.setText('Infos')
             btn_edit  = QtGui.QPushButton(self.table_shows)
