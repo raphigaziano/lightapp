@@ -7,6 +7,8 @@ Author:  raphi <r.gaziano@gmail.com>
 Created: 25/12/2012
 Version: 1.0
 '''
+from PyQt4 import QtCore, QtGui
+
 
 class Show:
     '''
@@ -19,9 +21,10 @@ class Show:
         
         # Init xml/csv comps
         
-        if path:
-            self.load(path)
+        self.path = path
+        self.title = path
         
     def load(self, path):
         ### DUMMY STUB ###
-        self.title = path
+        pass
+

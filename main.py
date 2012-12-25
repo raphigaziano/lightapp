@@ -4,8 +4,9 @@
 from PyQt4 import QtGui, QtCore
 import sys
 
+from lightapp import show
 from lightapp.ui import MainWindow
-from lightapp.show import Show
+from lightapp.ui import customwidgets
  
 class LightApp(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
     def __init__(self, parent=None):
@@ -23,8 +24,8 @@ class LightApp(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
             
             ### DUMMY DOC ###
             title = chr(i+64) * 12
-            doc = Show(title)
-            newitem = QtGui.QTableWidgetItem(title)
+            doc = show.Show(title)
+            newitem = customwidgets.ShowTableItem(doc)
             self.table_shows.setItem(i, 0, newitem)
             
             btn_infos = QtGui.QPushButton(self.table_shows)
