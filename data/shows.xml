@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <shows>
     <show id="1">
         <title>La danse des putes</title>
@@ -18,4 +18,4 @@
         <auth>Bob</auth>
         <date>1149544800.0</date>
     </show>
-</shows>
+<show id="4"><title>Ta mère suce des anes en rut</title><nbSlots>78</nbSlots><auth>Tonton adolf</auth><date>257209200.0</date></show><show id="5"><title>apwal!</title><nbSlots>12</nbSlots><auth>pedro</auth><date>1356390000.0</date></show></shows>

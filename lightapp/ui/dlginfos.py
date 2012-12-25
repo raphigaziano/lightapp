@@ -15,6 +15,8 @@ class DlgInfos(QtGui.QDialog, DlgInfos.Ui_dlg_show_infos):
         try:
             self.init_fields(self.s)
         except AttributeError: pass
+        
+        self.txtBox_show_title.setFocus()
             
     def init_fields(self, s):
         '''
