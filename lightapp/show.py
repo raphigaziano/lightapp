@@ -9,7 +9,6 @@ Version: 1.0
 '''
 from PyQt4 import QtCore, QtGui
 
-
 class Show:
     '''
     Document class representing a single show and contains all of its

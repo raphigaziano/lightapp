@@ -13,7 +13,7 @@ Version: 1.0
 import os
 
 SOURCE_PATH = os.path.join('lightapp', 'ui', 'QDesigner')
-DEST_PATH   = os.path.join('lightapp', 'ui')
+DEST_PATH   = SOURCE_PATH
 PYUIC_PATH  = os.path.join('tools', 'pyuic.py')
 
 base_cmd = 'python ' + PYUIC_PATH + ' %s -o %s'
