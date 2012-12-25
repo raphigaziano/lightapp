@@ -86,7 +86,7 @@ def _save_base_new(s):
     except AttributeError:
         date = s.date.toPyDate()
         date_elem.text = str(time.mktime(date.timetuple()))
-    XML_TREE.write(XML_PATH + '_', encoding="UTF-8", 
+    XML_TREE.write(XML_PATH, encoding="UTF-8", 
                    xml_declaration=True)
     
 def _save_base_edited(s):
