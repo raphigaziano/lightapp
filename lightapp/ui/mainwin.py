@@ -7,6 +7,7 @@ import config
 
 from lightapp import show
 from lightapp.ui import customwidgets
+from lightapp.ui import dlginfos
 from lightapp.ui.QDesigner import MainWindow
  
 class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
@@ -25,7 +26,7 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
     def add_show(self, show):
         '''Add a single show to the list and table'''
         self.shows.append(show)
-        i = len(self.shows) -1
+        i = len(self.shows) -1 #ismellabug
         self.table_shows.insertRow(i)
         
         newitem = customwidgets.ShowTableItem(show)
@@ -33,12 +34,36 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         
         btn_infos = QtGui.QPushButton(self.table_shows)
         btn_infos.setText('Infos')
+        self.connect(btn_infos, QtCore.SIGNAL("clicked()"), 
+                     self.edit_show_infos)
         btn_edit  = QtGui.QPushButton(self.table_shows)
         btn_edit.setText('Edit')
-        
+        self.connect(btn_edit, QtCore.SIGNAL("clicked()"), 
+                     self.edit_show_slots)
+                     
         self.table_shows.setCellWidget(i, 1, btn_infos)
         self.table_shows.setCellWidget(i, 2, btn_edit)
-
+        
+    def selected_show(self):
+        cur_row = self.table_shows.currentRow()
+        return self.table_shows.item(cur_row, 0).show
+        
+    def new_show(self): 
+        '''
+        '''
+        d = dlginfos.DlgInfos(show=show.Show())
+        d.exec_()
+        
+    def edit_show_infos(self):
+        '''
+        '''
+        d = dlginfos.DlgInfos(show=self.selected_show())
+        d.exec_()
+    
+    def edit_show_slots(self):
+        '''
+        '''
+        print("edit slots")
         
     def load_shows(self):
         '''
@@ -49,7 +74,13 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         for s in show.load_shows(config.MASTER_SAVE_PATH):
             self.add_show(s)
  
-    def connect_events(self): pass
+    def connect_events(self):
+        '''
+        '''
+        self.connect(self.btn_new, QtCore.SIGNAL("clicked()"), 
+                     self.new_show)
+        ### other buttons...
+        self.table_shows.itemDoubleClicked.connect(self.edit_show_infos)
  
     def main(self):
         self.show()

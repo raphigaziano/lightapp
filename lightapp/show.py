@@ -7,6 +7,7 @@ Author:  raphi <r.gaziano@gmail.com>
 Created: 25/12/2012
 Version: 1.0
 '''
+import datetime
 from PyQt4 import QtCore, QtGui
 
 class Show:
@@ -24,9 +25,10 @@ class Show:
     def load_base(self, node):
         '''Initialize the base show's data from the passed xml node'''
         self.title      = node.find('title').text
-        self.num_slots  = node.find('nbSlots').text
+        self.num_slots  = int(node.find('nbSlots').text)
         self.author     = node.find('auth').text
-        self.date       = node.find('date').text
+        d = datetime.date.fromtimestamp(float(node.find('date').text))
+        self.date       = d
 
 
 ##########
