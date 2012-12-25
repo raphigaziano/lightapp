@@ -51,14 +51,21 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
     def new_show(self): 
         '''
         '''
-        d = dlginfos.DlgInfos(show=show.Show())
-        d.exec_()
+        new_s = show.Show()
+        d = dlginfos.DlgInfos(show=new_s)
+        # Is this robust enough ?
+        if d.exec_():
+            show.save_base(new_s)
+            self.add_show(new_s)
         
     def edit_show_infos(self):
         '''
         '''
-        d = dlginfos.DlgInfos(show=self.selected_show())
-        d.exec_()
+        s = self.selected_show()
+        d = dlginfos.DlgInfos(show=s)
+        if d.exec_():
+            show.save_base(s)
+            
     
     def edit_show_slots(self):
         '''
@@ -71,7 +78,7 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         Called mainly on startup.
         '''
         self.shows = []
-        for s in show.load_shows(config.MASTER_SAVE_PATH):
+        for s in show.load_shows():
             self.add_show(s)
  
     def connect_events(self):

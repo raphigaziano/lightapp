@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <shows>
-    <show>
+    <show id="1">
         <title>La danse des putes</title>
         <nbSlots>12</nbSlots>
         <auth>Raymond</auth>
         <date>1355266800.0</date>
     </show>
-    <show>
+    <show id="2">
         <title>Le petit caca de noël</title>
         <nbSlots>28</nbSlots>
         <auth>Zorro</auth>
         <date>1339452000.0</date>
     </show>
-    <show>
+    <show id="3">
         <title>ChocoShark III</title>
         <nbSlots>24</nbSlots>
         <auth>Bob</auth>

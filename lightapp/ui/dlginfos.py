@@ -19,18 +19,27 @@ class DlgInfos(QtGui.QDialog, DlgInfos.Ui_dlg_show_infos):
     def init_fields(self, s):
         '''
         '''
-        # Setting date first to avoid raising an exception too soon
-        try:
-            self.dateEdit_show_date.setDate(s.date)
-        except AttributeError:
-            self.dateEdit_show_date.setDate(datetime.date.today())
         self.txtBox_show_title.setText(s.title)
         self.spinBox_show_nbSlots.setValue(s.num_slots)
         self.txtBox_show_author.setText(s.author)
+        self.dateEdit_show_date.setDate(s.date)
+        
+    def update_show(self, s):
+        '''
+        '''
+        # Only require title and a positive number of slots for now
+        if (self.txtBox_show_title.text() == "" or
+            self.spinBox_show_nbSlots.value() == 0):
+            print("ERR MESSAGE!")
+            return False
+            
+        s.title = self.txtBox_show_title.text()
+        s.num_slots = self.spinBox_show_nbSlots.value()
+        s.author = self.txtBox_show_author.text()
+        s.date = self.dateEdit_show_date.date()
+        return True
 
     def accept(self):
-        print("UPDATESHOWOBJ")
-        return super(DlgInfos, self).accept()
-
-    def reject(self):
+        if self.update_show(self.s):
+            return super(DlgInfos, self).accept()
         return super(DlgInfos, self).reject()
