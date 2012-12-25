@@ -11,10 +11,20 @@ class LightApp(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         self.setupUi(self)
         
         ### TESTING ###
-        for i in range(5):
-            self.tableWidget.insertRow(i)
-            #~ self.tableWidget.setItem(i, 1, 'popo')
-            #~ self.tableWidget.setItem(i, 1, 'papa')
+        self.items = []
+        for i in range(15):
+            self.table_shows.insertRow(i)
+            btn_infos = QtGui.QPushButton(self.table_shows)
+            btn_infos.setText('Infos')
+            btn_edit  = QtGui.QPushButton(self.table_shows)
+            btn_edit.setText('Edit')
+            
+            self.table_shows.setCellWidget(i, 1, btn_infos)
+            self.table_shows.setCellWidget(i, 2, btn_edit)
+ 
+        self.table_shows.horizontalHeader().resizeSection(0, 260)
+        self.table_shows.horizontalHeader().resizeSection(1, 50)
+        self.table_shows.horizontalHeader().resizeSection(2, 50)
  
     def main(self):
         self.show()
