@@ -22,9 +22,9 @@ class LightApp(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
             self.table_shows.setCellWidget(i, 1, btn_infos)
             self.table_shows.setCellWidget(i, 2, btn_edit)
  
-        self.table_shows.horizontalHeader().resizeSection(0, 260)
-        self.table_shows.horizontalHeader().resizeSection(1, 50)
-        self.table_shows.horizontalHeader().resizeSection(2, 50)
+        self.table_shows.setColumnWidth(0, 260)
+        self.table_shows.setColumnWidth(1, 50)
+        self.table_shows.setColumnWidth(2, 50)
  
     def main(self):
         self.show()
