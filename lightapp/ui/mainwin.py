@@ -24,6 +24,8 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         
     def new_show(self):
         '''Instantiate a new, blank show'''
+        if hasattr(self, '_show') and not self.prompt_for_save():
+            return
         self._show = show.Show()
         self._fill_fields(self._show)
         self._connect_show_events()
@@ -31,12 +33,13 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
     def save_show(self):
         '''Save the current show, prompting for url if needed'''
         if not self._check_required_fields():
-            return
+            return False
         if self._show.path is None:
             return self.save_show_as()
         self.update_show()
         show.save_show(self._show)
         self.disable_save()
+        return True
         
     def save_show_as(self):
         '''Url prompt before saving the current show.'''
@@ -53,6 +56,8 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
     def prompt_for_save(self):
         ''' '''
         # NEEDZ TEST & WORK #
+        if not self._show._modified:
+            return True
         msgBox = QtGui.QMessageBox
         choice = msgBox.warning(self, 
                                 "Fichier pas frais",
@@ -62,7 +67,7 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
                                 msgBox.Yes | msgBox.No | msgBox.Cancel,
                                 msgBox.Yes)
         if choice == msgBox.Yes:
-            self.save()
+            return self.save_show()
         elif choice == msgBox.Cancel: 
             return False
         return True
@@ -81,8 +86,10 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         
         self.setWindowModified(False)
     
-    def load_show(self, path):
+    def load_show(self, path, cheked_save=False):
         '''Load the requested show'''
+        if checked_save and not self.prompt_for_save():
+            return
         try:
             self._show = show.load_show(path)
             self._fill_fields(self._show)
@@ -97,7 +104,8 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
     
     def open_show(self):
         '''Url prompt for loading a show'''
-        print("CHECK FOR SAVE!!!")
+        if not self.prompt_for_save():
+            return
         p = QtGui.QFileDialog.getOpenFileName(self, 
                                               "Ouvrir fichier:",
                                               '.', 
@@ -105,7 +113,7 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
                                               "All Files (*);;"
         )
         if p:
-            return self.load_show(p)
+            return self.load_show(p, True)
         
     
     def _check_required_fields(self):
@@ -194,6 +202,8 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
             # letter, so get rid of it
             self.load_show(url.path()[1:])
             
-    def close(self):
-        print("bye!")
-        super(MainWindow, self).close()
+    def closeEvent(self, event):
+        if self.prompt_for_save():
+            event.accept()
+        else:
+            event.ignore()
