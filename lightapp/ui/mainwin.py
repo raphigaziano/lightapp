@@ -26,12 +26,17 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         '''Instantiate a new, blank show'''
         self._show = show.Show()
         self._fill_fields(self._show)
+        self._connect_show_events()
         
     def save_show(self):
         '''Save the current show, prompting for url if needed'''
-        if not self.update_show():  return
-        if self._show.path is None: return self.save_show_as()
+        if not self._check_required_fields():
+            return
+        if self._show.path is None:
+            return self.save_show_as()
+        self.update_show()
         show.save_show(self._show)
+        self.disable_save()
         
     def save_show_as(self):
         '''Url prompt before saving the current show.'''
@@ -44,15 +49,51 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         if p:
             self._show.path = p
             return self.save_show()
+    
+    def prompt_for_save(self):
+        ''' '''
+        # NEEDZ TEST & WORK #
+        msgBox = QtGui.QMessageBox
+        choice = msgBox.warning(self, 
+                                "Fichier pas frais",
+                                "Des modifications ont été apportées.\n"
+                                "Voulez vous sauvegarder ces "
+                                "changements?",
+                                msgBox.Yes | msgBox.No | msgBox.Cancel,
+                                msgBox.Yes)
+        if choice == msgBox.Yes:
+            self.save()
+        elif choice == msgBox.Cancel: 
+            return False
+        return True
         
+    def enable_save(self):
+        ''' '''
+        self.action_save.setEnabled(True)
+        self.action_save_as.setEnabled(True)
+
+        self.setWindowModified(True)
+
+    def disable_save(self):
+        ''' '''
+        self.action_save.setEnabled(False)
+        self.action_save_as.setEnabled(False)
+        
+        self.setWindowModified(False)
     
     def load_show(self, path):
         '''Load the requested show'''
         try:
             self._show = show.load_show(path)
             self._fill_fields(self._show)
-        except: # Too general...
-            print("ERR MESSAGE!")
+            self._connect_show_events()
+            self.disable_save()
+        except Exception as e: # Too general...
+            QtGui.QMessageBox.critical(self,
+                                       "ONOES",
+                                       "Impossible de lire ce fichier"
+                                       "\n\n%s" % (str(e))
+            )
     
     def open_show(self):
         '''Url prompt for loading a show'''
@@ -66,29 +107,38 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         if p:
             return self.load_show(p)
         
-        
+    
+    def _check_required_fields(self):
+        '''
+        Check if the required fields are filled.
+        Only require the title and circuit number for now.
+        '''
+        if (self.txtBox_show_title.text() == "" or
+            self.spinBox_show_nbSlots.value() == 0):
+            QtGui.QMessageBox.critical(self,
+                                       "ONOES",
+                                       "Le nom du spectacle et le "
+                                       "nombre de circuits doivent être"
+                                       " renseignés."
+            )
+            return False
+        return True
+    
     def update_show(self):
         '''
         Update the show object from the form's fields.
         Mainly useful before saving.
         '''
-        # Only require title and a positive number of slots for now
-        # MOVEOUT!!!
-        if (self.txtBox_show_title.text() == "" or
-            self.spinBox_show_nbSlots.value() == 0):
-            print("ERR MESSAGE!")
-            return False
         s = self._show    
         s.title = self.txtBox_show_title.text()
-        s.num_slots = self.spinBox_show_nbSlots.value()
+        s.num_circuits = self.spinBox_show_nbSlots.value()
         s.author = self.txtBox_show_author.text()
         s.date = self.dateEdit_show_date.date()
-        return True
         
     def _fill_fields(self, s):
         '''Update the form's fields from the show's attrs'''
         self.txtBox_show_title.setText(s.title)
-        self.spinBox_show_nbSlots.setValue(s.num_slots)
+        self.spinBox_show_nbSlots.setValue(s.num_circuits)
         self.txtBox_show_author.setText(s.author)
         self.dateEdit_show_date.setDate(s.date)
     
@@ -107,6 +157,11 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
                      self.save_show)
         self.connect(self.action_save_as, QtCore.SIGNAL('triggered()'),
                      self.save_show_as)
+        
+        self._connect_show_events()
+        
+    def _connect_show_events(self):
+        ''' '''
         # Show modifying events
         self.connect(self.txtBox_show_title, 
                      QtCore.SIGNAL('textEdited(const QString&)'),
@@ -121,9 +176,13 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
                      QtCore.SIGNAL('dateChanged(const QDate&)'),
                      self._show.modify)
                      
+        self.connect(self._show, 
+                     QtCore.SIGNAL('showModified()'),
+                     self.enable_save)
+                     
     def dragEnterEvent(self, event):
         '''Drag & Drop Enter event'''
-        if event.mimeData().hasUrls(): #hasFormat('text/plain'):
+        if not event.mimeData().hasUrls(): #hasFormat('text/plain'):
             event.accept()
         else:
             event.ignore()
@@ -134,3 +193,7 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
             # the path returned has a weird slash before the drive 
             # letter, so get rid of it
             self.load_show(url.path()[1:])
+            
+    def close(self):
+        print("bye!")
+        super(MainWindow, self).close()

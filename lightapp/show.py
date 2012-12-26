@@ -14,18 +14,19 @@ try:
 except ImportError:
     import xml.etree.ElementTree as ET
     
-from PyQt4 import QtCore, QtGui
+from PyQt4 import QtCore
 
 
-class Show:
+class Show(QtCore.QObject):
     '''
     Document class representing a single show and contains all of its
     different memory slots.
+    Inherits QObject to be able to emit signals.
     '''
     def __init__(self):
-        
+        super(Show, self).__init__()
         self.title = ""
-        self.num_slots = 0
+        self.num_circuits = 0
         self.author = ""
         self.date = datetime.date.today()
         
@@ -38,14 +39,17 @@ class Show:
     def load_base(self, node):
         '''Initialize the base show's data from the passed xml node'''
         self.title      = node.find('title').text
-        self.num_slots  = int(node.find('nbSlots').text)
+        self.num_circuits  = int(node.find('nbCircuits').text)
         self.author     = node.find('auth').text
         d = datetime.date.fromtimestamp(float(node.find('date').text))
         self.date       = d
 
     def modify(self):
-        print('Show modified')
-        self._modified = True
+        ''' '''
+        if not self._modified: 
+            print('Show modified')
+            self.emit(QtCore.SIGNAL('showModified()'))
+            self._modified = True
 
 ##########
 # Factory
@@ -57,6 +61,7 @@ def load_show(p):
     root = tree.getroot()
     
     s = Show()
+    s.path = p
     base = root.find('baseInfos')
     s.load_base(base)
     
@@ -68,13 +73,14 @@ def load_show(p):
 def save_show(s):
     '''
     '''
+    print("Saving show...")
     root = ET.Element('show')
     
     base = ET.SubElement(root, 'baseInfos')
     title_elem = ET.SubElement(base, 'title')
     title_elem.text = s.title
-    slots_elem = ET.SubElement(base, 'nbSlots')
-    slots_elem.text = str(s.num_slots)
+    slots_elem = ET.SubElement(base, 'nbCircuits')
+    slots_elem.text = str(s.num_circuits)
     auth_elem = ET.SubElement(base, 'auth')
     auth_elem.text = s.author
     date_elem = ET.SubElement(base, 'date')
@@ -86,7 +92,20 @@ def save_show(s):
     tree.write(s.path, encoding='UTF-8', xml_declaration=True)
     
     s._modified = False
-        
+    
+    
+def _get_date(s):
+    '''
+    '''
+    try:
+        return str(time.mktime(s.date.timetuple()))
+    except AttributeError:
+        date = s.date.toPyDate()
+        return str(time.mktime(date.timetuple()))
+    
+    
+# IGNORE
+########
 def save_base(show):
     '''
     '''
@@ -129,12 +148,4 @@ def _save_base_edited(s):
     xml_elem.find('auth').text = s.author
     xml_elem.find('date').text = _get_date(s)
     
-def _get_date(s):
-    '''
-    '''
-    try:
-        return str(time.mktime(s.date.timetuple()))
-    except AttributeError:
-        date = s.date.toPyDate()
-        return str(time.mktime(date.timetuple()))
         
