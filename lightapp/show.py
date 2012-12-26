@@ -33,6 +33,8 @@ class Show:
 
         self.slots = []
         
+        self._modified = False
+        
     def load_base(self, node):
         '''Initialize the base show's data from the passed xml node'''
         self.title      = node.find('title').text
@@ -41,6 +43,9 @@ class Show:
         d = datetime.date.fromtimestamp(float(node.find('date').text))
         self.date       = d
 
+    def modify(self):
+        print('Show modified')
+        self._modified = True
 
 ##########
 # Factory
@@ -79,6 +84,8 @@ def save_show(s):
     
     tree = ET.ElementTree(root)
     tree.write(s.path, encoding='UTF-8', xml_declaration=True)
+    
+    s._modified = False
         
 def save_base(show):
     '''

@@ -18,9 +18,9 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         
-        self.connect_events()
-        
         self.new_show()
+        
+        self.connect_events()
         
     def new_show(self):
         '''Instantiate a new, blank show'''
@@ -107,6 +107,19 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
                      self.save_show)
         self.connect(self.action_save_as, QtCore.SIGNAL('triggered()'),
                      self.save_show_as)
+        # Show modifying events
+        self.connect(self.txtBox_show_title, 
+                     QtCore.SIGNAL('textEdited(const QString&)'),
+                     self._show.modify)
+        self.connect(self.spinBox_show_nbSlots, 
+                     QtCore.SIGNAL('valueChanged(int)'),
+                     self._show.modify)
+        self.connect(self.txtBox_show_author, 
+                     QtCore.SIGNAL('textEdited(const QString&)'),
+                     self._show.modify)
+        self.connect(self.dateEdit_show_date, 
+                     QtCore.SIGNAL('dateChanged(const QDate&)'),
+                     self._show.modify)
                      
     def dragEnterEvent(self, event):
         '''Drag & Drop Enter event'''
