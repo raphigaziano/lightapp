@@ -14,12 +14,23 @@ import os
 
 SOURCE_PATH = os.path.join('lightapp', 'ui', 'QDesigner')
 DEST_PATH   = SOURCE_PATH
-PYUIC_PATH  = os.path.join('tools', 'pyuic.py')
+PYUIC_PATH  = os.path.join('tools', 'pyuic4.bat')
+PYRCC_PATH  = os.path.join('tools', 'pyrcc4.exe')
 
-base_cmd = 'python ' + PYUIC_PATH + ' %s -o %s'
+base_cmd = PYUIC_PATH + ' %s -o %s'
+rc_cmd   = PYRCC_PATH + ' -py3 %s -o %s'
 
 for f in os.listdir(SOURCE_PATH):
-    cmd = base_cmd % (os.path.join(SOURCE_PATH, f),
-                      os.path.join(DEST_PATH, f.replace('.ui', '.py')))
+    if f.endswith('.qrc'): 
+        cmd = rc_cmd % (
+            os.path.join(SOURCE_PATH, f),
+            os.path.join('.', f.replace('.qrc', '_rc.py'))
+        )
+    elif f.endswith('.ui'):
+        cmd = base_cmd % (
+            os.path.join(SOURCE_PATH, f),
+            os.path.join(DEST_PATH, f.replace('.ui', '.py'))
+        )
+    else: continue
     print(cmd)
     os.system(cmd)

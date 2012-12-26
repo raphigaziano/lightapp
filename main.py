@@ -9,5 +9,5 @@ from lightapp.ui import mainwin
 if __name__=='__main__':
     app = QtGui.QApplication(sys.argv)
     mainWin = mainwin.MainWindow()
-    mainWin.main()
+    mainWin.show()
     app.exec_()

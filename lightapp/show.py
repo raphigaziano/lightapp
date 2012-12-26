@@ -9,35 +9,32 @@ Version: 1.0
 '''
 import datetime
 import time
-import xml.etree.ElementTree as ET
+try:
+    import xml.etree.cElementTree as ET
+except ImportError:
+    import xml.etree.ElementTree as ET
+    
 from PyQt4 import QtCore, QtGui
 
-import config
-
-XML_PATH = config.MASTER_SAVE_PATH
-XML_TREE = ET.parse(XML_PATH)
-XML_ROOT = XML_TREE.getroot()
 
 class Show:
     '''
     Document class representing a single show and contains all of its
     different memory slots.
-    It holds a serializer component able to generate either an xml or 
-    csv representation of the entire show.
     '''
     def __init__(self):
         
-        self.id_ = None
         self.title = ""
         self.num_slots = 0
         self.author = ""
         self.date = datetime.date.today()
-        # Init xml/csv comps
+        
+        self.path = None
+
         self.slots = []
         
     def load_base(self, node):
         '''Initialize the base show's data from the passed xml node'''
-        self.id_        = int(node.get('id'))
         self.title      = node.find('title').text
         self.num_slots  = int(node.find('nbSlots').text)
         self.author     = node.find('auth').text
@@ -48,16 +45,40 @@ class Show:
 ##########
 # Factory
 
+def load_show(p):
+    '''
+    '''
+    tree = ET.parse(p)
+    root = tree.getroot()
     
-def load_shows():
+    s = Show()
+    base = root.find('baseInfos')
+    s.load_base(base)
+    
+    # slots....
+    
+    return s
+    
+    
+def save_show(s):
     '''
-    Generator function, instanciating show objects with their base info
-    and yielding them to the caller.
     '''
-    for s_node in XML_ROOT.iter('show'):
-        s = Show()
-        s.load_base(s_node)
-        yield s
+    root = ET.Element('show')
+    
+    base = ET.SubElement(root, 'baseInfos')
+    title_elem = ET.SubElement(base, 'title')
+    title_elem.text = s.title
+    slots_elem = ET.SubElement(base, 'nbSlots')
+    slots_elem.text = str(s.num_slots)
+    auth_elem = ET.SubElement(base, 'auth')
+    auth_elem.text = s.author
+    date_elem = ET.SubElement(base, 'date')
+    date_elem.text = _get_date(s)
+    
+    # slots...
+    
+    tree = ET.ElementTree(root)
+    tree.write(s.path, encoding='UTF-8', xml_declaration=True)
         
 def save_base(show):
     '''
@@ -66,14 +87,19 @@ def save_base(show):
     
     # no id == new show
     if show.id_ is None:
-        return _save_base_new(show)
-    return _save_base_edited(show)
-    
+        _save_base_new(show)
+    else:
+        _save_base_edited(show)
+        
+    XML_TREE.write(XML_PATH, encoding="UTF-8", 
+                   xml_declaration=True)
+
 def _save_base_new(s):
     '''
     '''
     s.id_ = _gen_id()
     new_s_elem = ET.SubElement(XML_ROOT, 'show', {'id': s.id_})
+
     title_elem = ET.SubElement(new_s_elem, 'title')
     title_elem.text = s.title
     slots_elem = ET.SubElement(new_s_elem, 'nbSlots')
@@ -81,23 +107,27 @@ def _save_base_new(s):
     auth_elem = ET.SubElement(new_s_elem, 'auth')
     auth_elem.text = s.author
     date_elem = ET.SubElement(new_s_elem, 'date')
-    try:
-        date_elem.text = str(time.mktime(s.date.timetuple()))
-    except AttributeError:
-        date = s.date.toPyDate()
-        date_elem.text = str(time.mktime(date.timetuple()))
-    XML_TREE.write(XML_PATH, encoding="UTF-8", 
-                   xml_declaration=True)
+    date_elem.text = _get_date(s)
     
 def _save_base_edited(s):
     '''
     '''
+    for s_node in XML_ROOT.iter('show'):
+        if s_node.get('id') == str(s.id_):
+            xml_elem = s_node
+            break
     
-def _gen_id():
+    xml_elem.find('title').text = s.title
+    xml_elem.find('nbSlots').text = str(s.num_slots)
+    xml_elem.find('auth').text = s.author
+    xml_elem.find('date').text = _get_date(s)
+    
+def _get_date(s):
     '''
     '''
-    max_id = 0
-    for s in XML_ROOT.iter('show'):
-        id_ = int(s.get('id'))
-        if id_ > max_id: max_id = id_
-    return str(max_id + 1)
+    try:
+        return str(time.mktime(s.date.timetuple()))
+    except AttributeError:
+        date = s.date.toPyDate()
+        return str(time.mktime(date.timetuple()))
+        

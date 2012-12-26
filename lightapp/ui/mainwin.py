@@ -6,88 +6,118 @@ from PyQt4 import QtGui, QtCore
 import config
 
 from lightapp import show
-from lightapp.ui import customwidgets
-from lightapp.ui import dlginfos
 from lightapp.ui.QDesigner import MainWindow
  
 class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
+    '''
+    Main application window.
+    Responsible for handling the file IO routines and editing a 
+    show's basic infos. 
+    '''
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         
-        self.table_shows.setColumnWidth(0, 260)
-        self.table_shows.setColumnWidth(1, 50)
-        self.table_shows.setColumnWidth(2, 50)
-        
-        self.load_shows()
-        
         self.connect_events()
         
-    def add_show(self, show):
-        '''Add a single show to the list and table'''
-        self.shows.append(show)
-        i = len(self.shows) -1 #ismellabug
-        self.table_shows.insertRow(i)
+        self.new_show()
         
-        newitem = customwidgets.ShowTableItem(show)
-        self.table_shows.setItem(i, 0, newitem)
+    def new_show(self):
+        '''Instantiate a new, blank show'''
+        self._show = show.Show()
+        self._fill_fields(self._show)
         
-        btn_infos = QtGui.QPushButton(self.table_shows)
-        btn_infos.setText('Infos')
-        self.connect(btn_infos, QtCore.SIGNAL("clicked()"), 
-                     self.edit_show_infos)
-        btn_edit  = QtGui.QPushButton(self.table_shows)
-        btn_edit.setText('Edit')
-        self.connect(btn_edit, QtCore.SIGNAL("clicked()"), 
-                     self.edit_show_slots)
-                     
-        self.table_shows.setCellWidget(i, 1, btn_infos)
-        self.table_shows.setCellWidget(i, 2, btn_edit)
+    def save_show(self):
+        '''Save the current show, prompting for url if needed'''
+        if not self.update_show():  return
+        if self._show.path is None: return self.save_show_as()
+        show.save_show(self._show)
         
-    def selected_show(self):
-        cur_row = self.table_shows.currentRow()
-        return self.table_shows.item(cur_row, 0).show
+    def save_show_as(self):
+        '''Url prompt before saving the current show.'''
+        p = QtGui.QFileDialog.getSaveFileName(self, 
+                                              "Ouvrir fichier:",
+                                              '.', 
+                                              "Xml Files (*.xml);;"
+                                              "All Files (*);;"
+        )
+        if p:
+            self._show.path = p
+            return self.save_show()
         
-    def new_show(self): 
+    
+    def load_show(self, path):
+        '''Load the requested show'''
+        try:
+            self._show = show.load_show(path)
+            self._fill_fields(self._show)
+        except: # Too general...
+            print("ERR MESSAGE!")
+    
+    def open_show(self):
+        '''Url prompt for loading a show'''
+        print("CHECK FOR SAVE!!!")
+        p = QtGui.QFileDialog.getOpenFileName(self, 
+                                              "Ouvrir fichier:",
+                                              '.', 
+                                              "Xml Files (*.xml);;"
+                                              "All Files (*);;"
+        )
+        if p:
+            return self.load_show(p)
+        
+        
+    def update_show(self):
         '''
+        Update the show object from the form's fields.
+        Mainly useful before saving.
         '''
-        new_s = show.Show()
-        d = dlginfos.DlgInfos(show=new_s)
-        # Is this robust enough ?
-        if d.exec_():
-            show.save_base(new_s)
-            self.add_show(new_s)
+        # Only require title and a positive number of slots for now
+        # MOVEOUT!!!
+        if (self.txtBox_show_title.text() == "" or
+            self.spinBox_show_nbSlots.value() == 0):
+            print("ERR MESSAGE!")
+            return False
+        s = self._show    
+        s.title = self.txtBox_show_title.text()
+        s.num_slots = self.spinBox_show_nbSlots.value()
+        s.author = self.txtBox_show_author.text()
+        s.date = self.dateEdit_show_date.date()
+        return True
         
-    def edit_show_infos(self):
-        '''
-        '''
-        s = self.selected_show()
-        d = dlginfos.DlgInfos(show=s)
-        if d.exec_():
-            show.save_base(s)
-            
+    def _fill_fields(self, s):
+        '''Update the form's fields from the show's attrs'''
+        self.txtBox_show_title.setText(s.title)
+        self.spinBox_show_nbSlots.setValue(s.num_slots)
+        self.txtBox_show_author.setText(s.author)
+        self.dateEdit_show_date.setDate(s.date)
     
     def edit_show_slots(self):
-        '''
-        '''
+        '''Runs slot editing form'''
         print("edit slots")
-        
-    def load_shows(self):
-        '''
-        Load every saved show with their basic data.
-        Called mainly on startup.
-        '''
-        self.shows = []
-        for s in show.load_shows():
-            self.add_show(s)
  
     def connect_events(self):
-        '''
-        '''
-        self.connect(self.btn_new, QtCore.SIGNAL("clicked()"), 
+        '''Actions/Functions connections'''
+        # IO Actions
+        self.connect(self.action_new, QtCore.SIGNAL('triggered()'),
                      self.new_show)
-        ### other buttons...
-        self.table_shows.itemDoubleClicked.connect(self.edit_show_infos)
- 
-    def main(self):
-        self.show()
+        self.connect(self.action_open, QtCore.SIGNAL('triggered()'),
+                     self.open_show)
+        self.connect(self.action_save, QtCore.SIGNAL('triggered()'),
+                     self.save_show)
+        self.connect(self.action_save_as, QtCore.SIGNAL('triggered()'),
+                     self.save_show_as)
+                     
+    def dragEnterEvent(self, event):
+        '''Drag & Drop Enter event'''
+        if event.mimeData().hasUrls(): #hasFormat('text/plain'):
+            event.accept()
+        else:
+            event.ignore()
+
+    def dropEvent(self, event):
+        '''Drag & Drop Drop event: load the dropped file'''
+        for url in event.mimeData().urls():
+            # the path returned has a weird slash before the drive 
+            # letter, so get rid of it
+            self.load_show(url.path()[1:])
