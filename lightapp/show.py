@@ -43,13 +43,33 @@ class Show(QtCore.QObject):
         self.author     = node.find('auth').text
         d = datetime.date.fromtimestamp(float(node.find('date').text))
         self.date       = d
+            
+    ### Properties ###
+    
+    @property
+    def modified(self):
+        '''Simple setter'''
+        return self._modified
+    
+    @modified.setter
+    def modified(self, val):
+        '''
+        Emits an appropriate signal everytime the _modified flag is
+        changed.
+        '''
+        self._modified = val
+        if self._modified:
+            self.emit(QtCore.SIGNAL('showModified()'))
+        else:
+            self.emit(QtCore.SIGNAL('showSaved()'))
 
     def modify(self):
-        ''' '''
-        if not self._modified: 
-            print('Show modified')
-            self.emit(QtCore.SIGNAL('showModified()'))
-            self._modified = True
+        '''
+        Convenience method: needed to connect Qt signals
+        (those can't set an attribute directly and need a callable).
+        '''
+        if not self.modified: 
+            self.modified = True
 
 ##########
 # Factory
@@ -91,7 +111,7 @@ def save_show(s):
     tree = ET.ElementTree(root)
     tree.write(s.path, encoding='UTF-8', xml_declaration=True)
     
-    s._modified = False
+    s.modified = False
     
     
 def _get_date(s):

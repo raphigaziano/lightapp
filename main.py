@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
  
-from PyQt4 import QtGui, QtCore
+from PyQt4 import QtGui
 import sys
 
 from lightapp.ui import mainwin

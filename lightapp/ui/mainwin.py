@@ -3,8 +3,6 @@
  
 from PyQt4 import QtGui, QtCore
 
-import config
-
 from lightapp import show
 from lightapp.ui.QDesigner import MainWindow
  
@@ -38,13 +36,12 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
             return self.save_show_as()
         self.update_show()
         show.save_show(self._show)
-        self.disable_save()
         return True
         
     def save_show_as(self):
         '''Url prompt before saving the current show.'''
         p = QtGui.QFileDialog.getSaveFileName(self, 
-                                              "Ouvrir fichier:",
+                                              "Enregistrer sous:",
                                               '.', 
                                               "Xml Files (*.xml);;"
                                               "All Files (*);;"
@@ -60,7 +57,7 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
             return True
         msgBox = QtGui.QMessageBox
         choice = msgBox.warning(self, 
-                                "Fichier pas frais",
+                                "Fichier pas frais!",
                                 "Des modifications ont été apportées.\n"
                                 "Voulez vous sauvegarder ces "
                                 "changements?",
@@ -86,7 +83,7 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         
         self.setWindowModified(False)
     
-    def load_show(self, path, cheked_save=False):
+    def load_show(self, path, checked_save=False):
         '''Load the requested show'''
         if checked_save and not self.prompt_for_save():
             return
@@ -94,7 +91,6 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
             self._show = show.load_show(path)
             self._fill_fields(self._show)
             self._connect_show_events()
-            self.disable_save()
         except Exception as e: # Too general...
             QtGui.QMessageBox.critical(self,
                                        "ONOES",
@@ -153,6 +149,8 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
     def edit_show_slots(self):
         '''Runs slot editing form'''
         print("edit slots")
+        
+    ### Events ###
  
     def connect_events(self):
         '''Actions/Functions connections'''
@@ -187,6 +185,9 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         self.connect(self._show, 
                      QtCore.SIGNAL('showModified()'),
                      self.enable_save)
+        self.connect(self._show, 
+                     QtCore.SIGNAL('showSaved()'),
+                     self.disable_save)
                      
     def dragEnterEvent(self, event):
         '''Drag & Drop Enter event'''
