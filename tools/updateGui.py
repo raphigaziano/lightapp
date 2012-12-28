@@ -34,3 +34,16 @@ for f in os.listdir(SOURCE_PATH):
     else: continue
     print(cmd)
     os.system(cmd)
+    
+# Strip comments from ressource file 
+# (An encoding error in there causes cx_freeze do fail):
+print("cleaning ressources...")
+import time
+time.sleep(1)
+
+lines = []
+with open("ressources_rc.py", 'r') as f:
+    lines = [l for l in f.readlines() if not l.startswith('#')]
+with open("ressources_rc.py", 'w') as f:
+    f.writelines(lines)
+

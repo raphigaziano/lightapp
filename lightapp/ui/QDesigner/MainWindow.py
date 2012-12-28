@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'lightapp\ui\QDesigner\MainWindow.ui'
 #
-# Created: Fri Dec 28 16:00:17 2012
+# Created: Fri Dec 28 18:38:30 2012
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -80,7 +80,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
         self.btn_edit_slots = QtGui.QPushButton(self.centralwidget)
         self.btn_edit_slots.setGeometry(QtCore.QRect(10, 150, 91, 23))
-        self.btn_edit_slots.setText(QtGui.QApplication.translate("MainWindow", "Editer mémoires", None, QtGui.QApplication.UnicodeUTF8))
+        self.btn_edit_slots.setText(QtGui.QApplication.translate("MainWindow", "Editer memoires", None, QtGui.QApplication.UnicodeUTF8))
         self.btn_edit_slots.setObjectName(_fromUtf8("btn_edit_slots"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)

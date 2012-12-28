@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'lightapp\ui\QDesigner\SlotsWindow.ui'
 #
-# Created: Fri Dec 28 16:00:18 2012
+# Created: Fri Dec 28 18:38:31 2012
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -18,7 +18,7 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
         Dialog.resize(427, 371)
-        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "LightApp - Mémoires", None, QtGui.QApplication.UnicodeUTF8))
+        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "LightApp - Memoires", None, QtGui.QApplication.UnicodeUTF8))
         self.verticalLayoutWidget_2 = QtGui.QWidget(Dialog)
         self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(10, 10, 401, 351))
         self.verticalLayoutWidget_2.setObjectName(_fromUtf8("verticalLayoutWidget_2"))
