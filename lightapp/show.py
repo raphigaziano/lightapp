@@ -92,7 +92,9 @@ def load_show(p):
     base = root.find('baseInfos')
     s.load_base(base)
     
-    # slots....
+    # slots
+    for slot_elem in root.iter('slot'):
+        s.slots.append(memslot.load_slot(slot_elem, s.num_circuits))
     
     return s
     
@@ -113,7 +115,10 @@ def save_show(s):
     date_elem = ET.SubElement(base, 'date')
     date_elem.text = _get_date(s)
     
-    # slots...
+    # slots
+    mem_elem = ET.SubElement(root, 'memSlots')
+    for slot in s.slots:
+        mem_elem.append(memslot.save_slot(slot))
     
     tree = ET.ElementTree(root)
     tree.write(s.path, encoding='UTF-8', xml_declaration=True)

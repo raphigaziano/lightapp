@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'lightapp\ui\QDesigner\SlotWidget.ui'
 #
-# Created: Fri Dec 28 14:59:26 2012
+# Created: Fri Dec 28 16:00:19 2012
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,16 +17,16 @@ except AttributeError:
 class Ui_SlotWidget(object):
     def setupUi(self, SlotWidget):
         SlotWidget.setObjectName(_fromUtf8("SlotWidget"))
-        SlotWidget.resize(382, 153)
+        SlotWidget.resize(399, 153)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(SlotWidget.sizePolicy().hasHeightForWidth())
         SlotWidget.setSizePolicy(sizePolicy)
-        SlotWidget.setMinimumSize(QtCore.QSize(0, 153))
+        SlotWidget.setMinimumSize(QtCore.QSize(382, 153))
         SlotWidget.setWindowTitle(QtGui.QApplication.translate("SlotWidget", "Form", None, QtGui.QApplication.UnicodeUTF8))
         self.frame = QtGui.QFrame(SlotWidget)
-        self.frame.setGeometry(QtCore.QRect(0, 0, 381, 31))
+        self.frame.setGeometry(QtCore.QRect(0, 0, 401, 31))
         self.frame.setStyleSheet(_fromUtf8("background-color: rgb(255, 255, 255);\n"
 "border: {solid 5px red};"))
         self.frame.setFrameShape(QtGui.QFrame.StyledPanel)

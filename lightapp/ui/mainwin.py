@@ -92,6 +92,7 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
             self._show = show.load_show(path)
             self._fill_fields(self._show)
             self._connect_show_events()
+            self.disable_save()
         except Exception as e: # Too general...
             QtGui.QMessageBox.critical(self,
                                        "ONOES",
@@ -200,7 +201,7 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
                      
     def dragEnterEvent(self, event):
         '''Drag & Drop Enter event'''
-        if not event.mimeData().hasUrls(): #hasFormat('text/plain'):
+        if event.mimeData().hasUrls(): #hasFormat('text/plain'):
             event.accept()
         else:
             event.ignore()

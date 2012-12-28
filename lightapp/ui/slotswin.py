@@ -25,10 +25,10 @@ class SlotWindow(QtGui.QDialog, SlotsWindow.Ui_Dialog):
             
         self.connect_events()
         
-    def add_slot(self):
+    def add_slot(self, slot=None):
         ''' '''
         print("adding slot")
-        s = self._show.add_slot()
+        s = slot or self._show.add_slot()
         # create slot_widget
         sw = slotwidget.SlotWidget(self, s)
         self.scroller_layout.addWidget(sw)
@@ -40,7 +40,8 @@ class SlotWindow(QtGui.QDialog, SlotsWindow.Ui_Dialog):
         
     def load_slots(self):
         ''' '''
-        pass
+        for slot in self._show.slots:
+            self.add_slot(slot)
         
     def connect_events(self):
         '''Actions/Functions connections'''
