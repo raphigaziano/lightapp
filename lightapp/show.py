@@ -16,6 +16,7 @@ except ImportError:
     
 from PyQt4 import QtCore
 
+from lightapp import memslot
 
 class Show(QtCore.QObject):
     '''
@@ -35,6 +36,10 @@ class Show(QtCore.QObject):
         self.slots = []
         
         self._modified = False
+        
+    def add_slot(self):
+        ''' '''
+        self.slots.append(memslot.MemSlot(self.num_circuits))
         
     def load_base(self, node):
         '''Initialize the base show's data from the passed xml node'''

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'lightapp\ui\QDesigner\MainWindow.ui'
 #
-# Created: Wed Dec 26 18:32:38 2012
+# Created: Fri Dec 28 00:51:27 2012
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -18,7 +18,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.setEnabled(True)
-        MainWindow.resize(350, 216)
+        MainWindow.resize(350, 248)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -78,6 +78,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_2 = QtGui.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout_2.setMargin(0)
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
+        self.btn_edit_slots = QtGui.QPushButton(self.centralwidget)
+        self.btn_edit_slots.setGeometry(QtCore.QRect(10, 150, 91, 23))
+        self.btn_edit_slots.setText(QtGui.QApplication.translate("MainWindow", "Editer mémoires", None, QtGui.QApplication.UnicodeUTF8))
+        self.btn_edit_slots.setObjectName(_fromUtf8("btn_edit_slots"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 350, 21))

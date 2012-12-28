@@ -4,6 +4,7 @@
 from PyQt4 import QtGui, QtCore
 
 from lightapp import show
+from lightapp.ui import slotswin
 from lightapp.ui.QDesigner import MainWindow
  
 class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
@@ -148,7 +149,12 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
     
     def edit_show_slots(self):
         '''Runs slot editing form'''
-        print("edit slots")
+        if not self._check_required_fields():
+            return
+        self.update_show()
+        d = slotswin.SlotWindow(self._show)
+        ret = d.exec_()
+        print(ret)
         
     ### Events ###
  
@@ -163,6 +169,9 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
                      self.save_show)
         self.connect(self.action_save_as, QtCore.SIGNAL('triggered()'),
                      self.save_show_as)
+        # Edit button
+        self.connect(self.btn_edit_slots, QtCore.SIGNAL('clicked()'),
+                     self.edit_show_slots)
         
         self._connect_show_events()
         

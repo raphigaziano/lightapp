@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>350</width>
-    <height>216</height>
+    <height>248</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -112,6 +112,19 @@
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2"/>
+   </widget>
+   <widget class="QPushButton" name="btn_edit_slots">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>150</y>
+      <width>91</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Editer mémoires</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
