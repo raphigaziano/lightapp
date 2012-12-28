@@ -9,10 +9,10 @@ from lightapp.ui import slotwidget
 class SlotWindow(QtGui.QDialog, SlotsWindow.Ui_Dialog):
     '''
     '''
-    def __init__(self, _show):
+    def __init__(self, show):
         super(SlotWindow, self).__init__()
         self.setupUi(self)
-        self._show = _show
+        self._show = show
         
         # Couldn't assign the layout right in the designer for some
         # reason
@@ -30,8 +30,13 @@ class SlotWindow(QtGui.QDialog, SlotsWindow.Ui_Dialog):
         print("adding slot")
         s = self._show.add_slot()
         # create slot_widget
-        sw = slotwidget.SlotWidget(self.scrollAreaWidgetContents)
+        sw = slotwidget.SlotWidget(self, s)
         self.scroller_layout.addWidget(sw)
+        
+        # auto scroll down
+        scroll_bar = self.slots_scroller.verticalScrollBar()
+        #~ scrollBar.setMaximum(len(txt)-1)
+        scroll_bar.setValue(scroll_bar.maximum())
         
     def load_slots(self):
         ''' '''

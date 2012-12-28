@@ -8,6 +8,8 @@ from lightapp.ui.QDesigner import SlotWidget
 class SlotWidget(QtGui.QWidget, SlotWidget.Ui_SlotWidget):
     '''
     '''
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, slot=None):
         super(SlotWidget, self).__init__(parent)
         self.setupUi(self)
+        
+        self.slot = slot
