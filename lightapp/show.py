@@ -39,7 +39,9 @@ class Show(QtCore.QObject):
         
     def add_slot(self):
         ''' '''
-        self.slots.append(memslot.MemSlot(self.num_circuits))
+        s = memslot.MemSlot(self.num_circuits)
+        self.slots.append(s)
+        return s
         
     def load_base(self, node):
         '''Initialize the base show's data from the passed xml node'''

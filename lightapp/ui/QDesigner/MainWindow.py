@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'lightapp\ui\QDesigner\MainWindow.ui'
 #
-# Created: Fri Dec 28 00:51:27 2012
+# Created: Fri Dec 28 14:51:31 2012
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!

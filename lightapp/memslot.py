@@ -19,6 +19,6 @@ class MemSlot:
         self.in_ = None
         self.out = None
         
-        self.num_circuits = num_circs
+        self.num_circuits = num_circuits
         self.circuits = {i: 0 for i in range(num_circuits)}
         
