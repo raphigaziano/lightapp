@@ -6,7 +6,10 @@ from PyQt4 import QtGui, QtCore
 from lightapp.ui.QDesigner import SlotWidget
 
 CIRCS_PER_LINE = 6
- 
+CIRC_ITEMS     = [str(x) for x in range(101) if x % 5 == 0]
+IN_ITEMS       = ["???" for __ in range(10)]
+OUT_ITEMS      = ["???" for __ in range(10)]
+
 class SlotWidget(QtGui.QWidget, SlotWidget.Ui_SlotWidget):
     '''
     '''
@@ -17,14 +20,15 @@ class SlotWidget(QtGui.QWidget, SlotWidget.Ui_SlotWidget):
         self.slot = slot
         
         self.init_components()
+        self.init_fields()
         self.connect_event()
 
     def init_components(self):
         ''' '''
         self.txtBox_slot_id.setText(str(self.slot.id_))
-
-        self.cBox_in.addItems(["???" for __ in range(10)])
-        self.cBox_out.addItems(["???" for __ in range(10)])
+        # Assign list copies just to be safe
+        self.cBox_in.addItems(IN_ITEMS[:])
+        self.cBox_out.addItems(OUT_ITEMS[:])
         
         self.gBox_circuits.setLayout(self.cboxes_layout)
 
@@ -45,8 +49,8 @@ class SlotWidget(QtGui.QWidget, SlotWidget.Ui_SlotWidget):
             label = QtGui.QLabel("%d: " % (i+1), widget)
             cbox  = QtGui.QComboBox(widget)
             cbox.setEditable(True)
-            # USE CONST
-            cbox.addItems([str(x) for x in range(101) if x % 5 == 0])
+            # Assign a copy to be safe
+            cbox.addItems(CIRC_ITEMS[:])
 
             line_layout.addWidget(label)
             line_layout.addWidget(cbox)
@@ -70,15 +74,27 @@ class SlotWidget(QtGui.QWidget, SlotWidget.Ui_SlotWidget):
                 continue
             yield cb
 
+    def init_fields(self):
+        ''' '''
+        self.txtBox_slot_id.setText(str(self.slot.id_))
+        if self.slot.in_:
+            self.cBox_in.setCurrentIndex(
+                IN_ITEMS.index(self.slot.in_))
+        if self.slot.out:
+            self.cBox_out.setCurrentIndex(
+                OUT_ITEMS.index(self.slot.out))
+        # Circuits
+        for i, cb in enumerate(self._get_circuit_cboxes()):
+            val = self.slot.circuits[i]
+            cb.setCurrentIndex(CIRC_ITEMS.index(val))
+
     def update_slot(self):
         ''' '''
         self.slot.id_ = self.txtBox_slot_id.text()
-        self.slot_in_ = self.cBox_in.itemText(
-            self.cBox_in.currentIndex())
-        self.slot.out = self.cBox_out.itemText(
-            self.cBox_out.currentIndex())
+        self.slot_in_ = self.cBox_in.currentText()
+        self.slot.out = self.cBox_out.currentText()
         for i, cb in enumerate(self._get_circuit_cboxes()):
-            self.slot.circuits[i] = cb.itemText(cb.currentIndex())
+            self.slot.circuits[i] = cb.currentText()
 
     def connect_event(self):
         ''' '''

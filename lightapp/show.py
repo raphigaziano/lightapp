@@ -96,7 +96,7 @@ def load_show(p):
     
     # slots
     for slot_elem in root.iter('slot'):
-        s.slots.append(memslot.load_slot(slot_elem, s.num_circuits))
+        s.slots.append(memslot.load_slot(slot_elem, s))
     
     return s
     

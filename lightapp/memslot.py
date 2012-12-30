@@ -29,14 +29,15 @@ class MemSlot:
         self.parent_slot = parent_slot
     
       
-def load_slot(s_elem, num_circs):
+def load_slot(s_elem, slot):
     ''' '''
-    s = MemSlot(num_circs)
-    s.id_ = s_elem.get('id')
+    s = MemSlot(s_elem.get('id'), slot.num_circuits, slot)
     s.in_ = s_elem.get('in')
     s.out = s_elem.get('out')
-    
-    # Get circuit vals
+    # Circuits
+    for c_elem in s_elem.iter("circuit"):
+        s.circuits[int(c_elem.get('i'))] = c_elem.get('val')
+    return s
         
 def save_slot(s):
     ''' '''
@@ -45,10 +46,10 @@ def save_slot(s):
     s_attrs.setdefault("id", str(s.id_))
     s_attrs.setdefault("in", str(s.in_))
     s_attrs.setdefault("out", str(s.out))
-    
+    # Circuits
     circs_elem = ET.SubElement(s_elem, "circuits")
     for i, v in s.circuits.items():
         c_elem = ET.SubElement(circs_elem, "circuit")
-        c_elem.attrib = dict(key=str(i), val=str(v))
+        c_elem.attrib = dict(i=str(i), val=str(v))
     
     return s_elem

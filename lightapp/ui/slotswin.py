@@ -28,7 +28,7 @@ class SlotWindow(QtGui.QDialog, SlotsWindow.Ui_Dialog):
     def add_slot(self, slot=None):
         ''' '''
         s = slot or self._show.add_slot()
-        print("adding slot %d" %(s.id_))
+        print("adding slot %s" % (s.id_))
         # create slot_widget
         sw = slotwidget.SlotWidget(self, s)
         self.scroller_layout.addWidget(sw)
@@ -39,7 +39,9 @@ class SlotWindow(QtGui.QDialog, SlotsWindow.Ui_Dialog):
         scroll_bar.setMaximum(sw.height() * len(self._show.slots))
         scroll_bar.setValue(scroll_bar.maximum())
 
-        self._show.slot_modify()
+        # Assuming any provided slot means its loaded from a save
+        if slot is None:
+            self._show.slot_modify()
         
     def load_slots(self):
         ''' '''
