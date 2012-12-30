@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'lightapp\ui\QDesigner\SlotWidget.ui'
 #
-# Created: Fri Dec 28 18:38:32 2012
+# Created: Sun Dec 30 14:33:25 2012
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,23 +17,23 @@ except AttributeError:
 class Ui_SlotWidget(object):
     def setupUi(self, SlotWidget):
         SlotWidget.setObjectName(_fromUtf8("SlotWidget"))
-        SlotWidget.resize(399, 153)
+        SlotWidget.resize(548, 153)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(SlotWidget.sizePolicy().hasHeightForWidth())
         SlotWidget.setSizePolicy(sizePolicy)
-        SlotWidget.setMinimumSize(QtCore.QSize(382, 153))
+        SlotWidget.setMinimumSize(QtCore.QSize(399, 153))
         SlotWidget.setWindowTitle(QtGui.QApplication.translate("SlotWidget", "Form", None, QtGui.QApplication.UnicodeUTF8))
         self.frame = QtGui.QFrame(SlotWidget)
-        self.frame.setGeometry(QtCore.QRect(0, 0, 401, 31))
+        self.frame.setGeometry(QtCore.QRect(0, 0, 551, 31))
         self.frame.setStyleSheet(_fromUtf8("background-color: rgb(255, 255, 255);\n"
 "border: {solid 5px red};"))
         self.frame.setFrameShape(QtGui.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtGui.QFrame.Raised)
         self.frame.setObjectName(_fromUtf8("frame"))
         self.horizontalLayoutWidget = QtGui.QWidget(self.frame)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(10, 0, 361, 31))
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(10, 0, 511, 31))
         self.horizontalLayoutWidget.setObjectName(_fromUtf8("horizontalLayoutWidget"))
         self.horizontalLayout = QtGui.QHBoxLayout(self.horizontalLayoutWidget)
         self.horizontalLayout.setSizeConstraint(QtGui.QLayout.SetDefaultConstraint)
@@ -90,10 +90,16 @@ class Ui_SlotWidget(object):
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
         self.gBox_circuits = QtGui.QGroupBox(SlotWidget)
-        self.gBox_circuits.setGeometry(QtCore.QRect(10, 40, 361, 101))
+        self.gBox_circuits.setGeometry(QtCore.QRect(10, 40, 511, 101))
         self.gBox_circuits.setTitle(QtGui.QApplication.translate("SlotWidget", "Circuits", None, QtGui.QApplication.UnicodeUTF8))
         self.gBox_circuits.setFlat(False)
         self.gBox_circuits.setObjectName(_fromUtf8("gBox_circuits"))
+        self.gridLayoutWidget = QtGui.QWidget(self.gBox_circuits)
+        self.gridLayoutWidget.setGeometry(QtCore.QRect(10, 10, 501, 80))
+        self.gridLayoutWidget.setObjectName(_fromUtf8("gridLayoutWidget"))
+        self.cboxes_layout = QtGui.QGridLayout(self.gridLayoutWidget)
+        self.cboxes_layout.setMargin(0)
+        self.cboxes_layout.setObjectName(_fromUtf8("cboxes_layout"))
 
         self.retranslateUi(SlotWidget)
         QtCore.QMetaObject.connectSlotsByName(SlotWidget)

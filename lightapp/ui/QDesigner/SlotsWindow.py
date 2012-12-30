@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'lightapp\ui\QDesigner\SlotsWindow.ui'
 #
-# Created: Fri Dec 28 18:38:31 2012
+# Created: Sun Dec 30 14:33:24 2012
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,10 +17,10 @@ except AttributeError:
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
-        Dialog.resize(427, 371)
+        Dialog.resize(569, 371)
         Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "LightApp - Memoires", None, QtGui.QApplication.UnicodeUTF8))
         self.verticalLayoutWidget_2 = QtGui.QWidget(Dialog)
-        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(10, 10, 401, 351))
+        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(10, 10, 551, 351))
         self.verticalLayoutWidget_2.setObjectName(_fromUtf8("verticalLayoutWidget_2"))
         self.verticalLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout.setMargin(0)
@@ -29,10 +29,10 @@ class Ui_Dialog(object):
         self.slots_scroller.setWidgetResizable(True)
         self.slots_scroller.setObjectName(_fromUtf8("slots_scroller"))
         self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 397, 316))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 547, 316))
         self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
         self.verticalLayoutWidget = QtGui.QWidget(self.scrollAreaWidgetContents)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(-1, -1, 401, 321))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(-1, -1, 551, 321))
         self.verticalLayoutWidget.setObjectName(_fromUtf8("verticalLayoutWidget"))
         self.scroller_layout = QtGui.QVBoxLayout(self.verticalLayoutWidget)
         self.scroller_layout.setSizeConstraint(QtGui.QLayout.SetDefaultConstraint)

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>399</width>
+    <width>548</width>
     <height>153</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>382</width>
+    <width>399</width>
     <height>153</height>
    </size>
   </property>
@@ -30,7 +30,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>401</width>
+     <width>551</width>
      <height>31</height>
     </rect>
    </property>
@@ -49,7 +49,7 @@ border: {solid 5px red};</string>
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>361</width>
+      <width>511</width>
       <height>31</height>
      </rect>
     </property>
@@ -161,7 +161,7 @@ border: {solid 5px red};</string>
     <rect>
      <x>10</x>
      <y>40</y>
-     <width>361</width>
+     <width>511</width>
      <height>101</height>
     </rect>
    </property>
@@ -171,6 +171,17 @@ border: {solid 5px red};</string>
    <property name="flat">
     <bool>false</bool>
    </property>
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>501</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="cboxes_layout"/>
+   </widget>
   </widget>
  </widget>
  <resources/>

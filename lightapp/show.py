@@ -70,10 +70,10 @@ class Show(QtCore.QObject):
         else:
             self.emit(QtCore.SIGNAL('showSaved()'))
 
-    def modify(self):
+    def slot_modify(self):
         '''
-        Convenience method: needed to connect Qt signals
-        (those can't set an attribute directly and need a callable).
+        Qt Slot.
+        Sets the _modified flag to true if it wasn't already.
         '''
         if not self.modified: 
             self.modified = True

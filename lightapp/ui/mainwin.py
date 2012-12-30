@@ -181,16 +181,16 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         # Show modifying events
         self.connect(self.txtBox_show_title, 
                      QtCore.SIGNAL('textEdited(const QString&)'),
-                     self._show.modify)
+                     self._show.slot_modify)
         self.connect(self.spinBox_show_nbSlots, 
                      QtCore.SIGNAL('valueChanged(int)'),
-                     self._show.modify)
+                     self._show.slot_modify)
         self.connect(self.txtBox_show_author, 
                      QtCore.SIGNAL('textEdited(const QString&)'),
-                     self._show.modify)
+                     self._show.slot_modify)
         self.connect(self.dateEdit_show_date, 
                      QtCore.SIGNAL('dateChanged(const QDate&)'),
-                     self._show.modify)
+                     self._show.slot_modify)
                      
         self.connect(self._show, 
                      QtCore.SIGNAL('showModified()'),

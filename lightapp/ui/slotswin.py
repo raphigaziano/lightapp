@@ -35,7 +35,8 @@ class SlotWindow(QtGui.QDialog, SlotsWindow.Ui_Dialog):
         
         # auto scroll down
         scroll_bar = self.slots_scroller.verticalScrollBar()
-        #~ scrollBar.setMaximum(len(txt)-1)
+        # scrollBar.setMaximum(len(txt)-1)
+        scroll_bar.setMaximum(sw.height() * len(self._show.slots))
         scroll_bar.setValue(scroll_bar.maximum())
         
     def load_slots(self):
