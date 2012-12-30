@@ -155,7 +155,6 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         self.update_show()
         d = slotswin.SlotWindow(self._show)
         ret = d.exec_()
-        print(ret)
         
     ### Events ###
  

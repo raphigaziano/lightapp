@@ -15,15 +15,26 @@ class SlotWidget(QtGui.QWidget, SlotWidget.Ui_SlotWidget):
         self.setupUi(self)
         
         self.slot = slot
-        #Move?
+        
+        self.init_components()
+        self.connect_event()
+
+    def init_components(self):
+        ''' '''
+        self.txtBox_slot_id.setText(str(self.slot.id_))
+
+        self.cBox_in.addItems(["???" for __ in range(10)])
+        self.cBox_out.addItems(["???" for __ in range(10)])
+        
         self.gBox_circuits.setLayout(self.cboxes_layout)
+
         self._init_circuits_cboxes()
 
     def _init_circuits_cboxes(self):
         ''' '''
         y = -1
         for i, slot  in self.slot.circuits.items():
-            widget = QtGui.QWidget(self)
+            widget = QtGui.QWidget(self.gBox_circuits)
             widget.setFixedWidth(80) # USE CONST
             widget.setSizePolicy(QtGui.QSizePolicy.Fixed, 
                                  QtGui.QSizePolicy.Fixed)
@@ -50,3 +61,44 @@ class SlotWidget(QtGui.QWidget, SlotWidget.Ui_SlotWidget):
                     self.gBox_circuits.setFixedHeight(
                         self.gBox_circuits.height() + h_incr)
             self.cboxes_layout.addWidget(widget, y, x)
+
+    def _get_circuit_cboxes(self):
+        ''' '''
+        for w in self.gBox_circuits.children():
+            cb = w.findChild(QtGui.QComboBox)
+            if cb is None: 
+                continue
+            yield cb
+
+    def update_slot(self):
+        ''' '''
+        self.slot.id_ = self.txtBox_slot_id.text()
+        self.slot_in_ = self.cBox_in.itemText(
+            self.cBox_in.currentIndex())
+        self.slot.out = self.cBox_out.itemText(
+            self.cBox_out.currentIndex())
+        for i, cb in enumerate(self._get_circuit_cboxes()):
+            self.slot.circuits[i] = cb.itemText(cb.currentIndex())
+
+    def connect_event(self):
+        ''' '''
+        # Show modifying events
+        self.connect(self.txtBox_slot_id, 
+                     QtCore.SIGNAL('textEdited(const QString&)'),
+                     self.slot.parent_slot.slot_modify)
+        ### ADD editTextChanged ( const QString & text ) ev ###
+        ### to cboxes!                                      ###
+        self.connect(self.cBox_in, 
+                     QtCore.SIGNAL(
+                        'currentIndexChanged(const QString&)'),
+                     self.slot.parent_slot.slot_modify)
+        self.connect(self.cBox_out, 
+                     QtCore.SIGNAL(
+                        'currentIndexChanged(const QString&)'),
+                     self.slot.parent_slot.slot_modify)
+        # Circuits comboboxes
+        for cb in self._get_circuit_cboxes():
+            self.connect(cb, 
+                         QtCore.SIGNAL(
+                            'currentIndexChanged(const QString&)'),
+                         self.slot.parent_slot.slot_modify)

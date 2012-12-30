@@ -39,7 +39,8 @@ class Show(QtCore.QObject):
         
     def add_slot(self):
         ''' '''
-        s = memslot.MemSlot(self.num_circuits)
+        i = self.slots[-1].id_ + 1 if self.slots else 1
+        s = memslot.MemSlot(i, self.num_circuits, self)
         self.slots.append(s)
         return s
         
@@ -75,6 +76,7 @@ class Show(QtCore.QObject):
         Qt Slot.
         Sets the _modified flag to true if it wasn't already.
         '''
+        print("show modified")
         if not self.modified: 
             self.modified = True
 
