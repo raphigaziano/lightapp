@@ -39,7 +39,7 @@ class Show(QtCore.QObject):
         
     def add_slot(self):
         ''' '''
-        i = self.slots[-1].id_ + 1 if self.slots else 1
+        i = int(self.slots[-1].id_) + 1 if self.slots else 1
         s = memslot.MemSlot(i, self.num_circuits, self)
         self.slots.append(s)
         return s
