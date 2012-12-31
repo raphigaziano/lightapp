@@ -12,7 +12,7 @@ try:
 except ImportError:
     import xml.etree.ElementTree as ET
 
-NUM_CIRC_BY_LINE = 6
+NUM_CIRC_BY_LINE = 6 # ???
 
 class MemSlot:
     '''

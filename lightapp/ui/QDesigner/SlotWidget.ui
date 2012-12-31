@@ -169,7 +169,7 @@ border: {solid 5px red};</string>
      <item>
       <widget class="QPushButton" name="btn_supr">
        <property name="text">
-        <string>supr</string>
+        <string/>
        </property>
       </widget>
      </item>

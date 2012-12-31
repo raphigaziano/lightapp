@@ -2,6 +2,7 @@
   <qresource prefix="icons">
     <file>img/new.png</file>
     <file>img/open.png</file>
+    <file>img/cross.png</file>
     <file>img/save.png</file>
   </qresource>
 </RCC>

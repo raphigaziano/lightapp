@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'lightapp\ui\QDesigner\SlotWidget.ui'
 #
-# Created: Sun Dec 30 17:49:10 2012
+# Created: Sun Dec 30 20:42:11 2012
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -92,7 +92,7 @@ class Ui_SlotWidget(object):
         spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
         self.btn_supr = QtGui.QPushButton(self.horizontalLayoutWidget)
-        self.btn_supr.setText(QtGui.QApplication.translate("SlotWidget", "supr", None, QtGui.QApplication.UnicodeUTF8))
+        self.btn_supr.setText(_fromUtf8(""))
         self.btn_supr.setObjectName(_fromUtf8("btn_supr"))
         self.horizontalLayout.addWidget(self.btn_supr)
         self.gBox_circuits = QtGui.QGroupBox(SlotWidget)

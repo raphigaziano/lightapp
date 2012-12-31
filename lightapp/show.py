@@ -46,9 +46,9 @@ class Show(QtCore.QObject):
         
     def load_base(self, node):
         '''Initialize the base show's data from the passed xml node'''
-        self.title      = node.find('title').text
-        self.num_circuits  = int(node.find('nbCircuits').text)
-        self.author     = node.find('auth').text
+        self.title          = node.find('title').text
+        self.num_circuits   = int(node.find('nbCircuits').text)
+        self.author         = node.find('auth').text
         d = datetime.date.fromtimestamp(float(node.find('date').text))
         self.date       = d
             

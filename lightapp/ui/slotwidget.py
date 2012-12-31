@@ -4,11 +4,22 @@
 from PyQt4 import QtGui, QtCore
 
 from lightapp.ui.QDesigner import SlotWidget
+# Copied from puic4 generated code to use the main window's
+# ressource file.
+# @TODO: See if there's a cleaner way to reuse the rc file
+import ressources_rc
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    _fromUtf8 = lambda s: s
+
+### Constants ###
 
 CIRCS_PER_LINE = 6
-CIRC_ITEMS     = [str(x) for x in range(101) if x % 5 == 0]
+CIRC_ITEMS     = [str(x) for x in range(0, 101, 5)]
 IN_ITEMS       = ["???" for __ in range(10)]
 OUT_ITEMS      = ["???" for __ in range(10)]
+
 
 class SlotWidget(QtGui.QWidget, SlotWidget.Ui_SlotWidget):
     '''
@@ -33,6 +44,11 @@ class SlotWidget(QtGui.QWidget, SlotWidget.Ui_SlotWidget):
         self.gBox_circuits.setLayout(self.cboxes_layout)
 
         self._init_circuits_cboxes()
+
+        icon = QtGui.QIcon()
+        icon.addPixmap(
+            QtGui.QPixmap(_fromUtf8(":/icons/img/cross.png")))
+        self.btn_supr.setIcon(icon)
 
     def _init_circuits_cboxes(self):
         ''' '''
@@ -86,7 +102,8 @@ class SlotWidget(QtGui.QWidget, SlotWidget.Ui_SlotWidget):
         # Circuits
         for i, cb in enumerate(self._get_circuit_cboxes()):
             val = self.slot.circuits[i]
-            cb.setCurrentIndex(CIRC_ITEMS.index(val))
+            if val:
+                cb.setCurrentIndex(CIRC_ITEMS.index(val))
 
     def update_slot(self):
         ''' '''
