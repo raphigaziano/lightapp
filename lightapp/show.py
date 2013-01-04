@@ -43,6 +43,11 @@ class Show(QtCore.QObject):
         s = memslot.MemSlot(i, self.num_circuits, self)
         self.slots.append(s)
         return s
+
+    def remove_slot(self, slot):
+        ''' '''
+        print("Supressing memslot %s" % repr(slot))
+        self.slots.remove(slot)
         
     def load_base(self, node):
         '''Initialize the base show's data from the passed xml node'''

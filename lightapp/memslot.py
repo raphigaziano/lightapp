@@ -17,7 +17,7 @@ NUM_CIRC_BY_LINE = 6 # ???
 class MemSlot:
     '''
     '''
-    def __init__(self, id_, num_circuits, parent_slot):
+    def __init__(self, id_, num_circuits, parent_show):
         
         self.id_ = id_
         self.in_ = ""
@@ -26,7 +26,7 @@ class MemSlot:
         self.num_circuits = num_circuits
         self.circuits = {i: 0 for i in range(num_circuits)}
 
-        self.parent_slot = parent_slot
+        self.parent_show = parent_show
     
       
 def load_slot(s_elem, slot):

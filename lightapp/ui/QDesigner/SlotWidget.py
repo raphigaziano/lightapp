@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'lightapp\ui\QDesigner\SlotWidget.ui'
 #
-# Created: Sun Dec 30 20:42:11 2012
+# Created: Fri Jan  4 19:50:55 2013
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -39,6 +39,22 @@ class Ui_SlotWidget(object):
         self.horizontalLayout.setSizeConstraint(QtGui.QLayout.SetDefaultConstraint)
         self.horizontalLayout.setMargin(0)
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
+        self.label_3 = QtGui.QLabel(self.horizontalLayoutWidget)
+        self.label_3.setText(QtGui.QApplication.translate("SlotWidget", "Id: ", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_3.setObjectName(_fromUtf8("label_3"))
+        self.horizontalLayout.addWidget(self.label_3)
+        self.txtBox_slot_id = QtGui.QLineEdit(self.horizontalLayoutWidget)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.txtBox_slot_id.sizePolicy().hasHeightForWidth())
+        self.txtBox_slot_id.setSizePolicy(sizePolicy)
+        self.txtBox_slot_id.setMaximumSize(QtCore.QSize(50, 16777215))
+        self.txtBox_slot_id.setAlignment(QtCore.Qt.AlignCenter)
+        self.txtBox_slot_id.setObjectName(_fromUtf8("txtBox_slot_id"))
+        self.horizontalLayout.addWidget(self.txtBox_slot_id)
+        spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem)
         self.label = QtGui.QLabel(self.horizontalLayoutWidget)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -77,22 +93,9 @@ class Ui_SlotWidget(object):
         self.cBox_out.setEditable(True)
         self.cBox_out.setObjectName(_fromUtf8("cBox_out"))
         self.horizontalLayout.addWidget(self.cBox_out)
-        spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem)
-        self.txtBox_slot_id = QtGui.QLineEdit(self.horizontalLayoutWidget)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.txtBox_slot_id.sizePolicy().hasHeightForWidth())
-        self.txtBox_slot_id.setSizePolicy(sizePolicy)
-        self.txtBox_slot_id.setMaximumSize(QtCore.QSize(50, 16777215))
-        self.txtBox_slot_id.setAlignment(QtCore.Qt.AlignCenter)
-        self.txtBox_slot_id.setObjectName(_fromUtf8("txtBox_slot_id"))
-        self.horizontalLayout.addWidget(self.txtBox_slot_id)
-        spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem1)
         self.btn_supr = QtGui.QPushButton(self.horizontalLayoutWidget)
         self.btn_supr.setText(_fromUtf8(""))
+        self.btn_supr.setFlat(True)
         self.btn_supr.setObjectName(_fromUtf8("btn_supr"))
         self.horizontalLayout.addWidget(self.btn_supr)
         self.gBox_circuits = QtGui.QGroupBox(SlotWidget)

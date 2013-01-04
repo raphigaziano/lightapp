@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
- 
+
+import sip
 from PyQt4 import QtGui, QtCore
 
 from lightapp.ui.QDesigner import SlotsWindow
@@ -53,6 +54,15 @@ class SlotWindow(QtGui.QDialog, SlotsWindow.Ui_Dialog):
         print('updating slots...')
         for s in self.findChildren(slotwidget.SlotWidget):
             s.update_slot()
+
+    def remove_slot(self, slot_widget):
+        ''' '''
+        self._show.remove_slot(slot_widget.slot)
+        self.scroller_layout.removeWidget(slot_widget)
+        # This way of deleting a widget is apparently cleaner
+        # if said widget has children.
+        # cf http://stackoverflow.com/questions/5899826/pyqt-how-to-remove-a-widget
+        sip.delete(slot_widget)
 
     def connect_events(self):
         '''Actions/Functions connections'''

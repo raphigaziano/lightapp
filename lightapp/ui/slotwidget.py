@@ -17,8 +17,10 @@ except AttributeError:
 
 CIRCS_PER_LINE = 6
 CIRC_ITEMS     = [str(x) for x in range(0, 101, 5)]
-IN_ITEMS       = ["???" for __ in range(10)]
-OUT_ITEMS      = ["???" for __ in range(10)]
+IN_ITEMS       = [str(x / 10) for x in range(101)]
+IN_ITEMS      += [str(x) for x in range(12, 101, 2)]
+OUT_ITEMS      = [str(x / 10) for x in range(101)]
+OUT_ITEMS     += [str(x) for x in range(12, 101, 2)]
 
 
 class SlotWidget(QtGui.QWidget, SlotWidget.Ui_SlotWidget):
@@ -29,7 +31,8 @@ class SlotWidget(QtGui.QWidget, SlotWidget.Ui_SlotWidget):
         self.setupUi(self)
         
         self.slot = slot
-        
+        self._slot_win = self.parent()
+
         self.init_components()
         self.init_fields()
         self.connect_event()
@@ -113,36 +116,44 @@ class SlotWidget(QtGui.QWidget, SlotWidget.Ui_SlotWidget):
         for i, cb in enumerate(self._get_circuit_cboxes()):
             self.slot.circuits[i] = cb.currentText()
 
+    def remove(self):
+        ''' '''
+        self._slot_win.remove_slot(self)
+
     def connect_event(self):
         ''' '''
         # Show modifying events
         self.connect(self.txtBox_slot_id, 
                      QtCore.SIGNAL('textEdited(const QString&)'),
-                     self.slot.parent_slot.slot_modify)
+                     self.slot.parent_show.slot_modify)
 
         self.connect(self.cBox_in, 
                      QtCore.SIGNAL(
                         'currentIndexChanged(const QString&)'),
-                     self.slot.parent_slot.slot_modify)
+                     self.slot.parent_show.slot_modify)
         self.connect(self.cBox_in, 
                      QtCore.SIGNAL(
                         'editTextChanged(const QString&)'),
-                     self.slot.parent_slot.slot_modify)
+                     self.slot.parent_show.slot_modify)
         self.connect(self.cBox_out, 
                      QtCore.SIGNAL(
                         'currentIndexChanged(const QString&)'),
-                     self.slot.parent_slot.slot_modify)
+                     self.slot.parent_show.slot_modify)
         self.connect(self.cBox_out, 
                      QtCore.SIGNAL(
                         'editTextChanged(const QString&)'),
-                     self.slot.parent_slot.slot_modify)
+                     self.slot.parent_show.slot_modify)
         # Circuits comboboxes
         for cb in self._get_circuit_cboxes():
             self.connect(cb, 
                          QtCore.SIGNAL(
                             'currentIndexChanged(const QString&)'),
-                         self.slot.parent_slot.slot_modify)
+                         self.slot.parent_show.slot_modify)
             self.connect(cb, 
                          QtCore.SIGNAL(
                             'editTextChanged(const QString&)'),
-                         self.slot.parent_slot.slot_modify)
+                         self.slot.parent_show.slot_modify)
+        # Parent window's slot supression method
+        self.connect(self.btn_supr,
+                     QtCore.SIGNAL('clicked()'), 
+                     self.remove)

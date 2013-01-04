@@ -119,7 +119,8 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         Check if the required fields are filled.
         Only require the title and circuit number for now.
         '''
-        if (self.txtBox_show_title.text() == "" or
+        # @TODO: Check all fields except date
+        if (#self.txtBox_show_title.text() == "" or
             self.spinBox_show_nbSlots.value() == 0):
             QtGui.QMessageBox.critical(self,
                                        "ONOES",
