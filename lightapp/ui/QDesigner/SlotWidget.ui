@@ -25,7 +25,19 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">#frame {
+	background-color: rgb(255, 0, 255);
+	border: {solid 5px red};
+}
+# frame QWidget {
+	background-color: rgb(255, 255, 255);
+}</string>
+  </property>
   <widget class="QFrame" name="frame">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -34,9 +46,11 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 255, 255);
-border: {solid 5px red};</string>
+    <string notr="true"/>
    </property>
    <property name="frameShape">
     <enum>QFrame::StyledPanel</enum>
@@ -117,13 +131,25 @@ border: {solid 5px red};</string>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="minimumSize">
+        <size>
+         <width>50</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="maximumSize">
         <size>
          <width>40</width>
          <height>16777215</height>
         </size>
        </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
        <property name="editable">
+        <bool>true</bool>
+       </property>
+       <property name="frame">
         <bool>true</bool>
        </property>
       </widget>
@@ -148,6 +174,12 @@ border: {solid 5px red};</string>
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>50</width>
+         <height>0</height>
+        </size>
        </property>
        <property name="maximumSize">
         <size>

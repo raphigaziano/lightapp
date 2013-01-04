@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'lightapp\ui\QDesigner\SlotWidget.ui'
 #
-# Created: Fri Jan  4 19:50:55 2013
+# Created: Fri Jan  4 20:53:10 2013
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -25,10 +25,18 @@ class Ui_SlotWidget(object):
         SlotWidget.setSizePolicy(sizePolicy)
         SlotWidget.setMinimumSize(QtCore.QSize(399, 112))
         SlotWidget.setWindowTitle(QtGui.QApplication.translate("SlotWidget", "Form", None, QtGui.QApplication.UnicodeUTF8))
+        SlotWidget.setStyleSheet(_fromUtf8("#frame {\n"
+"    background-color: rgb(255, 0, 255);\n"
+"    border: {solid 5px red};\n"
+"}\n"
+"# frame QWidget {\n"
+"    background-color: rgb(255, 255, 255);\n"
+"}"))
         self.frame = QtGui.QFrame(SlotWidget)
+        self.frame.setEnabled(True)
         self.frame.setGeometry(QtCore.QRect(0, 0, 551, 31))
-        self.frame.setStyleSheet(_fromUtf8("background-color: rgb(255, 255, 255);\n"
-"border: {solid 5px red};"))
+        self.frame.setAutoFillBackground(False)
+        self.frame.setStyleSheet(_fromUtf8(""))
         self.frame.setFrameShape(QtGui.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtGui.QFrame.Raised)
         self.frame.setObjectName(_fromUtf8("frame"))
@@ -70,8 +78,11 @@ class Ui_SlotWidget(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.cBox_in.sizePolicy().hasHeightForWidth())
         self.cBox_in.setSizePolicy(sizePolicy)
+        self.cBox_in.setMinimumSize(QtCore.QSize(50, 0))
         self.cBox_in.setMaximumSize(QtCore.QSize(40, 16777215))
+        self.cBox_in.setAutoFillBackground(False)
         self.cBox_in.setEditable(True)
+        self.cBox_in.setFrame(True)
         self.cBox_in.setObjectName(_fromUtf8("cBox_in"))
         self.horizontalLayout.addWidget(self.cBox_in)
         self.label_2 = QtGui.QLabel(self.horizontalLayoutWidget)
@@ -89,6 +100,7 @@ class Ui_SlotWidget(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.cBox_out.sizePolicy().hasHeightForWidth())
         self.cBox_out.setSizePolicy(sizePolicy)
+        self.cBox_out.setMinimumSize(QtCore.QSize(50, 0))
         self.cBox_out.setMaximumSize(QtCore.QSize(40, 16777215))
         self.cBox_out.setEditable(True)
         self.cBox_out.setObjectName(_fromUtf8("cBox_out"))
