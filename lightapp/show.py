@@ -44,7 +44,7 @@ class Show(QtCore.QObject):
         @returns the new mem slot.
         '''
         i = int(self.slots[-1].id_) + 1 if self.slots else 1
-        s = memslot.MemSlot(i, self.num_circuits, self)
+        s = memslot.MemSlot(i, self)
         self.slots.append(s)
         return s
 

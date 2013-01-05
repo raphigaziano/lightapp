@@ -9,6 +9,9 @@ from lightapp.ui import slotwidget
  
 class SlotWindow(QtGui.QDialog, SlotsWindow.Ui_Dialog):
     '''
+    Memory slots editing Form.
+    Holds a dynamically generated set of SlotWidgets objects 
+    responsible for holding and updating their own memory slot object.
     '''
     def __init__(self, show):
         super(SlotWindow, self).__init__()
@@ -65,6 +68,7 @@ class SlotWindow(QtGui.QDialog, SlotsWindow.Ui_Dialog):
         # if said widget has children.
         # cf http://stackoverflow.com/questions/5899826/pyqt-how-to-remove-a-widget
         sip.delete(slot_widget)
+        self._show.slot_modify()
 
     def connect_events(self):
         '''Actions/Functions connections'''
