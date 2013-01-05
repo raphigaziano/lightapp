@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'lightapp\ui\QDesigner\MainWindow.ui'
 #
-# Created: Fri Jan  4 20:53:06 2013
+# Created: Sat Jan  5 16:47:02 2013
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -92,6 +92,9 @@ class Ui_MainWindow(object):
         self.menu_Export = QtGui.QMenu(self.menubar)
         self.menu_Export.setTitle(QtGui.QApplication.translate("MainWindow", "&Export", None, QtGui.QApplication.UnicodeUTF8))
         self.menu_Export.setObjectName(_fromUtf8("menu_Export"))
+        self.menu_Outils = QtGui.QMenu(self.menubar)
+        self.menu_Outils.setTitle(QtGui.QApplication.translate("MainWindow", "&Outils", None, QtGui.QApplication.UnicodeUTF8))
+        self.menu_Outils.setObjectName(_fromUtf8("menu_Outils"))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
@@ -126,13 +129,18 @@ class Ui_MainWindow(object):
         self.action_new.setText(QtGui.QApplication.translate("MainWindow", "&Nouveau", None, QtGui.QApplication.UnicodeUTF8))
         self.action_new.setStatusTip(QtGui.QApplication.translate("MainWindow", "Nouveau specatcle", None, QtGui.QApplication.UnicodeUTF8))
         self.action_new.setObjectName(_fromUtf8("action_new"))
+        self.action_debug_console = QtGui.QAction(MainWindow)
+        self.action_debug_console.setText(QtGui.QApplication.translate("MainWindow", "&Debug Console", None, QtGui.QApplication.UnicodeUTF8))
+        self.action_debug_console.setObjectName(_fromUtf8("action_debug_console"))
         self.menuTest.addAction(self.action_new)
         self.menuTest.addAction(self.action_open)
         self.menuTest.addAction(self.action_save)
         self.menuTest.addAction(self.action_save_as)
         self.menuTest.addSeparator()
+        self.menu_Outils.addAction(self.action_debug_console)
         self.menubar.addAction(self.menuTest.menuAction())
         self.menubar.addAction(self.menu_Export.menuAction())
+        self.menubar.addAction(self.menu_Outils.menuAction())
         self.toolBar.addAction(self.action_new)
         self.toolBar.addAction(self.action_open)
         self.toolBar.addAction(self.action_save)

@@ -151,8 +151,15 @@
      <string>&amp;Export</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menu_Outils">
+    <property name="title">
+     <string>&amp;Outils</string>
+    </property>
+    <addaction name="action_debug_console"/>
+   </widget>
    <addaction name="menuTest"/>
    <addaction name="menu_Export"/>
+   <addaction name="menu_Outils"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -216,6 +223,11 @@
    </property>
    <property name="statusTip">
     <string>Nouveau specatcle</string>
+   </property>
+  </action>
+  <action name="action_debug_console">
+   <property name="text">
+    <string>&amp;Debug Console</string>
    </property>
   </action>
  </widget>

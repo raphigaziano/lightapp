@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'lightapp\ui\QDesigner\SlotWidget.ui'
 #
-# Created: Fri Jan  4 20:53:10 2013
+# Created: Sat Jan  5 16:47:06 2013
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
