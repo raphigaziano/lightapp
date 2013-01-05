@@ -179,12 +179,6 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         # Storing the return value is probably useless here
         ret = d.exec_()
 
-    def dbg_console(self):
-        ''' '''
-        # from lightapp.ui import debugconsole
-        # debugconsole.main(self)
-        pass
-        
     ### Events ###
  
     def connect_events(self):
@@ -198,11 +192,6 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
                      self.save_show)
         self.connect(self.action_save_as, QtCore.SIGNAL('triggered()'),
                      self.save_show_as)
-        # Debug console
-        self.connect(self.action_debug_console, 
-                     QtCore.SIGNAL('triggered()'),
-                     self.dbg_console)
-
         # Edit button
         self.connect(self.btn_edit_slots, QtCore.SIGNAL('clicked()'),
                      self.edit_show_slots)
