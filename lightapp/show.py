@@ -20,8 +20,8 @@ from lightapp import memslot
 
 class Show(QtCore.QObject):
     '''
-    Document class representing a single show and contains all of its
-    different memory slots.
+    Document class representing a single show and containing all of
+    its different memory slots.
     Inherits QObject to be able to emit signals.
     '''
     def __init__(self):
@@ -38,24 +38,36 @@ class Show(QtCore.QObject):
         self._modified = False
         
     def add_slot(self):
-        ''' '''
+        '''
+        Add a new memory slot.
+
+        @returns the new mem slot.
+        '''
         i = int(self.slots[-1].id_) + 1 if self.slots else 1
         s = memslot.MemSlot(i, self.num_circuits, self)
         self.slots.append(s)
         return s
 
     def remove_slot(self, slot):
-        ''' '''
+        '''
+        Supress a memory slot.
+
+        @param slot: the slot object to remove.
+        '''
         print("Supressing memslot %s" % repr(slot))
         self.slots.remove(slot)
         
     def load_base(self, node):
-        '''Initialize the base show's data from the passed xml node'''
+        '''
+        Initialize the base show's data.
+
+        @param node: Xml node containing the show's base infos.
+        '''
         self.title          = node.find('title').text
         self.num_circuits   = int(node.find('nbCircuits').text)
         self.author         = node.find('auth').text
         d = datetime.date.fromtimestamp(float(node.find('date').text))
-        self.date       = d
+        self.date = d
             
     ### Properties ###
     
@@ -90,6 +102,10 @@ class Show(QtCore.QObject):
 
 def load_show(p):
     '''
+    Instanciates a new show from a saved Xml file.
+
+    @param p: path to the Xml file.
+    @returns the new show object.
     '''
     tree = ET.parse(p)
     root = tree.getroot()
@@ -108,6 +124,9 @@ def load_show(p):
     
 def save_show(s):
     '''
+    Serialize a show object and save it to an Xml file.
+
+    @param s: show to serialize & save.
     '''
     print("Saving show...")
     root = ET.Element('show')
@@ -132,9 +151,17 @@ def save_show(s):
     
     s.modified = False
     
-    
+#######
+# Utils
+# (Should probably be moved)
+
 def _get_date(s):
     '''
+    Utility function converting either a python Date or a Qt QDate
+    object to a timestamp for serialization.
+
+    @param s: Date object, either from Qt or python's standard lib.
+    @returns: Timestamp (float)
     '''
     try:
         return str(time.mktime(s.date.timetuple()))
@@ -142,49 +169,3 @@ def _get_date(s):
         date = s.date.toPyDate()
         return str(time.mktime(date.timetuple()))
     
-    
-# IGNORE
-########
-def save_base(show):
-    '''
-    '''
-    print('Saving show...')
-    
-    # no id == new show
-    if show.id_ is None:
-        _save_base_new(show)
-    else:
-        _save_base_edited(show)
-        
-    XML_TREE.write(XML_PATH, encoding="UTF-8", 
-                   xml_declaration=True)
-
-def _save_base_new(s):
-    '''
-    '''
-    s.id_ = _gen_id()
-    new_s_elem = ET.SubElement(XML_ROOT, 'show', {'id': s.id_})
-
-    title_elem = ET.SubElement(new_s_elem, 'title')
-    title_elem.text = s.title
-    slots_elem = ET.SubElement(new_s_elem, 'nbSlots')
-    slots_elem.text = str(s.num_slots)
-    auth_elem = ET.SubElement(new_s_elem, 'auth')
-    auth_elem.text = s.author
-    date_elem = ET.SubElement(new_s_elem, 'date')
-    date_elem.text = _get_date(s)
-    
-def _save_base_edited(s):
-    '''
-    '''
-    for s_node in XML_ROOT.iter('show'):
-        if s_node.get('id') == str(s.id_):
-            xml_elem = s_node
-            break
-    
-    xml_elem.find('title').text = s.title
-    xml_elem.find('nbSlots').text = str(s.num_slots)
-    xml_elem.find('auth').text = s.author
-    xml_elem.find('date').text = _get_date(s)
-    
-        

@@ -43,6 +43,8 @@ class SlotWindow(QtGui.QDialog, SlotsWindow.Ui_Dialog):
         # Assuming any provided slot means its loaded from a save
         if slot is None:
             self._show.slot_modify()
+        # Focus the id field
+        # sw.txtBox_slot_id.setSelection(0, 500)
         
     def load_slots(self):
         ''' '''

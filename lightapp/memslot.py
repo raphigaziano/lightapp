@@ -12,26 +12,26 @@ try:
 except ImportError:
     import xml.etree.ElementTree as ET
 
-NUM_CIRC_BY_LINE = 6 # ???
 
 class MemSlot:
     '''
     '''
-    def __init__(self, id_, num_circuits, parent_show):
+    def __init__(self, id_, parent_show):
         
         self.id_ = id_
         self.in_ = ""
         self.out = ""
         
-        self.num_circuits = num_circuits
-        self.circuits = {i: 0 for i in range(num_circuits)}
-
         self.parent_show = parent_show
-    
+        self.num_circuits = parent_show.num_circuits
+        self.circuits = {i: 0 for i in range(self.num_circuits)}
+
+##########
+# Factory   
       
-def load_slot(s_elem, slot):
+def load_slot(s_elem, show):
     ''' '''
-    s = MemSlot(s_elem.get('id'), slot.num_circuits, slot)
+    s = MemSlot(s_elem.get('id'), show)
     s.in_ = s_elem.get('in')
     s.out = s_elem.get('out')
     # Circuits

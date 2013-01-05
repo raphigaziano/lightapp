@@ -30,7 +30,11 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         self._connect_show_events()
         
     def save_show(self):
-        '''Save the current show, prompting for url if needed'''
+        '''
+        Save the current show, prompting for url if needed
+
+        @returns False if the save failed, True for success
+        '''
         if not self._check_required_fields():
             return False
         if self._show.path is None:
@@ -52,7 +56,13 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
             return self.save_show()
     
     def prompt_for_save(self):
-        ''' '''
+        '''
+        Prompts the user to save if the current show has been
+        updated.
+
+        @returns True if no updates, False for cancelation,
+                 or the save_show() method.
+        '''
         # NEEDZ TEST & WORK #
         if not self._show._modified:
             return True
@@ -71,14 +81,20 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         return True
         
     def enable_save(self):
-        ''' '''
+        '''
+        Enable the save and save_as actions and toggles the 
+        window's modified flag on.
+        '''
         self.action_save.setEnabled(True)
         self.action_save_as.setEnabled(True)
 
         self.setWindowModified(True)
 
     def disable_save(self):
-        ''' '''
+        '''
+        Disable the save and save_as actions and toggles the 
+        window's modified flag off.
+        '''
         self.action_save.setEnabled(False)
         self.action_save_as.setEnabled(False)
         
@@ -117,7 +133,8 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
     def _check_required_fields(self):
         '''
         Check if the required fields are filled.
-        Only require the title and circuit number for now.
+        
+        @returns True if all fields are ok, False otherwise.
         '''
         # @TODO: Check all fields except date
         if (#self.txtBox_show_title.text() == "" or
@@ -143,7 +160,11 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         s.date = self.dateEdit_show_date.date()
         
     def _fill_fields(self, s):
-        '''Update the form's fields from the show's attrs'''
+        '''
+        Update the form's fields from the show's attrs
+
+        @param s: source show object providing the fields' data
+        '''
         self.txtBox_show_title.setText(s.title)
         self.spinBox_show_nbSlots.setValue(s.num_circuits)
         self.txtBox_show_author.setText(s.author)
@@ -155,6 +176,7 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
             return
         self.update_show()
         d = slotswin.SlotWindow(self._show)
+        # Storing the return value is probably useless here
         ret = d.exec_()
         
     ### Events ###
@@ -177,7 +199,10 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         self._connect_show_events()
         
     def _connect_show_events(self):
-        ''' '''
+        '''
+        Connect events emited by a show object to this window's
+        slots.
+        '''
         # Show modifying events
         self.connect(self.txtBox_show_title, 
                      QtCore.SIGNAL('textEdited(const QString&)'),
@@ -214,6 +239,7 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
             self.load_show(url.path()[1:])
             
     def closeEvent(self, event):
+        '''Closing event: Prompt for saving if needed'''
         if self.prompt_for_save():
             event.accept()
         else:
