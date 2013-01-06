@@ -4,17 +4,17 @@
 import sip
 from PyQt4 import QtGui, QtCore
 
-from lightapp.ui.QDesigner import SlotsWindow
+from lightapp.ui.QDesigner import SlotsWindow as swindow
 from lightapp.ui import slotwidget
  
-class SlotWindow(QtGui.QDialog, SlotsWindow.Ui_Dialog):
+class SlotsWindow(QtGui.QDialog, swindow.Ui_Dialog):
     '''
     Memory slots editing Form.
     Holds a dynamically generated set of SlotWidgets objects 
     responsible for holding and updating their own memory slot object.
     '''
     def __init__(self, show):
-        super(SlotWindow, self).__init__()
+        super(SlotsWindow, self).__init__()
         self.setupUi(self)
         self._show = show
         
@@ -30,7 +30,14 @@ class SlotWindow(QtGui.QDialog, SlotsWindow.Ui_Dialog):
         self.connect_events()
         
     def add_slot(self, slot=None):
-        ''' '''
+        '''
+        Instantiate a single memory sot and its containing widget, 
+        which is added to the scrollArea.
+
+        @param slot(optional): An existing slot for the container
+                               widget, instead of a brand new one.
+                               Used when loading a saved show.
+        '''
         s = slot or self._show.add_slot()
         print("adding slot %s" % (s.id_))
         # create slot_widget
@@ -50,18 +57,27 @@ class SlotWindow(QtGui.QDialog, SlotsWindow.Ui_Dialog):
         # sw.txtBox_slot_id.setSelection(0, 500)
         
     def load_slots(self):
-        ''' '''
+        '''
+        Generate a slot editing widget for every existing slots of
+        the current show.
+        '''
         for slot in self._show.slots:
             self.add_slot(slot)
         
     def update_slot(self):
-        ''' '''
+        '''
+        Update every displayed memory slot.'''
         print('updating slots...')
         for s in self.findChildren(slotwidget.SlotWidget):
             s.update_slot()
 
     def remove_slot(self, slot_widget):
-        ''' '''
+        ''' 
+        Delete a memory slot.
+        Both the slot object and its container widget are deleted.
+
+        @param slot_widget: the targeted widget.
+        '''
         self._show.remove_slot(slot_widget.slot)
         self.scroller_layout.removeWidget(slot_widget)
         # This way of deleting a widget is apparently cleaner
@@ -76,7 +92,10 @@ class SlotWindow(QtGui.QDialog, SlotsWindow.Ui_Dialog):
                      self.add_slot)
 
     def accept(self):
-        ''' '''
+        '''
+        Dialog's Accept Event.
+        Update all slots before closing the form.
+        '''
         self.update_slot()
-        super(SlotWindow, self).accept()
+        super(SlotsWindow, self).accept()
         

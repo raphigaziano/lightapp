@@ -3,7 +3,7 @@
 #-*- coding:utf-8 -*-
 
 import unittest
-import light_app
+import lightapp
 
 
 class Test(unittest.TestCase):

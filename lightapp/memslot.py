@@ -13,8 +13,11 @@ except ImportError:
     import xml.etree.ElementTree as ET
 
 
-class MemSlot:
+class MemSlot: #pylint: disable-msg=R0903
     '''
+    Simple structure holding a single memory slot's data.
+    Individual circuits' values are stored as a (index => value)
+    dictionnary.
     '''
     def __init__(self, id_, parent_show):
         
@@ -30,7 +33,13 @@ class MemSlot:
 # Factory   
       
 def load_slot(s_elem, show):
-    ''' '''
+    '''
+    Instanciates a new memslot from an Xml node.
+
+    @param s_elem: Xml node holding the data.
+    @param show:   the slot's parent show object
+    @returns:      the updated show object.
+    '''
     s = MemSlot(s_elem.get('id'), show)
     s.in_ = s_elem.get('in')
     s.out = s_elem.get('out')
@@ -40,7 +49,12 @@ def load_slot(s_elem, show):
     return s
         
 def save_slot(s):
-    ''' '''
+    '''
+    Serialize a slot an Xml node.
+
+    @param s: slot to serialize.
+    @returns: Xml node.
+    '''
     s_elem = ET.Element('slot')
     s_attrs = s_elem.attrib
     s_attrs.setdefault("id", str(s.id_))

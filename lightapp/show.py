@@ -18,7 +18,7 @@ from PyQt4 import QtCore
 
 from lightapp import memslot
 
-class Show(QtCore.QObject):
+class Show(QtCore.QObject): #pylint: disable-msg=R0902
     '''
     Document class representing a single show and containing all of
     its different memory slots.
@@ -105,7 +105,7 @@ def load_show(p):
     Instanciates a new show from a saved Xml file.
 
     @param p: path to the Xml file.
-    @returns the new show object.
+    @returns: the new show object.
     '''
     tree = ET.parse(p)
     root = tree.getroot()

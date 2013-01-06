@@ -5,9 +5,9 @@ from PyQt4 import QtGui, QtCore
 
 from lightapp import show
 from lightapp.ui import slotswin
-from lightapp.ui.QDesigner import MainWindow
+from lightapp.ui.QDesigner import MainWindow as mainwin
  
-class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
+class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
     '''
     Main application window.
     Responsible for handling the file IO routines and editing a 
@@ -17,13 +17,14 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         
+        self._show = None
         self.new_show()
         
         self.connect_events()
         
     def new_show(self):
         '''Instantiate a new, blank show'''
-        if hasattr(self, '_show') and not self.prompt_for_save():
+        if self._show is not None and not self.prompt_for_save():
             return
         self._show = show.Show()
         self._fill_fields(self._show)
@@ -60,11 +61,11 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         Prompts the user to save if the current show has been
         updated.
 
-        @returns True if no updates, False for cancelation,
-                 or the save_show() method.
+        @returns True if we can go on (whether the show's saved or 
+                 not), False otherwise.
         '''
         # NEEDZ TEST & WORK #
-        if not self._show._modified:
+        if not self._show.modified:
             return True
         msgBox = QtGui.QMessageBox
         choice = msgBox.warning(self, 
@@ -175,7 +176,7 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         if not self._check_required_fields():
             return
         self.update_show()
-        d = slotswin.SlotWindow(self._show)
+        d = slotswin.SlotsWindow(self._show)
         # Storing the return value is probably useless here
         ret = d.exec_()
 
@@ -224,21 +225,21 @@ class MainWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
                      QtCore.SIGNAL('showSaved()'),
                      self.disable_save)
                      
-    def dragEnterEvent(self, event):
+    def dragEnterEvent(self, event): #pylint: disable-msg=R0201,C0103
         '''Drag & Drop Enter event'''
         if event.mimeData().hasUrls(): #hasFormat('text/plain'):
             event.accept()
         else:
             event.ignore()
 
-    def dropEvent(self, event):
+    def dropEvent(self, event): #pylint: disable-msg=C0103
         '''Drag & Drop Drop event: load the dropped file'''
         for url in event.mimeData().urls():
             # the path returned has a weird slash before the drive 
             # letter, so get rid of it
             self.load_show(url.path()[1:])
             
-    def closeEvent(self, event):
+    def closeEvent(self, event): #pylint: disable-msg=C0103
         '''Closing event: Prompt for saving if needed'''
         if self.prompt_for_save():
             event.accept()
