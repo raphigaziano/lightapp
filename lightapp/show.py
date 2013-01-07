@@ -8,22 +8,17 @@ Created: 25/12/2012
 Version: 1.0
 '''
 import datetime
-try:
-    import xml.etree.cElementTree as ET
-except ImportError:
-    import xml.etree.ElementTree as ET
     
 from PyQt4 import QtCore
 
 from lightapp import memslot
-from lightapp import utils
 
-class Show(QtCore.QObject): #pylint: disable-msg=R0902
+class Show(QtCore.QObject):
     '''
     Document class representing a single show and containing all of
     its different memory slots.
     Inherits QObject to be able to emit signals.
-    '''
+    ''' #pylint: disable-msg=R0902
     def __init__(self):
         super(Show, self).__init__()
         self.title        = ""

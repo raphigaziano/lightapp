@@ -40,11 +40,12 @@ def load_show(p):
     return s
     
     
-def save_show(s):
+def serialize_show(s):
     '''
-    Serialize a show object and save it to an Xml file.
+    Serialize a show object as en Xml Tree.
 
     @param s: show to serialize & save.
+    @returns: Xml Tree representing the show's data
     '''
     print("Saving show...")
     root = ET.Element('show')
@@ -64,10 +65,30 @@ def save_show(s):
     for slot in s.slots:
         mem_elem.append(save_slot(slot))
     
-    tree = ET.ElementTree(root)
-    tree.write(s.path, encoding='UTF-8', xml_declaration=True)
-    
     s.modified = False
+    tree = ET.ElementTree(root)
+    return tree
+
+def write_show(s, p=""):
+    '''
+    Write a show's data to an xml file.
+
+    @param s: Show data. Can be either a show object or an already
+              serialized Xml tree.
+    @param p: Optional path, in case we're dealing with an already
+              serialized tree (which won't contain any path info).
+              If needed but not provoided, the file will be written
+              in the cwd.
+    '''
+    if isinstance(s, Show):
+        path = s.path
+        tree = serialize_show(s)
+    elif isinstance(s, ET.ElementTree):
+        path = p
+        tree = s
+    tree.write(path, encoding='UTF-8', xml_declaration=True)
+
+### Indiidual Slots Handling ###
 
 def load_slot(s_elem, show):
     '''

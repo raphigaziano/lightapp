@@ -13,7 +13,7 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
     Main application window.
     Responsible for handling the file IO routines and editing a 
     show's basic infos. 
-    '''
+    ''' #pylint: disable-msg=R0904
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
@@ -57,7 +57,7 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         if self._show.path is None:
             return self.save_show_as()
         self.update_show()
-        xml.save_show(self._show)
+        xml.write_show(self._show)
         return True
         
     def save_show_as(self):
