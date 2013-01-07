@@ -8,7 +8,6 @@ Created: 25/12/2012
 Version: 1.0
 '''
 import datetime
-import time
 try:
     import xml.etree.cElementTree as ET
 except ImportError:
@@ -17,6 +16,7 @@ except ImportError:
 from PyQt4 import QtCore
 
 from lightapp import memslot
+from lightapp import utils
 
 class Show(QtCore.QObject): #pylint: disable-msg=R0902
     '''
@@ -26,10 +26,10 @@ class Show(QtCore.QObject): #pylint: disable-msg=R0902
     '''
     def __init__(self):
         super(Show, self).__init__()
-        self.title = ""
+        self.title        = ""
         self.num_circuits = 0
-        self.author = ""
-        self.date = datetime.date.today()
+        self.author       = ""
+        self.date         = datetime.date.today()
         
         self.path = None
 
@@ -96,76 +96,3 @@ class Show(QtCore.QObject): #pylint: disable-msg=R0902
         print("show modified")
         if not self.modified: 
             self.modified = True
-
-##########
-# Factory
-
-def load_show(p):
-    '''
-    Instanciates a new show from a saved Xml file.
-
-    @param p: path to the Xml file.
-    @returns: the new show object.
-    '''
-    tree = ET.parse(p)
-    root = tree.getroot()
-    
-    s = Show()
-    s.path = p
-    base = root.find('baseInfos')
-    s.load_base(base)
-    
-    # slots
-    for slot_elem in root.iter('slot'):
-        s.slots.append(memslot.load_slot(slot_elem, s))
-    
-    return s
-    
-    
-def save_show(s):
-    '''
-    Serialize a show object and save it to an Xml file.
-
-    @param s: show to serialize & save.
-    '''
-    print("Saving show...")
-    root = ET.Element('show')
-    
-    base = ET.SubElement(root, 'baseInfos')
-    title_elem = ET.SubElement(base, 'title')
-    title_elem.text = s.title
-    slots_elem = ET.SubElement(base, 'nbCircuits')
-    slots_elem.text = str(s.num_circuits)
-    auth_elem = ET.SubElement(base, 'auth')
-    auth_elem.text = s.author
-    date_elem = ET.SubElement(base, 'date')
-    date_elem.text = _get_date(s)
-    
-    # slots
-    mem_elem = ET.SubElement(root, 'memSlots')
-    for slot in s.slots:
-        mem_elem.append(memslot.save_slot(slot))
-    
-    tree = ET.ElementTree(root)
-    tree.write(s.path, encoding='UTF-8', xml_declaration=True)
-    
-    s.modified = False
-    
-#######
-# Utils
-# (Should probably be moved)
-
-def _get_date(s):
-    '''
-    Utility function converting either a python Date or a Qt QDate
-    object to a timestamp for serialization.
-
-    @param s: Date object, either from Qt or python's standard lib.
-    @returns: Timestamp (float)
-    '''
-    try:
-        return str(time.mktime(s.date.timetuple()))
-    except AttributeError:
-        date = s.date.toPyDate()
-        return str(time.mktime(date.timetuple()))
-    

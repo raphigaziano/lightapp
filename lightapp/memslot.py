@@ -25,9 +25,9 @@ class MemSlot: #pylint: disable-msg=R0903
         self.in_ = ""
         self.out = ""
         
-        self.parent_show = parent_show
+        self.parent_show  = parent_show
         self.num_circuits = parent_show.num_circuits
-        self.circuits = {i: 0 for i in range(self.num_circuits)}
+        self.circuits     = {i: 0 for i in range(self.num_circuits)}
 
 ##########
 # Factory   
@@ -40,7 +40,7 @@ def load_slot(s_elem, show):
     @param show:   the slot's parent show object
     @returns:      the updated show object.
     '''
-    s = MemSlot(s_elem.get('id'), show)
+    s     = MemSlot(s_elem.get('id'), show)
     s.in_ = s_elem.get('in')
     s.out = s_elem.get('out')
     # Circuits
@@ -55,7 +55,7 @@ def save_slot(s):
     @param s: slot to serialize.
     @returns: Xml node.
     '''
-    s_elem = ET.Element('slot')
+    s_elem  = ET.Element('slot')
     s_attrs = s_elem.attrib
     s_attrs.setdefault("id", str(s.id_))
     s_attrs.setdefault("in", str(s.in_))

@@ -1,6 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
- 
 from PyQt4 import QtGui, QtCore
 
 from lightapp.ui.QDesigner import SlotWidget as swidget
@@ -27,8 +26,8 @@ class SlotWidget(QtGui.QWidget, swidget.Ui_SlotWidget):
     def __init__(self, parent=None, slot=None):
         super(SlotWidget, self).__init__(parent)
         self.setupUi(self)
-        
-        self.slot = slot
+
+        self.slot      = slot
         self._slot_win = self.parent()
 
         self.init_components()
@@ -37,14 +36,14 @@ class SlotWidget(QtGui.QWidget, swidget.Ui_SlotWidget):
 
     def init_components(self):
         '''
-        Sets up the widget's components 
+        Sets up the widget's components
         (mainly the comboboxes lists of values).
         '''
         self.txtBox_slot_id.setText(str(self.slot.id_))
         # Assign list copies just to be safe
         self.cBox_in.addItems(IN_ITEMS[:])
         self.cBox_out.addItems(OUT_ITEMS[:])
-        
+
         self.gBox_circuits.setLayout(self.cboxes_layout)
 
         self._init_circuits_cboxes()
@@ -61,12 +60,12 @@ class SlotWidget(QtGui.QWidget, swidget.Ui_SlotWidget):
         of circuits needed.
         '''
         y = -1
-        for i, _  in self.slot.circuits.items():
+        for i, _ in self.slot.circuits.items():
             widget = QtGui.QWidget(self.gBox_circuits)
             widget.setFixedWidth(WIDGET_WIDTH)
-            widget.setSizePolicy(QtGui.QSizePolicy.Fixed, 
+            widget.setSizePolicy(QtGui.QSizePolicy.Fixed,
                                  QtGui.QSizePolicy.Fixed)
-            
+
             line_layout = QtGui.QHBoxLayout()
             widget.setLayout(line_layout)
 
@@ -75,12 +74,12 @@ class SlotWidget(QtGui.QWidget, swidget.Ui_SlotWidget):
             cbox.setEditable(True)
             # Assign a copy to be safe
             cbox.addItems(CIRC_ITEMS[:])
-
+            
             line_layout.addWidget(label)
             line_layout.addWidget(cbox)
             # Widget position
             x = i % CIRCS_PER_LINE
-            if i % CIRCS_PER_LINE == 0: 
+            if i % CIRCS_PER_LINE == 0:
                 y += 1
                 # grow groupbox
                 if y > 0:
@@ -93,15 +92,15 @@ class SlotWidget(QtGui.QWidget, swidget.Ui_SlotWidget):
     def _get_circuit_cboxes(self):
         '''
         Yields every circuit's comboboxe.
-        Usage: 
+        Usage:
         for cb in self._get_circuit_cboxes():
             # do stuff with cb
 
-        @returns: Generator object 
+        @returns: Generator object
         '''
         for w in self.gBox_circuits.children():
             cb = w.findChild(QtGui.QComboBox)
-            if cb is None: 
+            if cb is None:
                 continue
             yield cb
 
@@ -135,37 +134,37 @@ class SlotWidget(QtGui.QWidget, swidget.Ui_SlotWidget):
     def connect_event(self):
         '''Signals/Functions connections'''
         # Show modifying events
-        self.connect(self.txtBox_slot_id, 
+        self.connect(self.txtBox_slot_id,
                      QtCore.SIGNAL('textEdited(const QString&)'),
                      self.slot.parent_show.slot_modify)
 
-        self.connect(self.cBox_in, 
+        self.connect(self.cBox_in,
                      QtCore.SIGNAL(
                         'currentIndexChanged(const QString&)'),
                      self.slot.parent_show.slot_modify)
-        self.connect(self.cBox_in, 
+        self.connect(self.cBox_in,
                      QtCore.SIGNAL(
                         'editTextChanged(const QString&)'),
                      self.slot.parent_show.slot_modify)
-        self.connect(self.cBox_out, 
+        self.connect(self.cBox_out,
                      QtCore.SIGNAL(
                         'currentIndexChanged(const QString&)'),
                      self.slot.parent_show.slot_modify)
-        self.connect(self.cBox_out, 
+        self.connect(self.cBox_out,
                      QtCore.SIGNAL(
                         'editTextChanged(const QString&)'),
                      self.slot.parent_show.slot_modify)
         # Circuits comboboxes
         for cb in self._get_circuit_cboxes():
-            self.connect(cb, 
+            self.connect(cb,
                          QtCore.SIGNAL(
                             'currentIndexChanged(const QString&)'),
                          self.slot.parent_show.slot_modify)
-            self.connect(cb, 
+            self.connect(cb,
                          QtCore.SIGNAL(
                             'editTextChanged(const QString&)'),
                          self.slot.parent_show.slot_modify)
         # Parent window's slot supression method
         self.connect(self.btn_supr,
-                     QtCore.SIGNAL('clicked()'), 
+                     QtCore.SIGNAL('clicked()'),
                      self.remove)

@@ -1,11 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
- 
+import sys  ### @FIXME Tempo
 from PyQt4 import QtGui, QtCore
 
 from lightapp import show
 from lightapp.ui import slotswin
 from lightapp.ui.QDesigner import MainWindow as mainwin
+from lightapp.fileio import xml
  
 class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
     '''
@@ -21,7 +22,22 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         self.new_show()
         
         self.connect_events()
-        
+
+    # quick test/hack
+        self.old_stdout = sys.stdout
+        #sys.stdout = self
+
+    def write(self, s):
+        ''' '''
+        self.statusbar.showMessage(s, 5000)
+
+    def flush(self): pass
+
+    def __del__(self):
+        sys.stdout = self.old_stdout
+    
+    # endhack
+
     def new_show(self):
         '''Instantiate a new, blank show'''
         if self._show is not None and not self.prompt_for_save():
@@ -41,7 +57,7 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         if self._show.path is None:
             return self.save_show_as()
         self.update_show()
-        show.save_show(self._show)
+        xml.save_show(self._show)
         return True
         
     def save_show_as(self):
@@ -106,7 +122,7 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         if checked_save and not self.prompt_for_save():
             return
         try:
-            self._show = show.load_show(path)
+            self._show = xml.load_show(path)
             self._fill_fields(self._show)
             self._connect_show_events()
             self.disable_save()
@@ -154,11 +170,11 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         Update the show object from the form's fields.
         Mainly useful before saving.
         '''
-        s = self._show    
-        s.title = self.txtBox_show_title.text()
+        s              = self._show    
+        s.title        = self.txtBox_show_title.text()
         s.num_circuits = self.spinBox_show_nbSlots.value()
-        s.author = self.txtBox_show_author.text()
-        s.date = self.dateEdit_show_date.date()
+        s.author       = self.txtBox_show_author.text()
+        s.date         = self.dateEdit_show_date.date()
         
     def _fill_fields(self, s):
         '''
