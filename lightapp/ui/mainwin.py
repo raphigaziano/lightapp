@@ -57,7 +57,8 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         if self._show.path is None:
             return self.save_show_as()
         self.update_show()
-        xml.write_show(self._show)        return True
+        xml.write_show(self._show)
+        return True
         
     def save_show_as(self):
         '''Url prompt before saving the current show.'''

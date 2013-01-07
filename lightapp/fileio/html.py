@@ -9,58 +9,38 @@ Author:  raphi <r.gaziano@gmail.com>
 Created: 07/01/2013
 Version: 1.0
 """
-# imports...
-HTML_TEMPLATE = \
-"""
-<!-- DOCTYPE -->
-<html>
-    <head>
-    <style>
-        html {
-            background-color: black;
-            color: white;
-        }
-    </style>
-    </head>
-    <body>
-        <table>
-            %s
-        </table>
-        <table border='1'>
-            %s
-        </table>
-    </body>
-</html>"""
-INFOS_TABLE_TEMPLATE = """
-<tr>
-    <th colspan='2'>%s</th>
-</tr>
-<tr>
-    <td>Auteur:</td>
-    <td>%s</td>
-</tr>
-<tr>
-    <td>Date:</td>
-    <td>%s</td>
-</tr>
-<tr>
-    <td>Nb Circuits:</td>
-    <td>%s</td>
-</tr>"""
-SLOT_TEMPLATE = """
-<tr>
-    <th colspan='2'>Id: %s</th>
-    <th colspan='2'>In: %s</th>
-    <th colspan='2'>Out: %s</th>
-</tr>
-%s"""
-CIRCUIT_TEMPLATE = """
-<td>n°%s: %s</td>"""
+import os
+from string import Template
+
+HTML_TEMPLATES_DIR = os.path.join('templates', 'html')
+CSS_TEMPLATES_DIR  = os.path.join('templates', 'css')
+
+def _load_template(tmpl, path=HTML_TEMPLATES_DIR):
+    '''
+    '''
+    with open(os.path.join(path, tmpl), 'r', 
+              encoding='utf-8') as tmpl_f:
+        html = tmpl_f.read()
+    return Template(html)
+
+HTML_TEMPLATES = {
+    "global"   : _load_template('global.html'),
+    "baseinfos": _load_template('baseinfos.html'),
+    "memslot"  : _load_template('memslot.html'),
+    "circuit"  : _load_template('circuit.html')
+}
+# Hardcoded for now
+with open(os.path.join(CSS_TEMPLATES_DIR, 'style.css')) as css_f:
+    CSS = css_f.read()
 
 def serialize_show(s):
     ''' '''
-    tab_infos = INFOS_TABLE_TEMPLATE % (
-        s.title, s.author, str(s.date), str(s.num_circuits))
+    tab_infos = HTML_TEMPLATES['baseinfos'].substitute(
+        title      = s.title, 
+        author     = s.author, 
+        date       = str(s.date), 
+        nbcircuits = str(s.num_circuits)
+    )
 
     slots_html = []
     for memslot in s.slots:
@@ -68,20 +48,30 @@ def serialize_show(s):
         in_ = str(memslot.in_)
         out = str(memslot.out)
         circs_rows = []
-        for i, c in memslot.circuits.items():
+        for i, v in memslot.circuits.items():
             if i % 6 == 0:
                 row = []
                 circs_rows.append(row)
-            row.append(CIRCUIT_TEMPLATE % (str(i+1), str(c)))    
+            row.append(HTML_TEMPLATES['circuit'].substitute(
+                i = str(i+1), 
+                v = str(v)
+            ))    
 
         rows_html = "".join(
             "<tr>%s</tr>" % "".join(r) for r in circs_rows
         )
-        print(rows_html)
-        slots_html.append(SLOT_TEMPLATE % (id_, in_, out, rows_html))
+        slots_html.append(HTML_TEMPLATES['memslot'].substitute(
+            id_      = id_, 
+            in_      = in_, 
+            out      = out, 
+            circuits = rows_html
+        ))
 
-
-    html = HTML_TEMPLATE % (tab_infos, "".join(slots_html))
+    html = HTML_TEMPLATES['global'].substitute(
+        style     = "<style>%s</style>" % CSS if CSS else "",
+        baseinfos = tab_infos,
+        memslots  = "".join(slots_html)
+    )
     return html
 
 def write_show(s, p=""):
