@@ -15,6 +15,12 @@ HTML_TEMPLATE = \
 <!-- DOCTYPE -->
 <html>
     <head>
+    <style>
+        html {
+            background-color: black;
+            color: white;
+        }
+    </style>
     </head>
     <body>
         <table>
