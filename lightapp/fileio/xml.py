@@ -77,14 +77,15 @@ def write_show(s, p=""):
               serialized Xml tree.
     @param p: Optional path, in case we're dealing with an already
               serialized tree (which won't contain any path info).
-              If needed but not provoided, the file will be written
-              in the cwd.
+              If needed but not provided, the file will be written
+              in the cwd and its name will default to the show's 
+              title.
     '''
     if isinstance(s, Show):
         path = s.path
         tree = serialize_show(s)
     elif isinstance(s, ET.ElementTree):
-        path = p
+        path = p or "%s%s.xml" % (p, s.title)
         tree = s
     tree.write(path, encoding='UTF-8', xml_declaration=True)
 
@@ -125,3 +126,4 @@ def save_slot(s):
         c_elem.attrib = dict(i=str(i), val=str(v))
     
     return s_elem
+    

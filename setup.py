@@ -36,6 +36,8 @@ setup(
         version = "0.1",
         description = "blaaa",
         #~ options = {"build_exe": {"includes": ["sip"]} },
+        # Active la prise en compte du fichier MANIFEST.in
+        include_package_data=True,
         executables = [Executable("main.py",
                        targetName='LightApp.exe',
                        copyDependentFiles=True,

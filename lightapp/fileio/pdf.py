@@ -20,6 +20,7 @@ def serialize_show(html):
     doc.setHtml(html)
     return doc
 
+# @FIXME PATH AND CRAP
 def write_show(html):
     '''
     '''

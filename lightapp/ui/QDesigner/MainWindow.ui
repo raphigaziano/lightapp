@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>350</width>
+    <width>262</width>
     <height>248</height>
    </rect>
   </property>
@@ -102,17 +102,6 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>10</y>
-      <width>81</width>
-      <height>131</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2"/>
-   </widget>
    <widget class="QPushButton" name="btn_edit_slots">
     <property name="geometry">
      <rect>
@@ -132,7 +121,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>350</width>
+     <width>262</width>
      <height>21</height>
     </rect>
    </property>
@@ -150,6 +139,10 @@
     <property name="title">
      <string>&amp;Export</string>
     </property>
+    <addaction name="action_csv"/>
+    <addaction name="action_pdf"/>
+    <addaction name="action_html"/>
+    <addaction name="separator"/>
    </widget>
    <addaction name="menuTest"/>
    <addaction name="menu_Export"/>
@@ -169,6 +162,9 @@
    <addaction name="action_open"/>
    <addaction name="action_save"/>
    <addaction name="separator"/>
+   <addaction name="action_csv"/>
+   <addaction name="action_pdf"/>
+   <addaction name="action_html"/>
   </widget>
   <action name="action_open">
    <property name="icon">
@@ -216,6 +212,33 @@
    </property>
    <property name="statusTip">
     <string>Nouveau specatcle</string>
+   </property>
+  </action>
+  <action name="action_csv">
+   <property name="icon">
+    <iconset resource="ressources.qrc">
+     <normaloff>:/icons/img/csv.png</normaloff>:/icons/img/csv.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Csv...</string>
+   </property>
+  </action>
+  <action name="action_pdf">
+   <property name="icon">
+    <iconset resource="ressources.qrc">
+     <normaloff>:/icons/img/pdf.png</normaloff>:/icons/img/pdf.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Pdf...</string>
+   </property>
+  </action>
+  <action name="action_html">
+   <property name="icon">
+    <iconset resource="ressources.qrc">
+     <normaloff>:/icons/img/html.png</normaloff>:/icons/img/html.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Html...</string>
    </property>
   </action>
  </widget>
