@@ -12,6 +12,8 @@ Version: 1.0
 import os
 from string import Template
 
+CIRCS_PER_LINE = 6
+
 HTML_TEMPLATES_DIR = os.path.join('templates', 'html')
 CSS_TEMPLATES_DIR  = os.path.join('templates', 'css')
 
@@ -45,6 +47,38 @@ def _tmpl_sub(tmpl, **kwargs):
     '''
     return HTML_TEMPLATES[tmpl].substitute(**kwargs)
 
+def _serialize_circuits(memslot):
+    '''
+    '''
+    circs_rows = []
+    for i, v in memslot.circuits.items():
+        if i % CIRCS_PER_LINE == 0:
+            row = []
+            circs_rows.append(row)
+        row.append(_tmpl_sub(
+            'circuit',
+            i = str(i+1), 
+            v = str(v)
+        ))   
+    return "".join("<tr>%s</tr>" % "".join(r) for r in circs_rows)
+
+def _serialize_memslots(show):
+    '''
+    '''
+    html = []
+    for memslot in show.slots:
+        id_ = str(memslot.id_)
+        in_ = str(memslot.in_)
+        out = str(memslot.out)
+
+        html.append(_tmpl_sub(
+            'memslot',
+            id_      = id_, 
+            in_      = in_, 
+            out      = out, 
+            circuits = _serialize_circuits(memslot)
+        ))
+    return "".join(html)
 
 def serialize_show(s):
     ''' '''
@@ -55,40 +89,11 @@ def serialize_show(s):
         date       = str(s.date), 
         nbcircuits = str(s.num_circuits)
     )
-    # Well that was straight-forward enough, now let's have fun:
-    slots_html = []
-    for memslot in s.slots:
-        id_ = str(memslot.id_)
-        in_ = str(memslot.in_)
-        out = str(memslot.out)
-
-        circs_rows = []
-        for i, v in memslot.circuits.items():
-            if i % 6 == 0: # @FIXME Magic number
-                row = []
-                circs_rows.append(row)
-            row.append(_tmpl_sub(
-                'circuit',
-                i = str(i+1), 
-                v = str(v)
-            ))    
-
-        rows_html = "".join(
-            "<tr>%s</tr>" % "".join(r) for r in circs_rows
-        )
-        slots_html.append(_tmpl_sub(
-            'memslot',
-            id_      = id_, 
-            in_      = in_, 
-            out      = out, 
-            circuits = rows_html
-        ))
-
     html = _tmpl_sub(
         'global',
         style     = "<style>%s</style>" % CSS if CSS else "",
         baseinfos = tab_infos,
-        memslots  = "".join(slots_html)
+        memslots  = _serialize_memslots(s)
     )
     return html
 
