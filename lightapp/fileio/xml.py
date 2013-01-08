@@ -58,7 +58,7 @@ def serialize_show(s):
     auth_elem       = ET.SubElement(base, 'auth')
     auth_elem.text  = s.author
     date_elem       = ET.SubElement(base, 'date')
-    date_elem.text  = utils.get_date(s)
+    date_elem.text  = utils.get_timestamp(s.date)
     
     # slots
     mem_elem = ET.SubElement(root, 'memSlots')

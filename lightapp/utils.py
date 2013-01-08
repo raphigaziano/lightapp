@@ -11,17 +11,28 @@ Version: 1.0
 """
 import time
 
-def get_date(s):
+TIME_FORMAT = "%d/%m/%Y"
+
+def get_timestamp(d):
     '''
     Utility function converting either a python Date or a Qt QDate
     object to a timestamp for serialization.
 
-    @param s: Date object, either from Qt or python's standard lib.
+    @param d: Date object, either from Qt or python's standard lib.
     @returns: Timestamp (float)
     '''
     try:
-        return str(time.mktime(s.date.timetuple()))
+        return str(time.mktime(d.timetuple()))
     except AttributeError:
-        date = s.date.toPyDate()
+        date = d.toPyDate()
         return str(time.mktime(date.timetuple()))
     
+def get_datestr(d, f=TIME_FORMAT):
+    '''
+    Utility function returning a python Date or Qt QDate object 
+    as a formatted string.
+
+    @param d: Date object, either from Qt or python's standard lib.
+    @returns: Fomatted date string
+    '''
+    return d.strftime(f)

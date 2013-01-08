@@ -1,6 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import sys  ### @FIXME Tempo
 from PyQt4 import QtGui, QtCore
 
 from lightapp import show
@@ -22,21 +21,6 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         self.new_show()
         
         self.connect_events()
-
-    # quick test/hack
-        self.old_stdout = sys.stdout
-        #sys.stdout = self
-
-    def write(self, s):
-        ''' '''
-        self.statusbar.showMessage(s, 5000)
-
-    def flush(self): pass
-
-    def __del__(self):
-        sys.stdout = self.old_stdout
-    
-    # endhack
 
     def new_show(self):
         '''Instantiate a new, blank show'''

@@ -12,6 +12,8 @@ Version: 1.0
 import os
 from string import Template
 
+from lightapp import utils
+
 CIRCS_PER_LINE = 6
 
 HTML_TEMPLATES_DIR = os.path.join('templates', 'html')
@@ -80,20 +82,20 @@ def _serialize_memslots(show):
         ))
     return "".join(html)
 
-def serialize_show(s):
+def serialize_show(show):
     ''' '''
     tab_infos = _tmpl_sub(
         'baseinfos',
-        title      = s.title, 
-        author     = s.author, 
-        date       = str(s.date), 
-        nbcircuits = str(s.num_circuits)
+        title      = show.title, 
+        author     = show.author, 
+        date       = utils.get_datestr(show.date), 
+        nbcircuits = str(show.num_circuits)
     )
     html = _tmpl_sub(
         'global',
         style     = "<style>%s</style>" % CSS if CSS else "",
         baseinfos = tab_infos,
-        memslots  = _serialize_memslots(s)
+        memslots  = _serialize_memslots(show)
     )
     return html
 
