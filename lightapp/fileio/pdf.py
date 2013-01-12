@@ -20,13 +20,35 @@ def serialize_show(html):
     doc.setHtml(html)
     return doc
 
+def _get_printer(fmt=None):
+    '''
+    '''
+    printer = QtGui.QPrinter()
+    printer.setFullPage(True)
+    if fmt is not None:
+        printer.setOutputFormat(fmt)
+    return printer
+
 # @FIXME PATH AND CRAP
 def write_show(html):
     '''
     '''
-    printer = QtGui.QPrinter()
+    printer = _get_printer(QtGui.QPrinter.PdfFormat)
     printer.setOutputFileName("test.pdf")
-    printer.setOutputFormat(QtGui.QPrinter.PdfFormat)
-    doc = serialize_show(html)
-    doc.print(printer)
-    printer.newPage()
+    doc     = serialize_show(html)
+    doc.print_(printer)
+    # printer.newPage()
+
+### TEST TEST TEST ###
+def print_show(html):
+    '''
+    '''
+    printer = _get_printer(QtGui.QPrinter.NativeFormat)
+    dlg     = QtGui.QPrintDialog(printer)
+    if dlg.exec_() == QtGui.QDialog.Accepted:
+        doc     = serialize_show(html)
+        painter = QtGui.QPainter()
+        painter.begin(printer)
+        # doc.print_(painter)
+        doc.print_(printer)
+        painter.end() # @TODO: TEST TEST TEST

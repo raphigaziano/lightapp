@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from PyQt4 import QtGui, QtCore
 
+from lightapp import utils
 from lightapp import show
 from lightapp.ui import slotswin
 from lightapp.ui.QDesigner import MainWindow as mainwin
@@ -14,6 +15,7 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
     show's basic infos. 
     ''' #pylint: disable-msg=R0904
     def __init__(self, parent=None):
+        utils.logger.info("Initializing main window...")
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         
@@ -21,12 +23,15 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         self.new_show()
         
         self.connect_events()
+        utils.logger.info("MainWindow's ready")
 
     def new_show(self):
         '''Instantiate a new, blank show'''
         if self._show is not None and not self.prompt_for_save():
             return
+        utils.logger.info("New show...")
         self._show = show.Show()
+        utils.logger.debug("Instanciated %s" % self._show)
         self._fill_fields(self._show)
         self._connect_show_events()
         
@@ -42,6 +47,7 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
             return self.save_show_as()
         self.update_show()
         xml.write_show(self._show)
+        utils.logger.info("Show saved as %s"  % self._show.path)
         return True
         
     def save_show_as(self):
@@ -106,11 +112,14 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         if checked_save and not self.prompt_for_save():
             return
         try:
+            utils.logger.info("Loading show %s..." % path)
             self._show = xml.load_show(path)
             self._fill_fields(self._show)
             self._connect_show_events()
             self.disable_save()
+            utils.logger.info("%s loaded" % path)
         except Exception as e: # Too general...
+            # @TODO: log!
             QtGui.QMessageBox.critical(self,
                                        "ONOES",
                                        "Impossible de lire ce fichier"
@@ -176,15 +185,25 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         if not self._check_required_fields():
             return
         self.update_show()
+        utils.logger.info("Instanciating Editing Form...")
         d = slotswin.SlotsWindow(self._show)
         # Storing the return value is probably useless here
         ret = d.exec_()
+        utils.logger.info("Mem slots editing complete.")
+
+    ### TEST ###
+    def print_show(self):
+        from lightapp.fileio import html
+        from lightapp.fileio import pdf
+        shtml = html.serialize_show(self._show)
+        pdf.print_show(shtml)
 
     ### Events ###
+    ##############
  
     def connect_events(self):
         '''Actions/Functions connections'''
-        # IO Actions
+        utils.logger.info("Basic file io events...")
         self.connect(self.action_new, QtCore.SIGNAL('triggered()'),
                      self.new_show)
         self.connect(self.action_open, QtCore.SIGNAL('triggered()'),
@@ -193,10 +212,17 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
                      self.save_show)
         self.connect(self.action_save_as, QtCore.SIGNAL('triggered()'),
                      self.save_show_as)
-        # Edit button
+        ### TEST ###
+        self.connect(self.action_print, QtCore.SIGNAL('triggered()'),
+                     self.print_show)
+        # utils.logger.info("Export events...")
+        # ...
+        utils.logger.info("Editing event...")
         self.connect(self.btn_edit_slots, QtCore.SIGNAL('clicked()'),
                      self.edit_show_slots)
-
+        utils.logger.info("DbgCons event...")
+        self.connect(self.action_console, QtCore.SIGNAL('triggered()'),
+                     utils.show_dbgcons)
         self._connect_show_events()
         
     def _connect_show_events(self):
@@ -204,7 +230,7 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         Connect events emited by a show object to this window's
         slots.
         '''
-        # Show modifying events
+        utils.logger.info("Show specific events...")
         self.connect(self.txtBox_show_title, 
                      QtCore.SIGNAL('textEdited(const QString&)'),
                      self._show.slot_modify)

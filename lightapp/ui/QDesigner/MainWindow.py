@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'lightapp\ui\QDesigner\MainWindow.ui'
 #
-# Created: Tue Jan  8 00:54:58 2013
+# Created: Thu Jan 10 17:48:09 2013
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -18,7 +18,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.setEnabled(True)
-        MainWindow.resize(262, 248)
+        MainWindow.resize(258, 248)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -78,7 +78,7 @@ class Ui_MainWindow(object):
         self.btn_edit_slots.setObjectName(_fromUtf8("btn_edit_slots"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 262, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 258, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuTest = QtGui.QMenu(self.menubar)
         self.menuTest.setTitle(QtGui.QApplication.translate("MainWindow", "&Fichier", None, QtGui.QApplication.UnicodeUTF8))
@@ -86,6 +86,9 @@ class Ui_MainWindow(object):
         self.menu_Export = QtGui.QMenu(self.menubar)
         self.menu_Export.setTitle(QtGui.QApplication.translate("MainWindow", "&Export", None, QtGui.QApplication.UnicodeUTF8))
         self.menu_Export.setObjectName(_fromUtf8("menu_Export"))
+        self.menu_Outils = QtGui.QMenu(self.menubar)
+        self.menu_Outils.setTitle(QtGui.QApplication.translate("MainWindow", "&Outils", None, QtGui.QApplication.UnicodeUTF8))
+        self.menu_Outils.setObjectName(_fromUtf8("menu_Outils"))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
@@ -138,6 +141,15 @@ class Ui_MainWindow(object):
         self.action_html.setIcon(icon5)
         self.action_html.setText(QtGui.QApplication.translate("MainWindow", "&Html...", None, QtGui.QApplication.UnicodeUTF8))
         self.action_html.setObjectName(_fromUtf8("action_html"))
+        self.action_console = QtGui.QAction(MainWindow)
+        icon6 = QtGui.QIcon()
+        icon6.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/img/terminal.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.action_console.setIcon(icon6)
+        self.action_console.setText(QtGui.QApplication.translate("MainWindow", "&Console...", None, QtGui.QApplication.UnicodeUTF8))
+        self.action_console.setObjectName(_fromUtf8("action_console"))
+        self.action_print = QtGui.QAction(MainWindow)
+        self.action_print.setText(QtGui.QApplication.translate("MainWindow", "Print...", None, QtGui.QApplication.UnicodeUTF8))
+        self.action_print.setObjectName(_fromUtf8("action_print"))
         self.menuTest.addAction(self.action_new)
         self.menuTest.addAction(self.action_open)
         self.menuTest.addAction(self.action_save)
@@ -147,8 +159,10 @@ class Ui_MainWindow(object):
         self.menu_Export.addAction(self.action_pdf)
         self.menu_Export.addAction(self.action_html)
         self.menu_Export.addSeparator()
+        self.menu_Outils.addAction(self.action_console)
         self.menubar.addAction(self.menuTest.menuAction())
         self.menubar.addAction(self.menu_Export.menuAction())
+        self.menubar.addAction(self.menu_Outils.menuAction())
         self.toolBar.addAction(self.action_new)
         self.toolBar.addAction(self.action_open)
         self.toolBar.addAction(self.action_save)
@@ -156,6 +170,8 @@ class Ui_MainWindow(object):
         self.toolBar.addAction(self.action_csv)
         self.toolBar.addAction(self.action_pdf)
         self.toolBar.addAction(self.action_html)
+        self.toolBar.addSeparator()
+        self.toolBar.addAction(self.action_print)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)

@@ -5,6 +5,7 @@ from PyQt4 import QtGui, QtCore
 from lightapp.ui.QDesigner import SlotWidget as swidget
 
 ### Constants ###
+#################
 
 WIDGET_WIDTH = 80
 CBOX_ROWS_V_SPACING = 5

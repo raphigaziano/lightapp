@@ -55,7 +55,9 @@ class QDbgConsole(QtGui.QTextEdit):
 
     def write(self, msg):
         '''Add msg to the console's output, on a new line.'''
-        self.append(msg)
+        self.insertPlainText(msg)
+        # Autoscroll
+        self.moveCursor(QtGui.QTextCursor.End)
 
     def close(self):
         '''Stub method, does nothing.'''

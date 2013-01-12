@@ -21,10 +21,10 @@ class Show(QtCore.QObject):
     ''' #pylint: disable-msg=R0902
     def __init__(self):
         super(Show, self).__init__()
-        self.title        = ""
-        self.num_circuits = 0
-        self.author       = ""
-        self.date         = datetime.date.today()
+        self.title         = ""
+        self._num_circuits = 0
+        self.author        = ""
+        self.date          = datetime.date.today()
         
         self.path = None
 
@@ -65,6 +65,7 @@ class Show(QtCore.QObject):
         self.date = d
             
     ### Properties ###
+    ##################
     
     @property
     def modified(self):
@@ -83,11 +84,29 @@ class Show(QtCore.QObject):
         else:
             self.emit(QtCore.SIGNAL('showSaved()'))
 
+    @property
+    def num_circuits(self):
+        '''
+        '''
+        return self._num_circuits
+
+    @num_circuits.setter
+    def num_circuits(self, val):
+        '''
+        '''
+        print("setting show num circs")
+        self._num_circuits = val
+        for s in self.slots:
+            s.num_circuits = val
+
+    ### Qt Slots ###
+    ################
+
     def slot_modify(self):
         '''
         Qt Slot.
         Sets the _modified flag to true if it wasn't already.
         '''
-        print("show modified")
-        if not self.modified: 
+        if not self.modified:
+            print("show modified")
             self.modified = True

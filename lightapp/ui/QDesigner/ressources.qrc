@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="icons">
+    <file>img/terminal.png</file>
     <file>img/csv.png</file>
     <file>img/html.png</file>
     <file>img/pdf.png</file>

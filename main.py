@@ -9,11 +9,13 @@ from lightapp.ui import mainwin
 if __name__=='__main__':
     app     = QtGui.QApplication(sys.argv)
     utils.init_logger()
-    # move elswhere
-    utils.show_dbgcons()
     utils.logger.info("Application intialized with arguments: %s" % 
         ", ".join(sys.argv))
+    # bigass try
     mainWin = mainwin.MainWindow()
     mainWin.show()
     app.exec_()
+    # bigass catch: 
+    #   err mess, dump log, exit
+    # make sur dbgcons closes
     utils.logger.info("done!")

@@ -41,7 +41,10 @@ def get_datestr(d, f=TIME_FORMAT):
               TIME_FORMAT, ie dd/mm/yyyy
     @returns: Fomatted date string
     '''
-    return d.strftime(f)
+    try:
+        return d.strftime(f)
+    except AttributeError:
+        return d.toPyDate().strftime(f)
 
 ### Logging ###
 ###############
@@ -56,7 +59,7 @@ def init_logger():
     global DBG_CONS, logger
     DBG_CONS = qtdbg.QDbgConsole()
     logger = logging.getLogger('lightapp_log')
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
 
     # create console handler, logs everthing.
     ch = logging.StreamHandler(DBG_CONS)
@@ -64,10 +67,11 @@ def init_logger():
 
     # create file handler which only warnings and worse.
     fh = logging.FileHandler('logs/log')
-    fh.setLevel(logging.WARNING)
+    fh.setLevel(logging.DEBUG)
 
     # create formatter and add it to the handlers
-    formatter = logging.Formatter('%(levelname)s - %(message)s')
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - '
+                                  '%(message)s')
     fh.setFormatter(formatter)
     ch.setFormatter(formatter)
     # add the handlers to the logger
@@ -75,4 +79,5 @@ def init_logger():
     logger.addHandler(ch)
 
 def show_dbgcons():
+    ''' '''
     DBG_CONS.show()

@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>262</width>
+    <width>258</width>
     <height>248</height>
    </rect>
   </property>
@@ -121,7 +121,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>262</width>
+     <width>258</width>
      <height>21</height>
     </rect>
    </property>
@@ -144,8 +144,15 @@
     <addaction name="action_html"/>
     <addaction name="separator"/>
    </widget>
+   <widget class="QMenu" name="menu_Outils">
+    <property name="title">
+     <string>&amp;Outils</string>
+    </property>
+    <addaction name="action_console"/>
+   </widget>
    <addaction name="menuTest"/>
    <addaction name="menu_Export"/>
+   <addaction name="menu_Outils"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -165,6 +172,8 @@
    <addaction name="action_csv"/>
    <addaction name="action_pdf"/>
    <addaction name="action_html"/>
+   <addaction name="separator"/>
+   <addaction name="action_print"/>
   </widget>
   <action name="action_open">
    <property name="icon">
@@ -239,6 +248,20 @@
    </property>
    <property name="text">
     <string>&amp;Html...</string>
+   </property>
+  </action>
+  <action name="action_console">
+   <property name="icon">
+    <iconset resource="ressources.qrc">
+     <normaloff>:/icons/img/terminal.png</normaloff>:/icons/img/terminal.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Console...</string>
+   </property>
+  </action>
+  <action name="action_print">
+   <property name="text">
+    <string>Print...</string>
    </property>
   </action>
  </widget>

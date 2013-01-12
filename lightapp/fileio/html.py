@@ -10,7 +10,7 @@ Created: 07/01/2013
 Version: 1.0
 """
 import os
-from string import Template
+from string import Template #pylint: disable-msg=W0402
 
 from lightapp import utils
 
@@ -38,6 +38,8 @@ HTML_TEMPLATES = {
 # Hardcoded for now
 with open(os.path.join(CSS_TEMPLATES_DIR, 'style.css')) as css_f:
     CSS = css_f.read()
+# Enclose CSS in <style> tags if not empty
+if CSS: CSS = "<style>\n%s\n</style>" % CSS
 
 def _tmpl_sub(tmpl, **kwargs):
     '''
@@ -93,7 +95,7 @@ def serialize_show(show):
     )
     html = _tmpl_sub(
         'global',
-        style     = "<style>%s</style>" % CSS if CSS else "",
+        style     = CSS,
         baseinfos = tab_infos,
         memslots  = _serialize_memslots(show)
     )

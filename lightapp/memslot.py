@@ -20,6 +20,25 @@ class MemSlot:
         self.in_ = ""
         self.out = ""
         
-        self.parent_show  = parent_show
-        self.num_circuits = parent_show.num_circuits
-        self.circuits     = {i: 0 for i in range(self.num_circuits)}
+        self.parent_show   = parent_show
+        self._num_circuits = parent_show.num_circuits
+        self.circuits      = {i: 0 for i in range(self._num_circuits)}
+
+    ### Properties ###
+    ##################
+
+    @property
+    def num_circuits(self):
+        '''
+        '''
+        return self._num_circuits
+
+    @num_circuits.setter
+    def num_circuits(self, val):
+        '''
+        '''
+        self._num_circuits = val
+        self.circuits      = {
+            i: self.circuits.get(i, 0)
+            for i in range(self._num_circuits)
+        }
