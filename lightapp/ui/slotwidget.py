@@ -1,5 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+'''
+slotwidget.py
+
+Author:  raphi <r.gaziano@gmail.com>
+Created: ??/12/2012
+Version: 1.0
+'''
 from PyQt4 import QtGui, QtCore
 
 from lightapp.ui.QDesigner import SlotWidget as swidget
@@ -80,10 +87,9 @@ class SlotWidget(QtGui.QWidget, swidget.Ui_SlotWidget):
             line_layout.addWidget(cbox)
             # Widget position
             x = i % CIRCS_PER_LINE
-            if i % CIRCS_PER_LINE == 0:
+            if x == 0: # CHECK
                 y += 1
-                # grow groupbox
-                if y > 0:
+                if y > 0: # grow groupbox
                     h_incr = widget.height() + CBOX_ROWS_V_SPACING
                     self.setFixedHeight(self.height() + h_incr)
                     self.gBox_circuits.setFixedHeight(

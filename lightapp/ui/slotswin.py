@@ -1,6 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+'''
+slotwin.py
 
+Author:  raphi <r.gaziano@gmail.com>
+Created: ??/12/2012
+Version: 1.0
+'''
 import sip
 from PyQt4 import QtGui, QtCore
 

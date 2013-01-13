@@ -19,7 +19,7 @@ Author:  raphi <r.gaziano@gmail.com>
 Created: 08/01/2013
 Version: 1.0
 """
-from PyQt4 import QtGui, QtCore
+from PyQt4 import QtGui
 
 WIDTH  = 320
 HEIGHT = 320

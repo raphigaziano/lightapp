@@ -17,11 +17,11 @@ from lightapp.fileio import xml, html, pdf, xlwt
 from lightapp import utils
 
 EXTS = {
-    'XML': "Xml Files (*.xml);;",
+    'XML' : "Xml Files (*.xml);;",
     'GNNXCELL': "Xml Files (*.xml);;", # @FIXME
     'HTML': "Html Files (*.html);;",
-    'PDF': "Pdf Files (*.pdf);;",
-    'ALL': "All Files (*);;",
+    'PDF' : "Pdf Files (*.pdf);;",
+    'ALL' : "All Files (*);;",
 }
 
 class IOManager():
@@ -115,7 +115,7 @@ class IOManager():
 
         @returns False if the save failed, True for success
         '''
-        if not self.parent._check_required_fields():
+        if not self.parent.check_required_fields():
             return False
         if self.show.path is None:
             return self.save_show_as()
@@ -138,8 +138,8 @@ class IOManager():
         try:
             utils.logger.info("Loading show %s..." % path)
             self.show = xml.load_show(path)
-            self.parent._fill_fields(self.show)
-            self.parent._connect_show_events()
+            self.parent.fill_fields(self.show)
+            self.parent.connect_show_events()
             self.parent.disable_save()
             utils.logger.info("%s loaded" % path)
         except Exception as e: # Too general...

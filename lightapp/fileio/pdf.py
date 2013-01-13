@@ -29,9 +29,9 @@ def _get_printer(fmt=None):
         printer.setOutputFormat(fmt)
     return printer
 
-# @FIXME PATH AND CRAP
 def write_show(html, path):
     '''
+    Careful: different interface from other mods!
     '''
     printer = _get_printer(QtGui.QPrinter.PdfFormat)
     printer.setOutputFileName(path)

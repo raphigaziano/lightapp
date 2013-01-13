@@ -39,7 +39,9 @@ def load_show(p):
     
     return s
     
-    
+### Full Show IO ###
+####################
+
 def serialize_show(s):
     '''
     Serialize a show object as en Xml Tree.
@@ -90,6 +92,7 @@ def write_show(s, p=""):
     tree.write(path, encoding='UTF-8', xml_declaration=True)
 
 ### Indiidual Slots Handling ###
+################################
 
 def load_slot(s_elem, show):
     '''

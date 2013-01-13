@@ -7,13 +7,12 @@ from lightapp import show
 from lightapp.ui import slotswin
 from lightapp.ui import iomanager
 from lightapp.ui.QDesigner import MainWindow as mainwin
-from lightapp.fileio import xml
  
 class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
     '''
     Main application window.
-    Responsible for handling the file IO routines and editing a 
-    show's basic infos. 
+    Responsible for editing a show's basic infos.
+    The file IO routines are handled by a IOManager component.
     ''' #pylint: disable-msg=R0904
     def __init__(self, parent=None):
         utils.logger.info("Initializing main window...")
@@ -35,8 +34,8 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         utils.logger.info("New show...")
         self._show = show.Show()
         utils.logger.debug("Instanciated %s" % self._show)
-        self._fill_fields(self._show)
-        self._connect_show_events()
+        self.fill_fields(self._show)
+        self.connect_show_events()
         
     def enable_save(self):
         '''
@@ -58,7 +57,7 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         
         self.setWindowModified(False)        
     
-    def _check_required_fields(self):
+    def check_required_fields(self):
         '''
         Check if the required fields are filled.
         
@@ -87,7 +86,7 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         s.author       = self.txtBox_show_author.text()
         s.date         = self.dateEdit_show_date.date()
         
-    def _fill_fields(self, s):
+    def fill_fields(self, s):
         '''
         Update the form's fields from the show's attrs
 
@@ -100,7 +99,7 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
     
     def edit_show_slots(self):
         '''Runs slot editing form'''
-        if not self._check_required_fields():
+        if not self.check_required_fields():
             return
         self.update_show()
         utils.logger.info("Instanciating Editing Form...")
@@ -141,10 +140,10 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         utils.logger.info("DbgCons event...")
         self.connect(self.action_console, QtCore.SIGNAL('triggered()'),
                      utils.show_dbgcons)
+
+        self.connect_show_events()
         
-        self._connect_show_events()
-        
-    def _connect_show_events(self):
+    def connect_show_events(self):
         '''
         Connect events emited by a show object to this window's
         slots.

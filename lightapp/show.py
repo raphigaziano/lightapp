@@ -31,6 +31,9 @@ class Show(QtCore.QObject):
         self.slots = []
         
         self._modified = False
+
+    ### Slots Management ###
+    ########################
         
     def add_slot(self):
         '''
@@ -52,6 +55,7 @@ class Show(QtCore.QObject):
         print("Supressing memslot %s" % repr(slot))
         self.slots.remove(slot)
         
+    # @FIXME: This should be part of the xml module for consistency
     def load_base(self, node):
         '''
         Initialize the base show's data.
