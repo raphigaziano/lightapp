@@ -123,17 +123,25 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
                      self.io.save_show)
         self.connect(self.action_save_as, QtCore.SIGNAL('triggered()'),
                      self.io.save_show_as)
-        # utils.logger.info("Export events...")
-        # ...
+
+        utils.logger.info("Export events...")
+        self.connect(self.action_html, QtCore.SIGNAL('triggered()'),
+                     self.io.export_html)
+        ### @TODO: CSV ###
+        self.connect(self.action_pdf, QtCore.SIGNAL('triggered()'),
+                     self.io.export_pdf)
         ### TEST ###
         self.connect(self.action_print, QtCore.SIGNAL('triggered()'),
                      self.io.print_show)
+
         utils.logger.info("Editing event...")
         self.connect(self.btn_edit_slots, QtCore.SIGNAL('clicked()'),
                      self.edit_show_slots)
+
         utils.logger.info("DbgCons event...")
         self.connect(self.action_console, QtCore.SIGNAL('triggered()'),
                      utils.show_dbgcons)
+        
         self._connect_show_events()
         
     def _connect_show_events(self):

@@ -16,6 +16,14 @@ from PyQt4 import QtGui
 from lightapp.fileio import xml, html, pdf, xlwt
 from lightapp import utils
 
+EXTS = {
+    'XML': "Xml Files (*.xml);;",
+    'GNNXCELL': "Xml Files (*.xml);;", # @FIXME
+    'HTML': "Html Files (*.html);;",
+    'PDF': "Pdf Files (*.pdf);;",
+    'ALL': "All Files (*);;",
+}
+
 class IOManager():
     '''
     Holds a reference to its parent window, and handles most of the
@@ -38,36 +46,41 @@ class IOManager():
         '''Update the parent window's show along with this one'''
         self.parent._show = self._show = val
 
-    ### Basic(XML) IO ###
-    #####################
+    ### Common Dialogs ###
+    ######################
 
-    def save_show(self):
+    def _get_save_path(self, *exts):
         '''
-        Save the current show, prompting for url if needed
+        Url prompt before saving a file.
 
-        @returns False if the save failed, True for success
+        @param exts: variable list of allowed extensions
         '''
-        if not self.parent._check_required_fields():
-            return False
-        if self.show.path is None:
-            return self.save_show_as()
-        self.parent.update_show()
-        xml.write_show(self.show)
-        utils.logger.info("Show saved as %s"  % self.show.path)
-        return True
-        
-    def save_show_as(self):
-        '''Url prompt before saving the current show.'''
+        allowed_exts = "".join(
+            [EXTS[e.upper()] for e in exts]
+        )
         p = QtGui.QFileDialog.getSaveFileName(self.parent, 
                                               "Enregistrer sous:",
                                               '.', 
-                                              "Xml Files (*.xml);;"
-                                              "All Files (*);;"
+                                              allowed_exts
         )
-        if p:
-            self.show.path = p
-            return self.save_show()
-    
+        return p
+
+    def _get_open_path(self, *exts):
+        '''
+        Url prompt for loading a file
+
+        @param exts: variable list of allowed extensions
+        '''
+        allowed_exts = "".join(
+            [EXTS[e.upper()] for e in exts]
+        )
+        p = QtGui.QFileDialog.getOpenFileName(self.parent, 
+                                              "Ouvrir fichier:",
+                                              '.', 
+                                              allowed_exts
+        )
+        return p
+
     def prompt_for_save(self):
         '''
         Prompts the user to save if the current show has been
@@ -93,6 +106,31 @@ class IOManager():
             return False
         return True
 
+    ### Basic(XML) IO ###
+    #####################
+
+    def save_show(self):
+        '''
+        Save the current show, prompting for url if needed
+
+        @returns False if the save failed, True for success
+        '''
+        if not self.parent._check_required_fields():
+            return False
+        if self.show.path is None:
+            return self.save_show_as()
+        self.parent.update_show()
+        xml.write_show(self.show)
+        utils.logger.info("Show saved as %s"  % self.show.path)
+        return True
+        
+    def save_show_as(self):
+        '''Url prompt before saving the current show.'''
+        p = self._get_save_path('xml', 'all')
+        if p:
+            self.show.path = p
+            return self.save_show()
+
     def load_show(self, path, checked_save=False):
         '''Load the requested show'''
         if not checked_save and not self.prompt_for_save():
@@ -116,36 +154,36 @@ class IOManager():
         '''Url prompt for loading a show'''
         if not self.prompt_for_save():
             return
-        p = QtGui.QFileDialog.getOpenFileName(self.parent, 
-                                              "Ouvrir fichier:",
-                                              '.', 
-                                              "Xml Files (*.xml);;"
-                                              "All Files (*);;"
-        )
+        p = self._get_open_path('xml', 'all')
         if p:
             return self.load_show(p, True)
 
     ### HTML IO ###
     ###############
 
-
+    def export_html(self):
+        '''Html Export Dialog'''
+        p = self._get_save_path('html', 'all')
+        if p: html.write_show(self.show, p)
 
     ### Excel IO ###
     ################
 
-
+    ### TODO ###
 
     ### PDF IO ###
     ##############
 
-
+    def export_pdf(self):
+        '''Html Export Dialog'''
+        shtml = html.serialize_show(self.show)
+        p = self._get_save_path('pdf', 'all')
+        if p: pdf.write_show(shtml, p)
 
     ### Printing ###
     ################
 
     ### TEST ###
     def print_show(self):
-        from lightapp.fileio import html
-        from lightapp.fileio import pdf
         shtml = html.serialize_show(self.show)
         pdf.print_show(shtml)

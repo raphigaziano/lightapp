@@ -30,11 +30,11 @@ def _get_printer(fmt=None):
     return printer
 
 # @FIXME PATH AND CRAP
-def write_show(html):
+def write_show(html, path):
     '''
     '''
     printer = _get_printer(QtGui.QPrinter.PdfFormat)
-    printer.setOutputFileName("test.pdf")
+    printer.setOutputFileName(path)
     doc     = serialize_show(html)
     doc.print_(printer)
     # printer.newPage()
