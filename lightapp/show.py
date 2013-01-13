@@ -86,14 +86,12 @@ class Show(QtCore.QObject):
 
     @property
     def num_circuits(self):
-        '''
-        '''
+        '''Simple setter'''
         return self._num_circuits
 
     @num_circuits.setter
     def num_circuits(self, val):
-        '''
-        '''
+        '''Update all contained memslots with the new value'''
         print("setting show num circs")
         self._num_circuits = val
         for s in self.slots:

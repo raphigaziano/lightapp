@@ -5,6 +5,7 @@ from PyQt4 import QtGui, QtCore
 from lightapp import utils
 from lightapp import show
 from lightapp.ui import slotswin
+from lightapp.ui import iomanager
 from lightapp.ui.QDesigner import MainWindow as mainwin
 from lightapp.fileio import xml
  
@@ -22,70 +23,20 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         self._show = None
         self.new_show()
         
+        self.io = iomanager.IOManager(self)
+
         self.connect_events()
         utils.logger.info("MainWindow's ready")
 
     def new_show(self):
         '''Instantiate a new, blank show'''
-        if self._show is not None and not self.prompt_for_save():
+        if self._show is not None and not self.io.prompt_for_save():
             return
         utils.logger.info("New show...")
         self._show = show.Show()
         utils.logger.debug("Instanciated %s" % self._show)
         self._fill_fields(self._show)
         self._connect_show_events()
-        
-    def save_show(self):
-        '''
-        Save the current show, prompting for url if needed
-
-        @returns False if the save failed, True for success
-        '''
-        if not self._check_required_fields():
-            return False
-        if self._show.path is None:
-            return self.save_show_as()
-        self.update_show()
-        xml.write_show(self._show)
-        utils.logger.info("Show saved as %s"  % self._show.path)
-        return True
-        
-    def save_show_as(self):
-        '''Url prompt before saving the current show.'''
-        p = QtGui.QFileDialog.getSaveFileName(self, 
-                                              "Enregistrer sous:",
-                                              '.', 
-                                              "Xml Files (*.xml);;"
-                                              "All Files (*);;"
-        )
-        if p:
-            self._show.path = p
-            return self.save_show()
-    
-    def prompt_for_save(self):
-        '''
-        Prompts the user to save if the current show has been
-        updated.
-
-        @returns True if we can go on (whether the show's saved or 
-                 not), False otherwise.
-        '''
-        # NEEDZ TEST & WORK #
-        if not self._show.modified:
-            return True
-        msgBox = QtGui.QMessageBox
-        choice = msgBox.warning(self, 
-                                "Fichier pas frais!",
-                                "Des modifications ont été apportées.\n"
-                                "Voulez vous sauvegarder ces "
-                                "changements?",
-                                msgBox.Yes | msgBox.No | msgBox.Cancel,
-                                msgBox.Yes)
-        if choice == msgBox.Yes:
-            return self.save_show()
-        elif choice == msgBox.Cancel: 
-            return False
-        return True
         
     def enable_save(self):
         '''
@@ -105,40 +56,7 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         self.action_save.setEnabled(False)
         self.action_save_as.setEnabled(False)
         
-        self.setWindowModified(False)
-    
-    def load_show(self, path, checked_save=False):
-        '''Load the requested show'''
-        if checked_save and not self.prompt_for_save():
-            return
-        try:
-            utils.logger.info("Loading show %s..." % path)
-            self._show = xml.load_show(path)
-            self._fill_fields(self._show)
-            self._connect_show_events()
-            self.disable_save()
-            utils.logger.info("%s loaded" % path)
-        except Exception as e: # Too general...
-            # @TODO: log!
-            QtGui.QMessageBox.critical(self,
-                                       "ONOES",
-                                       "Impossible de lire ce fichier"
-                                       "\n\n%s" % (str(e))
-            )
-    
-    def open_show(self):
-        '''Url prompt for loading a show'''
-        if not self.prompt_for_save():
-            return
-        p = QtGui.QFileDialog.getOpenFileName(self, 
-                                              "Ouvrir fichier:",
-                                              '.', 
-                                              "Xml Files (*.xml);;"
-                                              "All Files (*);;"
-        )
-        if p:
-            return self.load_show(p, True)
-        
+        self.setWindowModified(False)        
     
     def _check_required_fields(self):
         '''
@@ -191,15 +109,8 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         ret = d.exec_()
         utils.logger.info("Mem slots editing complete.")
 
-    ### TEST ###
-    def print_show(self):
-        from lightapp.fileio import html
-        from lightapp.fileio import pdf
-        shtml = html.serialize_show(self._show)
-        pdf.print_show(shtml)
-
-    ### Events ###
-    ##############
+    ### QT Signals ###
+    ##################
  
     def connect_events(self):
         '''Actions/Functions connections'''
@@ -207,16 +118,16 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         self.connect(self.action_new, QtCore.SIGNAL('triggered()'),
                      self.new_show)
         self.connect(self.action_open, QtCore.SIGNAL('triggered()'),
-                     self.open_show)
+                     self.io.open_show)
         self.connect(self.action_save, QtCore.SIGNAL('triggered()'),
-                     self.save_show)
+                     self.io.save_show)
         self.connect(self.action_save_as, QtCore.SIGNAL('triggered()'),
-                     self.save_show_as)
-        ### TEST ###
-        self.connect(self.action_print, QtCore.SIGNAL('triggered()'),
-                     self.print_show)
+                     self.io.save_show_as)
         # utils.logger.info("Export events...")
         # ...
+        ### TEST ###
+        self.connect(self.action_print, QtCore.SIGNAL('triggered()'),
+                     self.io.print_show)
         utils.logger.info("Editing event...")
         self.connect(self.btn_edit_slots, QtCore.SIGNAL('clicked()'),
                      self.edit_show_slots)
@@ -250,6 +161,9 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         self.connect(self._show, 
                      QtCore.SIGNAL('showSaved()'),
                      self.disable_save)
+
+    ### Events Overrides ###
+    ########################
                      
     def dragEnterEvent(self, event): #pylint: disable-msg=R0201,C0103
         '''Drag & Drop Enter event'''
@@ -263,11 +177,11 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         for url in event.mimeData().urls():
             # the path returned has a weird slash before the drive 
             # letter, so get rid of it
-            self.load_show(url.path()[1:])
+            self.io.load_show(url.path()[1:])
             
     def closeEvent(self, event): #pylint: disable-msg=C0103
         '''Closing event: Prompt for saving if needed'''
-        if self.prompt_for_save():
+        if self.io.prompt_for_save():
             event.accept()
         else:
             event.ignore()

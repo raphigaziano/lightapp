@@ -52,7 +52,7 @@ def get_datestr(d, f=TIME_FORMAT):
 import logging
 from lightapp.ui import qtdbg
 DBG_CONS = None
-logger = None
+logger   = None
 
 def init_logger():
     ''' '''
@@ -61,12 +61,12 @@ def init_logger():
     logger = logging.getLogger('lightapp_log')
     logger.setLevel(logging.DEBUG)
 
-    # create console handler, logs everthing.
+    # create console handler, logs INFO leverl & above everthing.
     ch = logging.StreamHandler(DBG_CONS)
     ch.setLevel(logging.INFO)
 
-    # create file handler which only warnings and worse.
-    fh = logging.FileHandler('logs/log')
+    # create file handler which logs everything.
+    fh = logging.FileHandler('logs/log.txt')
     fh.setLevel(logging.DEBUG)
 
     # create formatter and add it to the handlers

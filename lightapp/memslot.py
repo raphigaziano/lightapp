@@ -29,13 +29,14 @@ class MemSlot:
 
     @property
     def num_circuits(self):
-        '''
-        '''
+        '''Simple setter.'''
         return self._num_circuits
 
     @num_circuits.setter
     def num_circuits(self, val):
         '''
+        Update the circuits dictionnary according to the new
+        value.
         '''
         self._num_circuits = val
         self.circuits      = {
