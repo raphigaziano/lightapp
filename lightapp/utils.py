@@ -55,7 +55,11 @@ DBG_CONS = None
 logger   = None
 
 def init_logger():
-    ''' '''
+    '''
+    Global logging intialization (should only be called at startup).
+    Output redirected to a log file (full trace) & a custom 
+    console-like widget (INFO level & above).
+    '''
     global DBG_CONS, logger
     DBG_CONS = qtdbg.QDbgConsole()
     logger = logging.getLogger('lightapp_log')
@@ -79,5 +83,5 @@ def init_logger():
     logger.addHandler(ch)
 
 def show_dbgcons():
-    ''' '''
+    '''Display the debug console.'''
     DBG_CONS.show()

@@ -189,6 +189,9 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
     def closeEvent(self, event): #pylint: disable-msg=C0103
         '''Closing event: Prompt for saving if needed'''
         if self.io.prompt_for_save():
+            # Ensure the whole application exits if this
+            # window is closed.
+            QtGui.QApplication.quit()
             event.accept()
         else:
             event.ignore()

@@ -17,5 +17,4 @@ if __name__=='__main__':
     app.exec_()
     # bigass catch: 
     #   err mess, dump log, exit
-    # make sur dbgcons closes
     utils.logger.info("done!")
