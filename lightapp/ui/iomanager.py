@@ -95,7 +95,7 @@ class IOManager():
 
     def load_show(self, path, checked_save=False):
         '''Load the requested show'''
-        if checked_save and not self.prompt_for_save():
+        if not checked_save and not self.prompt_for_save():
             return
         try:
             utils.logger.info("Loading show %s..." % path)
