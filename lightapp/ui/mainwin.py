@@ -104,8 +104,7 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         self.update_show()
         utils.logger.info("Instanciating Editing Form...")
         d = slotswin.SlotsWindow(self._show)
-        # Storing the return value is probably useless here
-        ret = d.exec_()
+        d.exec_()
         utils.logger.info("Mem slots editing complete.")
 
     ### QT Signals ###

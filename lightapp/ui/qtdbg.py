@@ -21,7 +21,7 @@ Version: 1.0
 """
 from PyQt4 import QtGui
 
-WIDTH  = 320
+WIDTH  = 480
 HEIGHT = 320
 
 class QDbgConsole(QtGui.QTextEdit):
@@ -32,7 +32,7 @@ class QDbgConsole(QtGui.QTextEdit):
     def __init__(self, parent=None, w=WIDTH, h=HEIGHT):
         super(QDbgConsole, self).__init__(parent)
         
-        self.setFixedSize(w, h)  # @FIXME: Not fixed size
+        self.resize(w, h)
         self.setReadOnly(True)
 
     ### File-like interface ###
@@ -48,10 +48,8 @@ class QDbgConsole(QtGui.QTextEdit):
         return self.toPlainText()[:size]
 
     def readLine(self, size=None):
-        '''
-        Stub method. Not sure of the exact requirement.
-        '''
-        raise NotImplementedError()
+        '''Stub method, does nothing.'''
+        pass
 
     def write(self, msg):
         '''Add msg to the console's output, on a new line.'''
@@ -63,22 +61,23 @@ class QDbgConsole(QtGui.QTextEdit):
         '''Stub method, does nothing.'''
         pass
 
-
 if __name__ == '__main__':
+
     import sys
+    
     app = QtGui.QApplication(sys.argv)
-    w   = QDbgConsole()
-    w.show()
+    widget   = QDbgConsole()
+    widget.show()
 
     ### Quick Testing ###
     ##################### 
 
     for _ in range(100):
-        w.write("TestMessage, yay \\o/")
+        widget.write("TestMessage, yay \\o/")
     print("====================")
-    print(w.read())
+    print(widget.read())
     print("====================")
-    s = w.read(100)
+    s = widget.read(100)
     assert(len(s) == 100)
     print(s)
     print("====================")

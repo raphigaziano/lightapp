@@ -143,8 +143,9 @@ class IOManager():
             self.parent.disable_save()
             utils.logger.info("%s loaded" % path)
         except Exception as e: # Too general...
-            # @TODO: log!
-            QtGui.QMessageBox.critical(self,
+            utils.logger.exception("Error while loading file %s:"
+                                    % path)
+            QtGui.QMessageBox.critical(self.parent,
                                        "ONOES",
                                        "Impossible de lire ce fichier"
                                        "\n\n%s" % (str(e))
@@ -185,5 +186,14 @@ class IOManager():
 
     ### TEST ###
     def print_show(self):
-        shtml = html.serialize_show(self.show)
-        pdf.print_show(shtml)
+        '''Print dialog, followed by actual printing if validated'''
+        printer = pdf._get_printer(QtGui.QPrinter.NativeFormat)
+        dlg     = QtGui.QPrintDialog(printer)
+        if dlg.exec_() == QtGui.QDialog.Accepted:
+            shtml   = html.serialize_show(self.show)
+            doc     = pdf.serialize_show(shtml)
+            painter = QtGui.QPainter()
+            painter.begin(printer)
+            # doc.print_(painter)
+            doc.print_(printer)
+            painter.end() # @TODO: TEST TEST TEST
