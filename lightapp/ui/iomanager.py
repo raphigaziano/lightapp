@@ -184,7 +184,6 @@ class IOManager():
     ### Printing ###
     ################
 
-    ### TEST ###
     def print_show(self):
         '''Print dialog, followed by actual printing if validated'''
         printer = pdf._get_printer(QtGui.QPrinter.NativeFormat)
