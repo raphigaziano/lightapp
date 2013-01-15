@@ -87,7 +87,7 @@ def write_show(s, p=""):
         path = s.path
         tree = serialize_show(s)
     elif isinstance(s, ET.ElementTree):
-        path = p or "%s%s.xml" % (p, s.title)
+        path = p
         tree = s
     tree.write(path, encoding='UTF-8', xml_declaration=True)
 

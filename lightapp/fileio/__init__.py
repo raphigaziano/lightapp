@@ -15,7 +15,7 @@ Some of the modules wil also provide load_show/load_slot(s) functions
 to read data from file (currently only the xml one does that).
 """
 
-from lightapp.fileio import xml
-from lightapp.fileio import html
-from lightapp.fileio import xlwt
-from lightapp.fileio import pdf
+from . import xml
+from . import html
+from . import xlwt
+from . import pdf

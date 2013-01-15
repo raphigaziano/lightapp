@@ -1,5 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+'''
+mainwin.py
+
+Author:  raphi <r.gaziano@gmail.com>
+Created: 25/12/2012
+Version: 1.0
+'''
 from PyQt4 import QtGui, QtCore
 
 from lightapp import utils

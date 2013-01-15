@@ -10,7 +10,11 @@ Created: 07/01/2013
 Version: 1.0
 """
 from PyQt4 import QtGui
+<<<<<<< Updated upstream
 # @TODO: clean and solidify interface
+=======
+
+>>>>>>> Stashed changes
 def serialize_show(html):
     '''
     Create a QTextDocument from the received html.
@@ -24,6 +28,11 @@ def serialize_show(html):
 
 def _get_printer(fmt=None):
     '''
+    Instanciate a QPrinter object, sets it up and returns it.
+
+    @param fmt: Optional printer format.
+                Must be a valid QPrinter value.
+    @return:    Qprinter object.
     '''
     printer = QtGui.QPrinter()
     printer.setFullPage(True)
@@ -33,7 +42,10 @@ def _get_printer(fmt=None):
 
 def write_show(html, path):
     '''
-    Careful: different interface from other mods!
+    Write a show's data to a pdf file.
+
+    @param html: Show's data, already formatted as html.
+    @param path: File's path.
     '''
     printer = _get_printer(QtGui.QPrinter.PdfFormat)
     printer.setOutputFileName(path)
