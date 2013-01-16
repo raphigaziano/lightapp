@@ -132,7 +132,8 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         utils.logger.info("Export events...")
         self.connect(self.action_html, QtCore.SIGNAL('triggered()'),
                      self.io.export_html)
-        ### @TODO: CSV ###
+        self.connect(self.action_csv, QtCore.SIGNAL('triggered()'),
+                     self.io.export_xls)
         self.connect(self.action_pdf, QtCore.SIGNAL('triggered()'),
                      self.io.export_pdf)
         ### TEST ###

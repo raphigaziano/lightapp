@@ -173,7 +173,19 @@ class IOManager():
     def export_xls(self):
         '''Excel Export Dialog'''
         p = self._get_save_path('xls', 'all')
-        if p: xlwt.write_show(self.show, p)
+        if p:
+            try:
+                xlwt.write_show(self.show, p)
+            except IOError as e:
+                QtGui.QMessageBox.critical(self.parent,
+                                       "ONOES",
+                                       "Impossible de d'écrire dans "
+                                       "ce fichier!"
+                                       "\n%s" % str(e) +
+                                       "\n(Verifiez que le fichier "
+                                        "n'est pas déjà ouvert, puis "
+                                        "réessayez.)"
+                )
 
 
     ### PDF IO ###
