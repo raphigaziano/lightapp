@@ -31,6 +31,7 @@ def _load_template(tmpl, path=HTML_TEMPLATES_DIR):
     @returns   : string.Template object constructed from the html
                  file. 
     '''
+    # utils.logger.debug("Loading template: %s" % tmpl)
     with open(os.path.join(path, tmpl), 'r', 
               encoding='utf-8') as tmpl_f:
         html = tmpl_f.read()
@@ -47,6 +48,7 @@ with open(os.path.join(CSS_TEMPLATES_DIR, 'style.css')) as css_f:
     CSS = css_f.read()
 # Enclose CSS in <style> tags if not empty
 if CSS: CSS = "<style>\n%s\n</style>" % CSS
+
 
 def _tmpl_sub(tmpl, **kwargs):
     '''

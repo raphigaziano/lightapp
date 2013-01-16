@@ -165,7 +165,9 @@ class IOManager():
     def export_html(self):
         '''Html Export Dialog'''
         p = self._get_save_path('html', 'all')
-        if p: html.write_show(self.show, p)
+        if p: 
+            html.write_show(self.show, p)
+            utils.logger.info("Show exported as %s"  % p)
 
     ### Excel IO ###
     ################
@@ -176,6 +178,7 @@ class IOManager():
         if p:
             try:
                 xlwt.write_show(self.show, p)
+                utils.logger.info("Show exported as %s"  % p)
             except IOError as e:
                 QtGui.QMessageBox.critical(self.parent,
                                        "ONOES",
@@ -187,7 +190,6 @@ class IOManager():
                                         "réessayez.)"
                 )
 
-
     ### PDF IO ###
     ##############
 
@@ -195,7 +197,9 @@ class IOManager():
         '''Html Export Dialog'''
         shtml = html.serialize_show(self.show)
         p = self._get_save_path('pdf', 'all')
-        if p: pdf.write_show(shtml, p)
+        if p: 
+            pdf.write_show(shtml, p)
+            utils.logger.info("Show exported as %s"  % p)
 
     ### Printing ###
     ################

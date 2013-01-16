@@ -87,6 +87,7 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         Update the show object from the form's fields.
         Mainly useful before saving.
         '''
+        utils.logger.info("Updating show's data...")
         s              = self.show_    
         s.title        = self.txtBox_show_title.text()
         s.num_circuits = self.spinBox_show_nbSlots.value()
@@ -99,6 +100,7 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
 
         @param s: source show object providing the fields' data
         '''
+        utils.logger.info("Retrieving show's data...")
         self.txtBox_show_title.setText(s.title)
         self.spinBox_show_nbSlots.setValue(s.num_circuits)
         self.txtBox_show_author.setText(s.author)
@@ -181,14 +183,19 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
                      
     def dragEnterEvent(self, event): #pylint: disable-msg=R0201,C0103
         '''Drag & Drop Enter event'''
+        utils.logger.debug("Received dragEnterevent...")
         if event.mimeData().hasUrls(): #hasFormat('text/plain'):
+            utils.logger.debug("Event accepted.")
             event.accept()
         else:
+            utils.logger.debug("Event ignored.")
             event.ignore()
 
     def dropEvent(self, event): #pylint: disable-msg=C0103
         '''Drag & Drop Drop event: load the dropped file'''
         for url in event.mimeData().urls():
+            utils.logger.debug("Dropped file with url %s." % 
+                                url)
             # the path returned has a weird slash before the drive 
             # letter, so get rid of it
             self.io.load_show(url.path()[1:])
@@ -198,6 +205,8 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         if self.io.prompt_for_save():
             # Ensure the whole application exits if this
             # window is closed.
+            utils.logger.info("Main Window closing, application "
+                              "should now terminate...")
             QtGui.QApplication.quit()
             event.accept()
         else:

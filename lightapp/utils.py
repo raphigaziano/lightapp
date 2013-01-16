@@ -68,7 +68,7 @@ def init_logger():
 
     # create console handler, logs INFO leverl & above everthing.
     ch = logging.StreamHandler(DBG_CONS)
-    ch.setLevel(logging.INFO)
+    ch.setLevel(logging.DEBUG)
 
     # create file handler which logs everything.
     fh = logging.handlers.TimedRotatingFileHandler('logs/log.txt',

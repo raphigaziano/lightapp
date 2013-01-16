@@ -12,6 +12,7 @@ Created: 15/01/2012
 Version: 1.0
 '''
 import xlwt3 as xlwt
+from lightapp import utils
 
 NUM_COLS = 5 # Columns will be 0 indexed, so set it to one less
 
@@ -67,6 +68,7 @@ def write_show(show, path):
     @param show: Show object to be serialized.
     @param path: File path.
     '''
+    utils.logger.debug("Saving show %s as %s"  % (show, path))
     wb = xlwt.Workbook()
     ws = wb.add_sheet(show.title)
     # General header
