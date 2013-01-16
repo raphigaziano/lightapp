@@ -18,7 +18,7 @@ from lightapp import utils
 
 EXTS = {
     'XML' : "Xml Files (*.xml);;",
-    'GNNXCELL': "Xml Files (*.xml);;", # @FIXME
+    'XLS' : "Excel Files (*.xls);;",
     'HTML': "Html Files (*.html);;",
     'PDF' : "Pdf Files (*.pdf);;",
     'ALL' : "All Files (*);;",
@@ -31,7 +31,7 @@ class IOManager():
     '''
     def __init__(self, parent):
         self.parent = parent
-        self._show  = parent._show # shortcut
+        self._show  = parent.show_ # shortcut
 
     ### Properties ###
     ##################
@@ -44,7 +44,7 @@ class IOManager():
     @show.setter
     def show(self, val):
         '''Update the parent window's show along with this one'''
-        self.parent._show = self._show = val
+        self.parent.show_ = self._show = val
 
     ### Common Dialogs ###
     ######################
@@ -148,7 +148,7 @@ class IOManager():
             QtGui.QMessageBox.critical(self.parent,
                                        "ONOES",
                                        "Impossible de lire ce fichier"
-                                       "\n\n%s" % (str(e))
+                                       "\n\n%s" % str(e)
             )
     
     def open_show(self):
@@ -170,7 +170,11 @@ class IOManager():
     ### Excel IO ###
     ################
 
-    ### TODO ###
+    def export_xls(self):
+        '''Excel Export Dialog'''
+        p = self._get_save_path('xls', 'all')
+        if p: xlwt.write_show(self.show, p)
+
 
     ### PDF IO ###
     ##############

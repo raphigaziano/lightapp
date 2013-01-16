@@ -10,11 +10,7 @@ Created: 07/01/2013
 Version: 1.0
 """
 from PyQt4 import QtGui
-<<<<<<< Updated upstream
-# @TODO: clean and solidify interface
-=======
 
->>>>>>> Stashed changes
 def serialize_show(html):
     '''
     Create a QTextDocument from the received html.

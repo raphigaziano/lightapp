@@ -26,7 +26,7 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         
-        self._show = None
+        self.show_ = None
         self.new_show()
         
         self.io = iomanager.IOManager(self)
@@ -36,12 +36,12 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
 
     def new_show(self):
         '''Instantiate a new, blank show'''
-        if self._show is not None and not self.io.prompt_for_save():
+        if self.show_ is not None and not self.io.prompt_for_save():
             return
         utils.logger.info("New show...")
-        self._show = show.Show()
-        utils.logger.debug("Instanciated %s" % self._show)
-        self.fill_fields(self._show)
+        self.show_ = show.Show()
+        utils.logger.debug("Instanciated %s" % self.show_)
+        self.fill_fields(self.show_)
         self.connect_show_events()
         
     def enable_save(self):
@@ -87,7 +87,7 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         Update the show object from the form's fields.
         Mainly useful before saving.
         '''
-        s              = self._show    
+        s              = self.show_    
         s.title        = self.txtBox_show_title.text()
         s.num_circuits = self.spinBox_show_nbSlots.value()
         s.author       = self.txtBox_show_author.text()
@@ -110,7 +110,7 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
             return
         self.update_show()
         utils.logger.info("Instanciating Editing Form...")
-        d = slotswin.SlotsWindow(self._show)
+        d = slotswin.SlotsWindow(self.show_)
         d.exec_()
         utils.logger.info("Mem slots editing complete.")
 
@@ -157,21 +157,21 @@ class MainWindow(QtGui.QMainWindow, mainwin.Ui_MainWindow):
         utils.logger.info("Show specific events...")
         self.connect(self.txtBox_show_title, 
                      QtCore.SIGNAL('textEdited(const QString&)'),
-                     self._show.slot_modify)
+                     self.show_.slot_modify)
         self.connect(self.spinBox_show_nbSlots, 
                      QtCore.SIGNAL('valueChanged(int)'),
-                     self._show.slot_modify)
+                     self.show_.slot_modify)
         self.connect(self.txtBox_show_author, 
                      QtCore.SIGNAL('textEdited(const QString&)'),
-                     self._show.slot_modify)
+                     self.show_.slot_modify)
         self.connect(self.dateEdit_show_date, 
                      QtCore.SIGNAL('dateChanged(const QDate&)'),
-                     self._show.slot_modify)
+                     self.show_.slot_modify)
                      
-        self.connect(self._show, 
+        self.connect(self.show_, 
                      QtCore.SIGNAL('showModified()'),
                      self.enable_save)
-        self.connect(self._show, 
+        self.connect(self.show_, 
                      QtCore.SIGNAL('showSaved()'),
                      self.disable_save)
 
