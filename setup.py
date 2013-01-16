@@ -35,7 +35,8 @@ setup(
         name = "lightapp",
         version = "0.1",
         description = "blaaa",
-        #~ options = {"build_exe": {"includes": ["sip"]} },
+        options = {"build_exe": {"includes": ["sip"],
+                                 "excludes": ["tcl", "tk"]} },
         # Active la prise en compte du fichier MANIFEST.in
         include_package_data=True,
         executables = [Executable("main.py",

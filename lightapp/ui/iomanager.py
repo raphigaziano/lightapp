@@ -89,7 +89,6 @@ class IOManager():
         @returns True if we can go on (whether the show's saved or 
                  not), False otherwise.
         '''
-        # NEEDZ TEST & WORK #
         if not self.show.modified:
             return True
         msgBox = QtGui.QMessageBox

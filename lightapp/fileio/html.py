@@ -71,10 +71,16 @@ def _serialize_circuits(memslot):
     @returns      : Html string.
     '''
     circs_rows = []
+    drawn_circs = 0
     for i, v in memslot.circuits.items():
-        if i % CIRCS_PER_LINE == 0:
+        if drawn_circs % CIRCS_PER_LINE == 0:
             row = []
             circs_rows.append(row)
+        # Skip circuits set at 0
+        if int(v):
+            drawn_circs += 1
+        else:
+            continue
         row.append(_tmpl_sub(
             'circuit',
             i = str(i+1), 

@@ -91,11 +91,11 @@ def write_show(show, path):
             # Individual circuits
             remaining_cells -= 1
             last_row = last_slot and remaining_cells < 6
-            # if last_row:
-                # print("%d-%d is on last row" % (row, col))
-            if v == "0": # Skip the cell if v == 0
+            # Skip the cell if v == 0
+            if not int(v):
                 continue
-            SINGLE_CELL_STYLE.borders = _get_borders(row, col, last_row)
+            SINGLE_CELL_STYLE.borders = _get_borders(row, col, 
+                                                     last_row)
             ws.write(row, col, "%s: %s%%" % (k+1, v), 
                      SINGLE_CELL_STYLE)
             col += 1
@@ -112,7 +112,8 @@ def write_show(show, path):
             # SINGLE_CELL_STYLE.borders.right = xlwt.Borders.MEDIUM
             # ws.write(row, NUM_COLS, "", SINGLE_CELL_STYLE)
             for x in range(col, NUM_COLS + 1):
-                SINGLE_CELL_STYLE.borders = _get_borders(row, x, last_row)
+                SINGLE_CELL_STYLE.borders = _get_borders(row, x, 
+                                                         last_row)
                 ws.write(row, x, "", SINGLE_CELL_STYLE)
         '''
         if last_row and col != NUM_COLS:
