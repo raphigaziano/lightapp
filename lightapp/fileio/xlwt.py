@@ -68,7 +68,7 @@ def write_show(show, path):
     @param show: Show object to be serialized.
     @param path: File path.
     '''
-    utils.logger.debug("Saving show %s as %s"  % (show, path))
+    # utils.logger.debug("Saving show %s as %s"  % (show, path))
     wb = xlwt.Workbook()
     ws = wb.add_sheet(show.title)
     # General header
@@ -84,13 +84,15 @@ def write_show(show, path):
                        SLOT_HEADER_STYLE)
         # Set the last_slot flag if needed (for formatting)
         last_slot = show.slots.index(slot) == len(show.slots) - 1
+        last_row  = False
         row += 1
         col = 0
-        remaining_cells = len(slot.circuits)
+        remaining_cells = len([_ for _ in slot.circuits 
+                                 if int(_) > 0])
         for k, v in slot.circuits.items():
             # Individual circuits
-            remaining_cells -= 1
-            last_row = last_slot and remaining_cells < 6
+            if last_slot and col == 0 and remaining_cells < 6:
+                last_row = True
             # Skip the cell if v == 0
             if not int(v):
                 continue
@@ -98,33 +100,17 @@ def write_show(show, path):
                                                      last_row)
             ws.write(row, col, "%s: %s%%" % (k+1, v), 
                      SINGLE_CELL_STYLE)
+            remaining_cells -= 1
             col += 1
-            if col > NUM_COLS:
+            if col > NUM_COLS and not last_row:
                 row += 1 
                 col = 0
         # Special case:
         # Close the border if the last drawn row is not full
-        if col != NUM_COLS:
-            # SINGLE_CELL_STYLE.borders = xlwt.Borders()
-            # if last_row:
-            #     SINGLE_CELL_STYLE.borders.bottom = xlwt.Borders.MEDIUM
-            #         print(x)
-            # SINGLE_CELL_STYLE.borders.right = xlwt.Borders.MEDIUM
-            # ws.write(row, NUM_COLS, "", SINGLE_CELL_STYLE)
+        if col != NUM_COLS+1:
             for x in range(col, NUM_COLS + 1):
                 SINGLE_CELL_STYLE.borders = _get_borders(row, x, 
                                                          last_row)
                 ws.write(row, x, "", SINGLE_CELL_STYLE)
-        '''
-        if last_row and col != NUM_COLS:
-            for x in range(col, NUM_COLS + 1 ):
-                SINGLE_CELL_STYLE.borders = xlwt.Borders()
-                SINGLE_CELL_STYLE.borders.bottom = xlwt.Borders.MEDIUM
-                if x == 0:
-                    SINGLE_CELL_STYLE.borders.left = xlwt.Borders.MEDIUM
-                elif x == NUM_COLS:
-                    SINGLE_CELL_STYLE.borders.left = xlwt.Borders.MEDIUM
-                ws.write(row, x, "", SINGLE_CELL_STYLE)
-        '''
         row += 1
     wb.save(path)
