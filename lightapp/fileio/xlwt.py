@@ -68,6 +68,7 @@ def write_show(show, path):
     @param show: Show object to be serialized.
     @param path: File path.
     '''
+    # @TODO: UNCOMMENT LOGGR
     # utils.logger.debug("Saving show %s as %s"  % (show, path))
     wb = xlwt.Workbook()
     ws = wb.add_sheet(show.title)
@@ -87,11 +88,18 @@ def write_show(show, path):
         last_row  = False
         row += 1
         col = 0
-        remaining_cells = len([_ for _ in slot.circuits 
-                                 if int(_) > 0])
+        if last_slot:
+            # Figure out which row will be the last one
+            to_write = len([k for k, v in slot.circuits.items() 
+                            if int(v) > 0])
+            last_row_in_slot = row + (to_write // (NUM_COLS + 1))
+            # If all rows are filled, then the division above will
+            # return 1 too many
+            if last_row_in_slot and to_write % (NUM_COLS + 1) == 0: 
+                last_row_in_slot -=1
+        # Individual circuits
         for k, v in slot.circuits.items():
-            # Individual circuits
-            if last_slot and col == 0 and remaining_cells < 6:
+            if last_slot and row == last_row_in_slot:
                 last_row = True
             # Skip the cell if v == 0
             if not int(v):
@@ -100,7 +108,6 @@ def write_show(show, path):
                                                      last_row)
             ws.write(row, col, "%s: %s%%" % (k+1, v), 
                      SINGLE_CELL_STYLE)
-            remaining_cells -= 1
             col += 1
             if col > NUM_COLS and not last_row:
                 row += 1 
