@@ -69,16 +69,16 @@ def write_show(show, path):
     @param show: Show object to be serialized.
     @param path: File path.
     '''
-    # utils.logger.debug("Saving show %s as %s"  % (show, path))
+    utils.logger.debug("Saving show %s as %s"  % (show, path))
     wb = xlwt.Workbook()
     ws = wb.add_sheet(show.title)
-    # General header
+    ### General header ###
     ws.write_merge(0, 0, 0, NUM_COLS, 
                    "%s - Contenu mémoire" % show.title.capitalize(),
                    MAIN_HEADER_STYLE)
     row = 1
     for slot in show.slots:
-        # Slot header
+        ### Slot header ###
         ws.write_merge(row, row, 0, NUM_COLS, 
                        "Mémoire %s" % slot.id_,
                        SLOT_HEADER_STYLE)
@@ -87,6 +87,7 @@ def write_show(show, path):
         last_row  = False
         row += 1
         col = 0
+        # Filter out circuits with a value set to 0
         to_write = {k: v for k, v in slot.circuits.items()
                     if int(v) > 0}
         if last_slot:
@@ -97,7 +98,7 @@ def write_show(show, path):
             if (last_row_in_slot and 
                 len(to_write) % (NUM_COLS + 1) == 0): 
                 last_row_in_slot -= 1
-        # Individual circuits
+        ### Individual circuits ###
         for k, v in to_write.items():
             if last_slot and row == last_row_in_slot:
                 last_row = True

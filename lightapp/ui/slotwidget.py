@@ -98,7 +98,7 @@ class SlotWidget(QtGui.QWidget, swidget.Ui_SlotWidget):
 
     def _get_circuit_cboxes(self):
         '''
-        Yields every circuit's comboboxe.
+        Yields every circuit's combobox.
         Usage:
         for cb in self._get_circuit_cboxes():
             # do stuff with cb
@@ -111,20 +111,38 @@ class SlotWidget(QtGui.QWidget, swidget.Ui_SlotWidget):
                 continue
             yield cb
 
+    def _set_cbox(self, cbox, val, deflist=None):
+        '''
+        Helper for setting a combobox value.
+        It will first try to set the cb's index to point to the 
+        passed value, and then set the cb's text field if val is not
+        among the default values.
+
+        @param cbox:    The combobox to set.
+        @param val:     Desired value.
+        @param deflist: Optional. List of default values to try and 
+                        pick the index from.
+        '''
+        if deflist is not None:
+            try:
+                cbox.setCurrentIndex(deflist.index(val))
+            except ValueError:
+                return self._set_cbox(cbox, val)
+        else:
+            cbox.lineEdit().setText(val)
+
     def init_fields(self):
         '''Update the widget's fields from the slot's attrs'''
         self.txtBox_slot_id.setText(str(self.slot.id_))
-        if self.slot.in_: # @TODO: trycatch
-            self.cBox_in.setCurrentIndex(
-                IN_ITEMS.index(self.slot.in_))
-        if self.slot.out: # @TODO: trycatch
-            self.cBox_out.setCurrentIndex(
-                OUT_ITEMS.index(self.slot.out))
+        if self.slot.in_:
+            self._set_cbox(self.cBox_in, self.slot.in_, IN_ITEMS)
+        if self.slot.out:
+            self._set_cbox(self.cBox_out, self.slot.out, OUT_ITEMS)
         # Circuits
         for i, cb in enumerate(self._get_circuit_cboxes()):
             val = self.slot.circuits[i]
-            if val: # @TODO: trycatch
-                cb.setCurrentIndex(CIRC_ITEMS.index(val))
+            if val:
+                self._set_cbox(cb, val, CIRC_ITEMS)
 
     def update_slot(self):
         '''Update the slot object from the form's fields.'''
