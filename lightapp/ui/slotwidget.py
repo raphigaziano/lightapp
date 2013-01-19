@@ -114,16 +114,16 @@ class SlotWidget(QtGui.QWidget, swidget.Ui_SlotWidget):
     def init_fields(self):
         '''Update the widget's fields from the slot's attrs'''
         self.txtBox_slot_id.setText(str(self.slot.id_))
-        if self.slot.in_:
+        if self.slot.in_: # @TODO: trycatch
             self.cBox_in.setCurrentIndex(
                 IN_ITEMS.index(self.slot.in_))
-        if self.slot.out:
+        if self.slot.out: # @TODO: trycatch
             self.cBox_out.setCurrentIndex(
                 OUT_ITEMS.index(self.slot.out))
         # Circuits
         for i, cb in enumerate(self._get_circuit_cboxes()):
             val = self.slot.circuits[i]
-            if val:
+            if val: # @TODO: trycatch
                 cb.setCurrentIndex(CIRC_ITEMS.index(val))
 
     def update_slot(self):

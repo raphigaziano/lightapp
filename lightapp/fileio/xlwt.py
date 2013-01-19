@@ -25,7 +25,8 @@ MAIN_HEADER_BORDERS.right  = xlwt.Borders.MEDIUM
 MAIN_HEADER_BORDERS.top    = xlwt.Borders.MEDIUM
 
 MAIN_HEADER_STYLE = \
-xlwt.easyxf('font: bold on, height 0x00F0; align: wrap on, vert centre, horiz center')
+xlwt.easyxf('font: bold on, height 0x00F0; '
+            'align: wrap on, vert centre, horiz center')
 MAIN_HEADER_STYLE.borders = MAIN_HEADER_BORDERS
 
 SLOT_HEADER_BORDERS = xlwt.Borders()
@@ -68,7 +69,6 @@ def write_show(show, path):
     @param show: Show object to be serialized.
     @param path: File path.
     '''
-    # @TODO: UNCOMMENT LOGGR
     # utils.logger.debug("Saving show %s as %s"  % (show, path))
     wb = xlwt.Workbook()
     ws = wb.add_sheet(show.title)
@@ -77,7 +77,6 @@ def write_show(show, path):
                    "%s - Contenu mémoire" % show.title.capitalize(),
                    MAIN_HEADER_STYLE)
     row = 1
-    last_slot = False
     for slot in show.slots:
         # Slot header
         ws.write_merge(row, row, 0, NUM_COLS, 
@@ -88,22 +87,20 @@ def write_show(show, path):
         last_row  = False
         row += 1
         col = 0
+        to_write = {k: v for k, v in slot.circuits.items()
+                    if int(v) > 0}
         if last_slot:
             # Figure out which row will be the last one
-            to_write = len([k for k, v in slot.circuits.items() 
-                            if int(v) > 0])
-            last_row_in_slot = row + (to_write // (NUM_COLS + 1))
+            last_row_in_slot = row + (len(to_write) // (NUM_COLS + 1))
             # If all rows are filled, then the division above will
             # return 1 too many
-            if last_row_in_slot and to_write % (NUM_COLS + 1) == 0: 
-                last_row_in_slot -=1
+            if (last_row_in_slot and 
+                len(to_write) % (NUM_COLS + 1) == 0): 
+                last_row_in_slot -= 1
         # Individual circuits
-        for k, v in slot.circuits.items():
+        for k, v in to_write.items():
             if last_slot and row == last_row_in_slot:
                 last_row = True
-            # Skip the cell if v == 0
-            if not int(v):
-                continue
             SINGLE_CELL_STYLE.borders = _get_borders(row, col, 
                                                      last_row)
             ws.write(row, col, "%s: %s%%" % (k+1, v), 
@@ -112,7 +109,6 @@ def write_show(show, path):
             if col > NUM_COLS and not last_row:
                 row += 1 
                 col = 0
-        # Special case:
         # Close the border if the last drawn row is not full
         if col != NUM_COLS+1:
             for x in range(col, NUM_COLS + 1):
@@ -121,3 +117,4 @@ def write_show(show, path):
                 ws.write(row, x, "", SINGLE_CELL_STYLE)
         row += 1
     wb.save(path)
+    
