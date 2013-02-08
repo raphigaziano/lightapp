@@ -137,11 +137,7 @@ class IOManager():
         try:
             utils.logger.info("Loading show %s..." % path)
             self.show = xml.load_show(path)
-            self.parent.fill_fields(self.show)
-            self.parent.connect_show_events()
-            self.parent.disable_save()
-            utils.logger.info("%s loaded" % path)
-        except Exception as e: # Too general...
+        except Exception as e: # @FIXME Too general...
             utils.logger.exception("Error while loading file %s:"
                                     % path)
             QtGui.QMessageBox.critical(self.parent,
@@ -149,6 +145,11 @@ class IOManager():
                                        "Impossible de lire ce fichier"
                                        "\n\n%s" % str(e)
             )
+        else:
+            self.parent.fill_fields(self.show)
+            self.parent.connect_show_events()
+            self.parent.disable_save()
+            utils.logger.info("%s loaded" % path)
     
     def open_show(self):
         '''Url prompt for loading a show'''
